@@ -85,6 +85,7 @@ Tel. 530 145 350 · rafal.jaroszewski@aikido.pruszkow.pl · facebook.com/aikidow
 Sezon 2026/2027 · © Aikido Pruszków · WCA · 2010—2026
 
 ## Pliki
-- `index.html` — cała strona (style inline w `<style>`, skrypty na dole)
-- `assets/` — zdjęcia
-- `CLAUDE.md` — instrukcje dla Claude Code
+- `index.html` — markup strony
+- `css/styles.css` — wszystkie style (tokeny, layout, komponenty, media queries)
+- `js/script.js` — zakładki grup, scroll reveal, tooltips kanji
+- `assets/` — zdjęcia (portrety instruktorów, zdjęcia grup)
