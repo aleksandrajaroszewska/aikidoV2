@@ -12,6 +12,16 @@
     });
   });
 
+  // map facade — Google iframe wczytuje się dopiero po kliknięciu
+  document.querySelectorAll('.map-load').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const frame = btn.closest('.map-frame');
+      const iframe = frame.querySelector('iframe[data-src]');
+      if (iframe) iframe.src = iframe.dataset.src;
+      frame.classList.add('map-loaded');
+    });
+  });
+
   // reveal on scroll
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });

@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,500&family=Noto+Serif+JP:wght@400;500;700&family=Yuji+Boku&family=Yuji+Mai&family=Yuji+Syuku&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Yuji+Boku&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -31,6 +31,8 @@
     </nav>
   </div>
 </header>
+
+<main>
 
 <!-- HERO -->
 <section class="hero wrap" data-screen-label="01 Hero">
@@ -169,7 +171,7 @@
     <div class="group-panels">
       <article class="group-panel active" data-panel="kids-young" role="tabpanel">
         <figure class="gp-media">
-          <img src="assets/kids.jpg" alt="Trening dzieci młodszych" loading="lazy" />
+          <img src="assets/kids.webp" alt="Trening dzieci młodszych" loading="lazy" />
           <span class="stamp">子 · KODOMO</span>
         </figure>
         <div class="gp-body">
@@ -182,7 +184,7 @@
 
       <article class="group-panel" data-panel="kids-old" role="tabpanel">
         <figure class="gp-media">
-          <img src="assets/youth.jpg" alt="Trening dzieci starszych" loading="lazy" />
+          <img src="assets/youth.webp" alt="Trening dzieci starszych" loading="lazy" />
           <span class="stamp">少 · SHŌNEN</span>
         </figure>
         <div class="gp-body">
@@ -195,7 +197,7 @@
 
       <article class="group-panel" data-panel="adults" role="tabpanel">
         <figure class="gp-media">
-          <img src="assets/adults.jpg" alt="Trening dorosłych" loading="lazy" />
+          <img src="assets/adults.webp" alt="Trening dorosłych" loading="lazy" />
           <span class="stamp">大 · OTONA</span>
         </figure>
         <div class="gp-body">
@@ -224,7 +226,7 @@
 
   <div class="instructor-main reveal">
     <figure class="instr-portrait">
-      <img src="assets/rafal.jpg" alt="Rafał Jaroszewski 5 dan" loading="lazy" />
+      <img src="assets/rafal.webp" alt="Rafał Jaroszewski 5 dan" loading="lazy" />
       <span class="rank-kanji" data-kanji-tip="go dan — 5 dan">五</span>
     </figure>
     <div class="instr-body">
@@ -241,7 +243,7 @@
 
   <div class="instructor-main flip reveal">
     <figure class="instr-portrait">
-      <img src="assets/adam.jpg" alt="Adam Marcinowski 3 dan" loading="lazy" />
+      <img src="assets/adam.webp" alt="Adam Marcinowski 3 dan" loading="lazy" />
       <span class="rank-kanji" data-kanji-tip="san dan — 3 dan">三</span>
     </figure>
     <div class="instr-body">
@@ -354,8 +356,13 @@
   </div>
 
   <div class="map-frame reveal">
+    <button class="map-load" type="button" aria-label="Otwórz interaktywną mapę Google">
+      <img src="assets/map.webp" alt="" width="1200" height="1000" loading="lazy" />
+      <span class="map-load-hint">kliknij — mapa interaktywna</span>
+      <span class="map-attrib">© OpenStreetMap</span>
+    </button>
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2131.5195102326297!2d20.81118907604675!3d52.1716722619611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471935972b4714dd%3A0x44d4b558509dcc4c!2sSzko%C5%82a%20Podstawowa%20nr%201%20im%20J%C3%B3zefa%20Pi%C5%82sudskiego!5e1!3m2!1spl!2spl!4v1746371138024!5m2!1spl!2spl"
+      data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2131.5195102326297!2d20.81118907604675!3d52.1716722619611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471935972b4714dd%3A0x44d4b558509dcc4c!2sSzko%C5%82a%20Podstawowa%20nr%201%20im%20J%C3%B3zefa%20Pi%C5%82sudskiego!5e1!3m2!1spl!2spl!4v1746371138024!5m2!1spl!2spl"
       title="Lokalizacja dojo"
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -390,12 +397,10 @@
         aikido.warszawa.pl →
       </a>
     </div>
-    <figure class="dojo-figure" style="display:none">
-      <img src="assets/dojo.jpg" alt="" loading="lazy" />
-      <figcaption>Staż klubowy · linia Kobayashi</figcaption>
-    </figure>
   </div>
 </section>
+
+</main>
 
 <!-- FOOTER / CONTACT -->
 <footer class="foot" id="kontakt" data-screen-label="07 Kontakt">
@@ -403,7 +408,7 @@
     <div class="foot-grid">
       <div class="contact">
         <div class="kanji-mark" data-kanji-tip="aikidō — droga harmonii energii">合気道</div>
-        <h4>Sekcja Pruszków</h4>
+        <h3>Sekcja Pruszków</h3>
         <p style="color:oklch(82% 0.03 80);">Rafał Jaroszewski · instruktor</p>
         <a href="tel:530145350" class="phone">530 145 350</a>
         <a href="mailto:rafal.jaroszewski@aikido.pruszkow.pl">rafal.jaroszewski@aikido.pruszkow.pl</a>
