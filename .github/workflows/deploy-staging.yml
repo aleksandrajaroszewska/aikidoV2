@@ -21,4 +21,4 @@ jobs:
           local_path: './*'
           remote_path: '/home/aikido/domains/aikido.pruszkow.pl/public_html/staging'
           sftp_only: true
-          delete_remote_files: true
+          delete_remote_files: false
