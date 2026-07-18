@@ -652,8 +652,7 @@
 
   /* photos hidden tweak */
   body.no-photos .gp-media,
-  body.no-photos .instr-portrait,
-  body.no-photos .dojo-figure { display: none; }
+  body.no-photos .instr-portrait { display: none; }
   body.no-photos .group-panel{ grid-template-columns: 1fr; }
   body.no-photos .instructor-main{ grid-template-columns: 1fr; }
 
@@ -678,7 +677,7 @@
     overflow: hidden;
     position: relative;
   }
-  .instr-portrait img{ width: 100%; height: 100%; object-fit: cover; filter: saturate(.9) contrast(1.03) brightness(1.1); }
+  .instr-portrait img{ width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; filter: saturate(.9) contrast(1.03) brightness(1.1); }
   .instr-portrait .rank{
     position: absolute; top: 18px; right: 18px;
     background: var(--vermilion); color: var(--paper);
@@ -730,20 +729,6 @@
   }
   .klub .body p{ margin-bottom: 16px; color: var(--ink-soft); }
   .klub .body p:first-of-type{ font-size: 19px; line-height: 1.55; color: var(--ink); font-family: var(--font-display); max-width: 38ch; margin-bottom: 22px; }
-  .dojo-figure{
-    aspect-ratio: 5/6;
-    background: var(--paper-deep);
-    overflow: hidden;
-    position: relative;
-  }
-  .dojo-figure img{ width: 100%; height: 100%; object-fit: cover; filter: sepia(.1) saturate(.85); }
-  .dojo-figure figcaption{
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 14px 18px;
-    background: linear-gradient(transparent, oklch(20% 0.012 250 / .8));
-    color: oklch(96% 0.01 80);
-    font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
-  }
   .klub-quote{
     grid-column: 1 / -1;
     margin-top: clamp(40px, 5vw, 64px);
@@ -809,10 +794,10 @@
   .price .amount .pln{ font-size: 0.45em; color: var(--ink-soft); margin-left: 4px; letter-spacing: .05em; }
   .price .note{ font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
   .price.featured{ background: var(--ink); color: var(--paper); }
-  .price.featured .label{ color: oklch(82% 0.04 80); }
+  .price.featured .label{ color: oklch(86% 0.04 80); }
   .price.featured .amount{ color: var(--paper); }
-  .price.featured .amount .pln{ color: oklch(82% 0.04 80); }
-  .price.featured .note{ color: oklch(82% 0.04 80); }
+  .price.featured .amount .pln{ color: oklch(86% 0.04 80); }
+  .price.featured .note{ color: oklch(86% 0.04 80); }
   .price.featured:hover{ background: var(--indigo-deep); }
   .prices-foot{
     margin-top: 20px;
@@ -913,6 +898,35 @@
     background: linear-gradient(135deg, oklch(20% 0.012 250 / .04), transparent 30%);
     pointer-events: none;
   }
+  /* statyczna mapa (OSM, własny asset) — interaktywna mapa Google dopiero po kliknięciu (bez cookies Google) */
+  .map-frame iframe{ display: none; }
+  .map-frame.map-loaded iframe{ display: block; }
+  .map-frame.map-loaded .map-load{ display: none; }
+  .map-load{
+    position: absolute; inset: 0; width: 100%;
+    display: block; border: 0; padding: 0; background: var(--paper-deep); cursor: pointer;
+  }
+  .map-load img{
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: contrast(1.02);
+    transition: filter .4s;
+  }
+  .map-load:hover img{ filter: contrast(1.05) brightness(1.02); }
+  .map-load-hint{
+    position: absolute; right: 14px; top: 14px;
+    padding: 8px 12px;
+    background: var(--paper); color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+    transition: color .25s, border-color .25s;
+  }
+  .map-load:hover .map-load-hint{ color: var(--ink); border-color: var(--vermilion); }
+  .map-attrib{
+    position: absolute; right: 6px; bottom: 6px;
+    padding: 2px 6px;
+    background: oklch(100% 0 0 / .6); color: oklch(35% 0 0);
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: .04em;
+  }
   .map-pinpoint{
     position: absolute; left: clamp(20px, 3vw, 40px); bottom: clamp(20px, 3vw, 40px);
     display: flex; align-items: stretch;
@@ -959,7 +973,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 2px clamp(20px, 3vw, 40px);
   }
-  .foot h4{ font-family: var(--font-display); font-weight: 500; font-size: 22px; color: var(--paper); margin-bottom: 18px; }
+  .foot h3{ font-family: var(--font-display); font-weight: 500; font-size: 22px; color: var(--paper); margin-bottom: 18px; }
   .foot .kanji-mark{ font-family: var(--font-brush); color: var(--vermilion); font-size: 88px; line-height: 1; margin-bottom: 18px; }
   .foot a{ color: oklch(82% 0.03 80); display: block; padding: 4px 0; transition: color .2s; font-size: 15px; }
   .foot a:hover{ color: var(--paper); }
@@ -1045,7 +1059,7 @@
     --paper-shade: oklch(24% 0.022 250);
     --ink: oklch(94% 0.012 80);
     --ink-soft: oklch(72% 0.015 80);
-    --ink-faint: oklch(50% 0.01 80);
+    --ink-faint: oklch(60% 0.01 80); /* min 4.5:1 na --paper i --paper-deep (WCAG AA) */
     --rule: oklch(30% 0.015 250);
     --indigo: oklch(60% 0.12 260);
     --indigo-deep: oklch(45% 0.1 260);
@@ -1061,7 +1075,7 @@
   }
   body.palette-dark .topbar{ background: oklch(16% 0.014 250 / .82); }
   body.palette-dark footer.foot{ background: oklch(11% 0.012 250); }
-  body.palette-dark .foot h4{ color: var(--ink); }
+  body.palette-dark .foot h3{ color: var(--ink); }
   body.palette-dark .foot .contact .phone{ color: var(--ink); }
   body.palette-dark .season-band{ background: oklch(28% 0.05 260); }
   body.palette-dark .price.featured{ background: var(--indigo-deep); color: var(--ink); }
