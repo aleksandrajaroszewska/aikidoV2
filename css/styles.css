@@ -1064,18 +1064,3 @@
   body.display-oswald{ --font-display: "Oswald", "Barlow Condensed", sans-serif; }
   body.display-noto{ --font-display: "Noto Serif JP", serif; --font-cjk: "Noto Serif JP", serif; }
 
-  /* ─────────── HERO LAYOUT VARIANTS ─────────── */
-  body.hero-vertical .kakejiku{
-    flex-direction: column;
-    gap: clamp(4px, 0.5vw, 12px);
-  }
-  body.hero-vertical .kakejiku .kchar{
-    font-size: clamp(96px, 14vw, 200px);
-    line-height: .9;
-  }
-  body.hero-vertical .kakejiku::before, body.hero-vertical .kakejiku::after{ top: 0; bottom: 0; }
-  body.hero-vertical .hanko{ right: -10px; bottom: 0; }
-
-  body.hero-single .kakejiku .kchar:not(:first-child){ display: none; }
-  body.hero-single .kakejiku .kchar{ font-size: clamp(180px, 30vw, 420px); }
-
