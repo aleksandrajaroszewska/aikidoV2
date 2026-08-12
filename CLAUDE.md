@@ -34,8 +34,8 @@ Three files do everything:
 
 ## Conventions (from README — don't change without reason)
 
-- The `<body>` classes `palette-dark display-cormorant hero-stacked divider-linia` are theme switches that control the whole look.
-- Colors only via CSS variables (`--paper`, `--ink`, `--vermilion`, …, defined in oklch). `:root` holds the light "Kinari" palette; `body.palette-dark` overrides it with the dark "Yoru" palette. Never delete the `:root` block.
+- The `<body>` classes `palette-dark display-oswald hero-stacked divider-linia` are theme switches that control the whole look.
+- Colors only via CSS variables (`--paper`, `--ink`, `--vermilion`, …, defined in `css/styles.css`). `:root` holds the light palette; `body.palette-dark` overrides it with the dark "limonka na grafitowej zieleni" (19a) palette — Pantone 3945 C lime on graphite green. Never delete the `:root` block.
 - Kanji tooltips: `data-kanji-tip="translation"` attribute on elements containing kanji.
 - In Polish text, put `&nbsp;` after short one-letter words (e.g. `w&nbsp;Pruszkowie`) to avoid orphans at line ends.
 - Fonts come from Google Fonts CDN in `<head>`.
