@@ -138,46 +138,69 @@
     color: var(--ink-soft);
     white-space: nowrap;
   }
+  .enso-kakejiku{
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(220px, 34vw, 420px);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+  .enso-kakejiku .enso{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .enso-shadow{
+    fill: none;
+    stroke: var(--ink-soft);
+    stroke-width: 10;
+    stroke-linecap: round;
+    opacity: .55;
+  }
+  .enso-main{
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 14;
+    stroke-linecap: round;
+  }
+  .enso-shadow, .enso-main{
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+  }
+
   .kakejiku{
     position: relative;
+    z-index: 1;
     display: inline-flex;
-    align-items: baseline;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: clamp(8px, 1.6vw, 28px);
-    padding: 0 clamp(20px, 4vw, 60px);
-    max-width: 100%;
+    gap: clamp(2px, .6vw, 10px);
   }
-  .kakejiku::before, .kakejiku::after{
-    content: ""; position: absolute; top: 8%; bottom: 8%;
-    width: 2px;
-    background: linear-gradient(to bottom, transparent, var(--rule) 14%, var(--rule) 86%, transparent);
-  }
-  .kakejiku::before{ left: 0; }
-  .kakejiku::after{ right: 0; }
 
   .kakejiku .kchar{
     font-family: var(--font-brush);
     font-weight: 400;
-    font-size: clamp(76px, 22vw, 320px);
+    font-size: clamp(48px, 8vw, 108px);
     line-height: .88;
-    color: var(--ink);
+    color: var(--vermilion);
     display: inline-block;
     position: relative;
   }
-  .kakejiku .kchar:nth-child(2){ color: var(--ink); opacity: .92; }
-  .kakejiku .kchar.shu{ color: var(--vermilion); }
 
   .hanko{
     position: absolute;
-    right: calc(-1 * clamp(24px, 3vw, 48px));
-    bottom: clamp(20px, 3vw, 48px);
-    width: clamp(56px, 6vw, 88px);
-    height: clamp(56px, 6vw, 88px);
+    right: clamp(-12px, -1.2vw, 0px);
+    bottom: clamp(4px, 1vw, 16px);
+    width: clamp(48px, 5vw, 72px);
+    height: clamp(48px, 5vw, 72px);
     background: var(--vermilion);
     color: var(--on-lime);
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-brush);
-    font-size: clamp(32px, 3.4vw, 52px);
+    font-size: clamp(28px, 2.8vw, 42px);
     line-height: 1;
     transform: rotate(-4deg);
     box-shadow:
@@ -196,26 +219,34 @@
   }
 
   .hero-subtitle{
-    margin-top: clamp(36px, 5vw, 56px);
+    margin-top: clamp(28px, 4vw, 44px);
     display: flex; flex-direction: column; align-items: center; gap: 12px;
   }
   .hero-subtitle h1{
-    display: flex; flex-direction: row; align-items: baseline; gap: 18px;
-    flex-wrap: wrap; justify-content: center;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
     font-family: var(--font-display);
-    font-size: clamp(44px, 6vw, 76px);
     font-weight: 700;
-    letter-spacing: -0.02em;
     color: var(--ink);
     line-height: .9;
   }
-  .hero-subtitle h1 .place-name{
+  .title-aikido{
+    font-size: clamp(56px, 9vw, 140px);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  .title-place{
+    display: flex; align-items: center; gap: 14px;
+    width: 100%; max-width: 320px;
+  }
+  .title-place .line{ flex: 1; height: 1px; background: var(--rule); }
+  .title-place .place-name{
     font-family: var(--font-label);
     font-weight: 600;
-    font-size: .4em;
-    letter-spacing: .22em;
+    font-size: clamp(14px, 1.8vw, 20px);
+    letter-spacing: .28em;
     text-transform: uppercase;
     color: var(--ink-soft);
+    white-space: nowrap;
   }
   .hero-subtitle p{
     font-family: var(--font-label);
