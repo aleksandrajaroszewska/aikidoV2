@@ -10,8 +10,23 @@ Czysty, statyczny HTML/CSS/JS — **bez frameworka, bez build stepu, bez npm**.
 
 - `index.html` — markup strony
 - `css/styles.css` — wszystkie style (tokeny, layout, komponenty, media queries)
-- `js/script.js` — zakładki grup, scroll reveal
-- `assets/` — zdjęcia (portrety instruktorów, zdjęcia grup)
+- `js/script.js` — wyłącznie scroll reveal (IntersectionObserver dodaje `.in` do `.reveal`)
+- `assets/` — grafika:
+
+| plik | rozmiar źródła | rola |
+|---|---|---|
+| `enso.webp` | 1500×1500 | znak ensō, 4 warstwy w hero |
+| `foto-rzut.webp` | 1110×741 | pas nagłówkowy sekcji 02 |
+| `foto-instruktor.webp` | 1416×1888 | portret w sekcji 03 (3:4 = proporcja pliku, zero kadrowania) |
+| `foto-dojo.webp` | 2000×1335 | pas zamykający przed sekcją 06 |
+
+Zdjęcia czarno-białe, z sesji w dojo, wyeksportowane z JPG-ów handoffu do webp (q82, Pillow):
+880 KB → 249 KB. `foto-rzut` ma tylko 1110 px szerokości, a leży na pasie na całą szerokość —
+na ekranie ≥1440 px jest lekko skalowane w górę. Jeśli pojawi się oryginał w wyższej
+rozdzielczości, warto go podmienić.
+
+Strona ma jeden ekran hero i sześć sekcji w kolejności DOM:
+`#droga` (01) · `#grafik` (02) · `#instruktor` (03) · `#cennik` (04) · `#dojo` (05) · `#kontakt` (06).
 
 ## Podgląd lokalny
 
@@ -65,6 +80,20 @@ usuń zawartość → wgraj pliki z backupu.
   Twarde wartości px zostają tylko przy glifach dekoracyjnych (wielkie kanji, kwoty).
 - Rozmiar tekstu **nigdy w `vh`** — nie reaguje na zoom przeglądarki (WCAG 2.2 SC 1.4.4).
   Jedyny wyjątek to `.kakejiku`, czyli dekoracyjne kanji w hero, które ma wypełnić wysokość ekranu.
+- Nagłówki sekcji mają **dwa rejestry**: `--fs-display-l` dla sekcji roboczych (03, 04, 05)
+  i `--fs-display-xl` dla manifestowych (01, 02, 06). Kroki tekstowe `--fs-100`…`--fs-600` są
+  celowo stałe, nie w `vw` — inaczej nie reagują na zoom, a i tak przez większość czasu siedzą
+  na dolnej granicy `clamp()`.
+- Tekst nie jest przygaszany przez `opacity` — kontrast niesie token (`--ink-soft`, `--ink-faint`).
+- **Pasy zdjęciowe** (`.photo-band`, sekcje 02 i przed 06) idą na całą szerokość okna, więc sama
+  `aspect-ratio` wiązałaby ich wysokość z szerokością ekranu bez ograniczenia (na 2560px dałaby
+  ponad 1000px). Dlatego mają `max-height` — i to on, a nie proporcja, zwykle decyduje o wysokości.
+  Zmieniając wysokość pasa sprawdź **oba** parametry naraz.
+- Zdjęcia wtapiają się w tło, nie kończą twardą krawędzią: pasy przez `.photo-band-scrim`
+  (gradient do `var(--paper)` u góry i u dołu), portret instruktora przez dwuwarstwową
+  `mask-image` z `mask-composite: intersect` — bo stoi w kolumnie i musi gasnąć także po bokach.
+- Kadr zdjęć: `object-position: 50% 20%`. Kadr centralny ucina głowy, a `top` przy niskim
+  pasie pokazuje sam sufit sali.
 
 ## Fonty
 
@@ -80,8 +109,13 @@ Subsetowanie to jednorazowa czynność autorska (jak eksport `.webp`), nie krok 
 | `barlow-500.woff2` | wyróżnienia w tekście | 500 |
 | `yuji-boku-kanji.woff2` | wyłącznie kanji (9 glifów) | 400 |
 
-Razem ~88 KB. Yuji Boku to font japoński — oryginał ma 8,5 MB, subset do faktycznie
+Razem 78 KB (79 608 B). Yuji Boku to font japoński — oryginał ma 8,5 MB, subset do faktycznie
 używanych znaków `合気道子少大場所・` waży 4,2 KB.
+
+Po przebudowie na układ 01–06 strona używa już tylko `合気道` (hero + stopka) — subset ma
+6 glifów zapasu (`子少大場所・`). Zostawione celowo: przegenerowanie oszczędziłoby ~2 KB,
+a zapas przydaje się przy powrocie kanji przy nazwach grup. `unicode-range` w `@font-face`
+musi wtedy zostać bez zmian.
 
 Godziny w grafiku muszą używać **Barlow Condensed, nie Oswald** — tylko on niesie cechę
 `tnum`, bez której `font-variant-numeric: tabular-nums` jest martwym zapisem i cyfry
@@ -116,9 +150,9 @@ do `unicode-range` w `@font-face` w `css/styles.css` — inaczej znak nie wyświ
 
 | Dzień | Godzina | Grupa | Wiek |
 |---|---|---|---|
-| Wtorek | 18.00 — 19.00 | Dzieci młodsze (子 Kodomo) | 8–10 lat |
-| Czwartek | 18.00 — 19.00 | Dzieci starsze (少 Shōnen) | 11–14 lat |
-| Wtorek i Czwartek | 19.05 — 20.45 | Dorośli (大 Otona) | od 15 lat |
+| Wtorek | 18.00 — 19.00 | Dzieci młodsze | 8–10 lat |
+| Czwartek | 18.00 — 19.00 | Dzieci starsze | 11–14 lat |
+| Wtorek i Czwartek | 19.05 — 20.45 | Dorośli | od 15 lat |
 
 Dojo: SP nr 1 im. Józefa Piłsudskiego, ul. Topolowa 10, 05-800 Pruszków.
 
