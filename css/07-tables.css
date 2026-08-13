@@ -1,0 +1,159 @@
+/* ─────────── 07 · tabele ───────────
+   Dwie prawdziwe tabele: grafik (02) i cennik (04).
+   Obie mają tylko dwie kolumny treści i mieszczą się do 360px, więc NIE MA
+   przebudowy na mobile — na wąskim ekranie zmienia się wyłącznie typografia
+   i to, czy meta stoi obok nazwy grupy, czy pod nią. */
+
+/* ═══ grafik (02) ═══ */
+.sched{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+.sched td{
+  vertical-align: baseline;
+  padding: clamp(24px, 4vw, 40px) 0;
+  border-bottom: 1px solid var(--rule);
+}
+/* pod ostatnim wierszem nie ma już żadnej treści, więc hairline zamykający
+   tabelę wisiałby luzem na końcu sekcji */
+.sched tbody tr:last-child td{ border-bottom: 0; }
+/* lewa kolumna zbiera cały luz, prawa hugguje godzinę */
+.sched td:first-child{ width: 100%; padding-right: clamp(16px, 3vw, 40px); }
+
+/* baza: meta schodzi pod nazwę grupy */
+.sched-group{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  align-items: baseline;
+}
+.sched-name{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-600);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.sched-meta{
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-300);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: var(--lh-snug);
+  color: var(--ink-faint);
+}
+/* Barlow Condensed, nie Oswald — tylko on niesie cechę `tnum`, więc cyfry
+   godzin ustawiają się w kolumnę między wierszami. */
+.sched-time{
+  text-align: right;
+  white-space: nowrap;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: .02em;
+  line-height: var(--lh-tight);
+  color: var(--vermilion);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ═══ cennik (04) — sekcja jasna, bo treść jest długa i musi się dobrze czytać ═══ */
+/* lokalne nadpisanie tokenów motywu wewnątrz #cennik — wszystkie komponenty
+   potomne przełączają się automatycznie, bez zmian w ich regułach */
+#cennik{
+  position: relative;
+  --paper:       #F1F3EB;
+  --paper-deep:  #DBE1CB;
+  --paper-shade: #CBD2BA;
+  --ink:         #0F1A09;
+  --ink-soft:    #3F4B37;
+  --ink-faint:   #5B6652;
+  --rule:        #C6CCB8;
+  --vermilion:   #6B6800; /* limonka nie spełnia kontrastu jako tekst na jasnym tle — oliwka wg spec */
+  --vermilion-deep: #4E4B08;
+  background: var(--paper);
+  color: var(--ink);
+}
+/* rozlanie jasnego tła na całą szerokość okna — sekcja siedzi w .wrap (max 1200px).
+   `100vw` liczy się razem z paskiem przewijania, dlatego body ma overflow-x: hidden
+   (patrz 03-base.css). Te dwie reguły trzeba zmieniać razem. */
+#cennik::before{
+  content: "";
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 100vw; margin-left: -50vw;
+  background: var(--paper);
+  z-index: -1;
+}
+
+.fees{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.fees th, .fees td{ text-align: left; vertical-align: baseline; }
+.fees thead th{ width: 30%; }
+.fees thead th,
+.fees thead td{
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding-bottom: 14px;
+}
+.fees thead tr{ border-bottom: 1px solid var(--ink); }
+.fees tbody tr{ border-bottom: 1px solid var(--rule); }
+.fees tbody th,
+.fees tbody td{ padding: clamp(22px, 3.2vw, 38px) 0; }
+.fees tbody th{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-display-m);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+/* kwota — glif liczbowy, jedyne miejsce poza hero z twardym rozmiarem;
+   jednostka wyprowadzona w `em`, więc trzyma proporcję na każdej szerokości */
+.fee{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 4.4vw, 80px);
+  line-height: 1;
+}
+.fee-value{ color: var(--ink); font-variant-numeric: tabular-nums; }
+.fee-unit{ font-size: .38em; letter-spacing: .02em; color: var(--ink-faint); margin-left: .1em; }
+
+.fees-foot{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  align-items: baseline;
+  margin-top: clamp(28px, 4vw, 44px);
+}
+.fees-foot-title{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-display-m);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.fees-foot p + p{ color: var(--ink-soft); line-height: var(--lh-base); max-width: 52ch; }
+
+@media (min-width: 760px){
+  .sched-group{
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(10px, 3vw, 40px);
+  }
+  .sched-name{ font-size: var(--fs-display-m); }
+  .sched-time{ font-size: clamp(28px, 2.6vw, 46px); letter-spacing: .04em; }
+
+  .fees-foot{
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: clamp(16px, 3vw, 48px);
+  }
+}

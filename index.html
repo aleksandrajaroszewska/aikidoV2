@@ -12,18 +12,48 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-700.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/barlow-condensed-500.woff2" crossorigin />
 
-<link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
-<link rel="stylesheet" href="css/styles.css" />
-</head>
-<body class="palette-dark display-oswald hero-stacked divider-linia">
+<!-- Znak 気 pędzlem (Yuji Boku) wyciągnięty jako obrys, limonka na grafitowej zieleni.
+     Obrys, nie tekst — favicon renderuje się bez fontów strony. Odtworzenie: README. -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
-<header class="topbar" id="top">
+<link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
+
+<!-- Arkusze wczytywane w kolejności kaskady — numer w nazwie JEST tą kolejnością.
+     Przestawienie linków zmienia wynik; 09 musi zostać ostatnie (reduced-motion).
+     Serwer chodzi na HTTP/2, więc dziewięć małych plików to jeden round-trip. -->
+<link rel="stylesheet" href="css/01-fonts.css" />
+<link rel="stylesheet" href="css/02-tokens.css" />
+<link rel="stylesheet" href="css/03-base.css" />
+<link rel="stylesheet" href="css/04-topbar.css" />
+<link rel="stylesheet" href="css/05-hero.css" />
+<link rel="stylesheet" href="css/06-sections.css" />
+<link rel="stylesheet" href="css/07-tables.css" />
+<link rel="stylesheet" href="css/08-blocks.css" />
+<link rel="stylesheet" href="css/09-utilities.css" />
+
+<!-- Włącza chowanie sekcji przed animacją scroll-reveal. Musi być tutaj, przed
+     pierwszym malowaniem — inaczej treść mrugnie. Gdy JS nie działa, klasa nie
+     powstaje i .reveal zostaje widoczne (css/09-utilities.css). -->
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="palette-dark">
+
+<!-- Bez id — marka celuje w #hero, nie tutaj. Kotwica na sticky topbarze nic by nie dała:
+     pasek jest zawsze w kadrze, więc przeglądarka nie ma dokąd przewijać. -->
+<header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">
+    <a class="brand" href="#hero">
+      <span class="brand-kanji" lang="ja" aria-hidden="true">気</span>
       <span class="name">Aikido Pruszków</span>
-    </div>
-    <nav class="nav" aria-label="Sekcje strony">
-      <a href="#droga">Droga</a>
+    </a>
+    <!-- Przycisk jest widoczny wyłącznie pod html.js (css/04-topbar.css). Bez JS-a
+         nic by nie robił, więc go po prostu nie ma — zostaje zachowanie sprzed
+         zmiany: nawigacja ukryta na wąskim ekranie, scroll ją zastępuje. -->
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+      <span class="sr-only">Menu</span>
+    </button>
+    <nav class="nav" id="nav-menu" aria-label="Sekcje strony">
       <a href="#grafik">Grafik</a>
       <a href="#instruktor">Instruktor</a>
       <a href="#cennik">Cennik</a>
@@ -56,9 +86,9 @@
     </div>
 
     <div class="kakejiku" role="img" lang="ja" aria-label="合気道 — aikido">
-      <span class="kchar" data-kanji-tip="ai — harmonia">合</span>
-      <span class="kchar" data-kanji-tip="ki — energia">気</span>
-      <span class="kchar kchar--accent" data-kanji-tip="dō — droga">道</span>
+      <span class="kchar">合</span>
+      <span class="kchar">気</span>
+      <span class="kchar kchar--accent">道</span>
     </div>
 
     <div class="hero-subtitle">
@@ -84,17 +114,16 @@
     <p class="sec-lead">Aikido to japońska sztuka walki, która polega na&nbsp;zapobieganiu i&nbsp;przeciwdziałaniu atakom przeciwnika przy użyciu jego siły i&nbsp;energii.</p>
   </header>
 
-  <div class="cols">
-    <article class="col reveal">
-      <h3>Dorośli</h3>
-      <p>Grupa dorosłych to przede wszystkim rozwój umiejętności technicznych, polegających na&nbsp;wykorzystaniu różnych dźwigni, rzutów i&nbsp;uderzeń do&nbsp;odparcia ataku przeciwnika.</p>
-      <p>Trening dorosłych pozwala nie tylko poprawić sprawność, ale również oderwać się od&nbsp;rutyny dnia codziennego, odpocząć psychicznie, obniżyć poziom stresu, rozwinąć inteligencję ruchową i&nbsp;poprawić świadomość własnego ciała.</p>
-    </article>
-    <article class="col reveal">
-      <h3>Dla każdego</h3>
-      <p>Aikido cieszy się popularnością wśród kobiet i&nbsp;mężczyzn niezależnie od&nbsp;wieku, siły, sprawności czy postury. Nie ma rywalizacji, każdy nosi białe kimono, zaawansowani pomagają początkującym, każdy ma własny treningowy cel.</p>
-      <p>Elementy aikido są często wykorzystywane na&nbsp;kursach samoobrony, lecz aikido to nie tylko samoobrona — okazuje się użyteczne na&nbsp;wielu płaszczyznach życia codziennego. Jest chętnie wybierane przez osoby stawiające sobie wymagające cele.</p>
-    </article>
+  <!-- Akapity od drugiego w górę siedzą w <details open>. Atrybut `open` jest tu,
+       w HTML-u, a js/script.js ZDEJMUJE go poniżej 760px — dzięki temu bez JS-a
+       strona wygląda dokładnie jak przed zmianą, a desktop nie ma przeskoku
+       układu przy pierwszym malowaniu. Tak samo w #instruktor. -->
+  <div class="prose reveal">
+    <p>Aikido cieszy się popularnością wśród kobiet i&nbsp;mężczyzn niezależnie od&nbsp;wieku, siły, sprawności czy postury. Nie ma rywalizacji, każdy nosi białe kimono, zaawansowani pomagają początkującym, każdy ma własny treningowy cel.</p>
+    <details class="more" open>
+      <summary><span class="more-open">Czytaj dalej</span><span class="more-close">Zwiń</span></summary>
+      <p>Trening to rozwój umiejętności technicznych — dźwigni, rzutów i&nbsp;uderzeń wykorzystywanych do&nbsp;odparcia ataku przeciwnika — a&nbsp;zarazem sposób na&nbsp;oderwanie się od&nbsp;rutyny dnia codziennego, obniżenie poziomu stresu, rozwinięcie inteligencji ruchowej i&nbsp;poprawę świadomości własnego ciała.</p>
+    </details>
   </div>
 </section>
 
@@ -106,7 +135,7 @@
     <div class="photo-band-scrim" aria-hidden="true"></div>
     <div class="photo-band-caption wrap">
       <p class="eyebrow eyebrow--bright">02 — Grupy i&nbsp;grafik</p>
-      <h2 class="sec-title sec-title--statement">Wtorki i&nbsp;czwartki</h2>
+      <h2 class="sec-title sec-title--statement">dni treningowe</h2>
     </div>
   </header>
 
@@ -124,7 +153,7 @@
           <td>
             <div class="sched-group">
               <span class="sched-name">Dzieci młodsze</span>
-              <span class="sched-meta">8 — 10 lat · wtorki · 60 minut</span>
+              <span class="sched-meta">8 — 10 lat · wtorki</span>
             </div>
           </td>
           <td class="sched-time"><time datetime="18:00">18:00</time> — <time datetime="19:00">19:00</time></td>
@@ -133,7 +162,7 @@
           <td>
             <div class="sched-group">
               <span class="sched-name">Dzieci starsze</span>
-              <span class="sched-meta">11 — 14 lat · czwartki · 60 minut</span>
+              <span class="sched-meta">11 — 14 lat · czwartki</span>
             </div>
           </td>
           <td class="sched-time"><time datetime="18:00">18:00</time> — <time datetime="19:00">19:00</time></td>
@@ -142,30 +171,13 @@
           <td>
             <div class="sched-group">
               <span class="sched-name">Dorośli</span>
-              <span class="sched-meta">wtorki i&nbsp;czwartki · 100 minut</span>
+              <span class="sched-meta">wtorki i&nbsp;czwartki</span>
             </div>
           </td>
           <td class="sched-time"><time datetime="19:05">19:05</time> — <time datetime="20:45">20:45</time></td>
         </tr>
       </tbody>
     </table>
-
-    <div class="cols">
-      <article class="col reveal">
-        <h3>Dzieci · 8 — 10 lat</h3>
-        <p>Treningi tej grupy to przede wszystkim zabawy ruchowe przeplecione ćwiczeniami ogólnorozwojowymi oraz podstawowymi elementami aikido.</p>
-        <p>Instruktorzy starają się, by zajęcia ruchowe kojarzyły się dziecku z&nbsp;przyjemnie spędzonym czasem, a&nbsp;zarazem podniosły jego ogólną sprawność fizyczną.</p>
-        <p>Dzieci poznają podstawowe zasady obowiązujące w&nbsp;sztukach walki, liczą po&nbsp;japońsku, uczą się dyscypliny, wytrwałości w&nbsp;dążeniu do&nbsp;celu, pracy w&nbsp;parach i&nbsp;w&nbsp;grupie. Poprawiają koordynację ruchową, budują pewność siebie.</p>
-      </article>
-      <article class="col reveal">
-        <h3>Młodzież · 11 — 14 lat</h3>
-        <p>Znaczącą część treningu stanowią ćwiczenia poprawiające ogólną sprawność fizyczną, uzupełnione większą ilością technik aikido oraz wybranymi elementami samoobrony.</p>
-        <p>Treningi są bardziej wymagające i&nbsp;zróżnicowane. Dzieci poznają podstawowe ćwiczenia z&nbsp;wykorzystaniem „jo” — drewnianej broni — rozwijają szybkość, wytrzymałość i&nbsp;koordynację.</p>
-        <p>Uczą się osiągać cel własnym wysiłkiem i&nbsp;systematyczną pracą. Mogą brać udział w&nbsp;obozach aikido, gdzie trenują pod okiem doświadczonej kadry i&nbsp;nawiązują przyjaźnie.</p>
-      </article>
-    </div>
-
-    <p class="sec-note reveal">Zajęcia dwa razy w&nbsp;tygodniu, w&nbsp;roku szkolnym · pierwszy trening gratis · zapisy telefonicznie lub przed treningiem</p>
   </div>
 </section>
 
@@ -181,12 +193,17 @@
       <img src="assets/foto-instruktor.webp" alt="Rafał Jaroszewski prowadzi trening aikido" width="1416" height="1888" loading="lazy" />
     </figure>
 
-    <div class="bio reveal">
+    <div class="prose reveal">
       <p>Swoją drogę aikido rozpoczął w&nbsp;1995 roku pod okiem instruktorów Ireneusza Kołodziejaka i&nbsp;Piotra Rafała w&nbsp;Bialskiej Sekcji Aikido. Na przestrzeni lat trenował w&nbsp;kilku warszawskich klubach aikido pod okiem różnych nauczycieli.</p>
-      <p>Z Warszawskim Centrum Aikido jest związany od&nbsp;początku powstania klubu w&nbsp;2001 roku, a&nbsp;od&nbsp;2004 roku jest instruktorem aikido. Do&nbsp;2010 roku prowadził treningi w&nbsp;dojo na&nbsp;Pradze Południe, następnie w&nbsp;Pruszkowie.</p>
-      <p>Egzamin na stopień mistrzowski 1&nbsp;dan zdał w&nbsp;2003 roku przed komisją Polskiej Unii Aikido — Jacek Wysocki Shihan, Ireneusz Kołodziejak Shihan, Wiesław Chmieliński Sensei, Marcin Velinov Sensei. Egzaminy na kolejne stopnie mistrzowskie zdawał przed mistrzem Etienne Leman Shihan.</p>
-      <p>Regularnie uczestniczy w&nbsp;stażach prowadzonych przez nauczycieli szkoły Aikido Kobayashi i&nbsp;innych linii aikido, od&nbsp;lat bierze udział w&nbsp;obozach mistrza Etienne Leman oraz w&nbsp;klubowych szkoleniach instruktorskich.</p>
+      <details class="more" open>
+        <summary><span class="more-open">Czytaj dalej</span><span class="more-close">Zwiń</span></summary>
+        <p>Z Warszawskim Centrum Aikido jest związany od&nbsp;początku powstania klubu w&nbsp;2001 roku, a&nbsp;od&nbsp;2004 roku jest instruktorem aikido. Do&nbsp;2010 roku prowadził treningi w&nbsp;dojo na&nbsp;Pradze Południe, następnie w&nbsp;Pruszkowie.</p>
+        <p>Egzamin na stopień mistrzowski 1&nbsp;dan zdał w&nbsp;2003 roku przed komisją Polskiej Unii Aikido — Jacek Wysocki Shihan, Ireneusz Kołodziejak Shihan, Wiesław Chmieliński Sensei, Marcin Velinov Sensei. Egzaminy na kolejne stopnie mistrzowskie zdawał przed mistrzem Etienne Leman Shihan.</p>
+        <p>Regularnie uczestniczy w&nbsp;stażach prowadzonych przez nauczycieli szkoły Aikido Kobayashi i&nbsp;innych linii aikido, od&nbsp;lat bierze udział w&nbsp;obozach mistrza Etienne Leman oraz w&nbsp;klubowych szkoleniach instruktorskich.</p>
+      </details>
 
+      <!-- Tabelka faktów zostaje na wierzchu także po zwinięciu — to najbardziej
+           skanowalna część sekcji (stopień, rok, legitymacja). -->
       <dl class="facts">
         <div class="fact">
           <dt>W aikido od</dt>
@@ -243,16 +260,22 @@
 
 <!-- ═══════════ 05 — DOJO ═══════════ -->
 <section class="bloc wrap" id="dojo" data-screen-label="05 Dojo">
-  <header class="sec-head reveal">
-    <p class="eyebrow">05 — Dojo</p>
-    <h2 class="sec-title">Szkoła Podstawowa nr&nbsp;1 im. Józefa Piłsudskiego, ul.&nbsp;Topolowa 10</h2>
-  </header>
-
   <div class="split reveal">
-    <p class="sec-lead">Aikido w&nbsp;Pruszkowie istnieje od&nbsp;2010 roku. Jesteśmy częścią Warszawskiego Centrum Aikido.</p>
-    <p>
+    <div class="dojo-intro">
+      <header class="sec-head">
+        <p class="eyebrow">05 — Dojo</p>
+        <h2 class="sec-title">Szkoła Podstawowa nr&nbsp;1 im. Józefa Piłsudskiego, ul.&nbsp;Topolowa 10</h2>
+      </header>
+      <p class="sec-lead">Aikido w&nbsp;Pruszkowie istnieje od&nbsp;2010 roku. Jesteśmy częścią <a class="link" href="https://aikido.warszawa.pl/" target="_blank" rel="noopener">Warszawskiego Centrum Aikido</a>.</p>
+    </div>
+
+    <div class="dojo-aside">
+      <figure class="map">
+        <img src="assets/mapa-dojo.webp" alt="Mapa okolicy dojo: ul. Topolowa 10 w Pruszkowie, na Tworkach, między linią kolejową a Alejami Jerozolimskimi." width="1440" height="960" loading="lazy" decoding="async" />
+        <figcaption class="map-credit">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a></figcaption>
+      </figure>
       <a class="btn-outline" href="https://maps.google.com/?q=Topolowa+10+Pruszk%C3%B3w" target="_blank" rel="noopener">Otwórz w&nbsp;Google Maps</a>
-    </p>
+    </div>
   </div>
 </section>
 
@@ -282,7 +305,7 @@
 <footer class="foot">
   <div class="wrap foot-inner">
     <span class="foot-brand">
-      <span class="foot-kanji" lang="ja" data-kanji-tip="aikidō — droga harmonii">合気道</span>
+      <span class="foot-kanji" lang="ja" aria-hidden="true">合気道</span>
       Aikido Pruszków
     </span>
     <span>Dojo Pruszków · Rafał Jaroszewski · 530 145 350</span>

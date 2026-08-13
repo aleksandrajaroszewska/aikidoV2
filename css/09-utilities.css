@@ -1,0 +1,82 @@
+/* ─────────── 09 · przyciski, linki w tekście, ruch ───────────
+   Wczytywany JAKO OSTATNI. Blok prefers-reduced-motion na końcu pliku musi
+   stać za wszystkim, co animuje — inaczej `.reveal` zostaje niewidoczne
+   u osób z wyłączonymi animacjami. */
+
+/* ─── przyciski ─── */
+/* primary — wypełniony akcentem; --paper na --vermilion trzyma AA w obu paletach */
+.btn-primary{
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--vermilion);
+  padding: 14px 28px;
+  white-space: nowrap;
+  transition: background .2s ease;
+}
+.btn-primary:hover{ background: var(--vermilion-deep); }
+.btn-primary:focus-visible{ outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.btn-outline{
+  display: inline-flex; align-items: center;
+  min-height: 44px;
+  padding: 12px 22px;
+  border: 1px solid var(--ink-faint);
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color .2s ease, border-color .2s ease;
+}
+.btn-outline:hover{ color: var(--vermilion); border-color: var(--vermilion); }
+.btn-outline:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 3px; }
+
+/* ─── link w tekście ───
+   Reset w 03-base.css gasi wszystkim linkom kolor i podkreślenie (potrzebne przy
+   marce, nawigacji i kaflach), więc link w zdaniu musi je odzyskać — inaczej nic
+   go nie odróżnia od otaczającego tekstu (WCAG 2.2 SC 1.4.1). Podkreślenie niesie
+   informację „to jest link" samodzielnie, kolor tylko ją wzmacnia. */
+.link{
+  color: var(--vermilion);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+  transition: opacity .2s ease;
+}
+.link:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 3px; }
+@media (hover: hover){
+  .link:hover{ opacity: .68; }
+}
+
+/* ─── ujawnianie sekcji przy scrollu ───
+   Stan początkowy chowa sekcję, a klasę `.in` dokłada IntersectionObserver
+   z js/script.js. Dlatego ukrywanie jest ZAWSZE pod `html.js` — klasę ustawia
+   jednolinijkowy skrypt w <head>. Gdy JS nie wystartuje (błąd sieci, blokada),
+   `.reveal` nie dostaje żadnego stylu i cała treść po prostu jest widoczna.
+   Bez tego zabezpieczenia strona bez JS pokazuje sam hero. */
+.js .reveal{
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .8s ease-out, transform .8s cubic-bezier(.22,.8,.25,1);
+}
+.js .reveal.in{ opacity: 1; transform: none; }
+
+/* ─── prefers-reduced-motion ───
+   Stan końcowy natychmiast: animacje i przejścia skrócone do 0,01ms,
+   pętle (oddech kopii ensō) ucięte do jednego przebiegu. */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: .01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js .reveal{ opacity: 1; transform: none; }
+}

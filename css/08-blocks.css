@@ -1,0 +1,248 @@
+/* ─────────── 08 · bloki treści ───────────
+   Zwijanie długich akapitów, portret instruktora (03), tabelka faktów,
+   blok kontaktu (06) i stopka. */
+
+/* ─── .more — dalsze akapity pod przyciskiem (01, 02, 03) ───
+   Pierwszy akapit każdego bloku zostaje na wierzchu jako zajawka, reszta siedzi
+   w natywnym <details>. Atrybut `open` jedzie w HTML-u, a js/script.js zdejmuje
+   go poniżej 760px — patrz komentarz przy #droga w index.html.
+
+   Świadomie NIE ustawiamy `display` na samym <details>: nowoczesne przeglądarki
+   chowają treść przez ::details-content, a grzebanie w display elementu bywa
+   przy tym kruche. Rytm pionowy robią więc marginesy akapitów niżej. */
+.more > summary{
+  display: flex; align-items: center; gap: 10px;
+  width: fit-content;
+  min-height: 44px;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+  cursor: pointer;
+  list-style: none;                                  /* chowa trójkąt UA */
+}
+.more > summary::-webkit-details-marker{ display: none; }   /* to samo dla starszego Safari */
+.more > summary:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 4px; }
+
+/* Etykieta przełącza się bez JS-a — dwa spany i reguła na [open]. */
+.more[open] .more-open,
+.more:not([open]) .more-close{ display: none; }
+
+/* własny chevron zamiast markera UA; obrót gasi blok prefers-reduced-motion w 09 */
+.more > summary::after{
+  content: "";
+  width: 7px; height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform .25s ease;
+}
+.more[open] > summary::after{ transform: translateY(1px) rotate(-135deg); }
+
+/* Odstęp wewnątrz .more musi się równać gapowi RODZICA, inaczej między akapitem
+   pierwszym a drugim robi się podwójna dziura (gap gridu + margines). Wartość
+   przepisana z .prose niżej w tym pliku — przy zmianie tamtego gapa trzeba
+   ruszyć i tę. */
+.prose .more > p{ margin-top: clamp(20px, 2.6vw, 30px); }
+
+@media (min-width: 760px){
+  /* Na desktopie <details> jest otwarte, więc przycisk nie ma czego przełączać;
+     odstęp pod pierwszym akapitem daje już gap rodzica. */
+  .more > summary{ display: none; }
+  .more > p:first-of-type{ margin-top: 0; }
+}
+
+/* ─── portret instruktora (03) ───
+   Portret wtapia się w tło jak pasy zdjęciowe, ale musi to robić na WSZYSTKICH
+   czterech krawędziach: pas jest na całą szerokość okna, więc jego boki to brzegi
+   ekranu, a portret stoi w kolumnie i bez maski ma dwie ostre pionowe linie.
+   Dwie warstwy maski przez `intersect`: jedna gasi boki, druga górę i dół.
+   Przeglądarka bez mask-composite pokazuje zwykły kadr — degradacja jest łagodna.
+
+   `position: relative` w bazie jest nośne, nie kosmetyczne: ::after poniżej ma
+   `inset: 0` i musi się zaczepić o portret. Bez tego łapie pierwszego pozycjonowanego
+   przodka, czyli całą sekcję, i przygasza także tekst biografii obok. */
+.portrait{
+  position: relative;
+  aspect-ratio: 3 / 4;   /* = proporcja pliku 1416×1888, zero kadrowania */
+  overflow: hidden;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 7%, #000 72%, transparent 100%);
+          mask-image:
+    linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 7%, #000 72%, transparent 100%);
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+}
+.portrait img{ width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+/* dodatkowo tonalne wygaszenie dołu — sam alfa-fade zostawia jasny ukemi
+   widoczny aż do końca, a tekst biografii obok potrzebuje spokojnego tła */
+.portrait::after{
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgb(var(--paper-rgb) / 0) 46%,
+    rgb(var(--paper-rgb) / .55) 82%,
+    var(--paper) 100%);
+}
+
+.prose{ display: grid; gap: clamp(20px, 2.6vw, 30px); align-content: start; }
+.prose p{ color: var(--ink-soft); line-height: var(--lh-base); max-width: 62ch; text-wrap: pretty; }
+
+.facts{ display: grid; margin-top: clamp(4px, 1vw, 12px); }
+.fact{
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+}
+.fact dt{
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.fact dd{
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-400);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--ink);
+}
+
+/* ─── dojo (05): nagłówek + mapa obok ───
+   Jedyna sekcja, w której nagłówek wchodzi DO `.split` zamiast stać nad nim:
+   mapa ma być na wysokości adresu, a nie pod akapitem. Marginesu `.sec-head`
+   nie ma tu co dublować z odstępem siatki — stąd zerowanie. */
+.dojo-intro{
+  display: grid;
+  gap: clamp(24px, 4vw, 40px);
+  align-content: start;
+}
+.dojo-intro .sec-head{ margin-bottom: 0; }
+
+/* Kolumna boczna trzyma mapę i przycisk jeden pod drugim; `justify-items: start`
+   jest po to, żeby przycisk został przy swojej treści, a nie rozciągnął się na
+   szerokość mapy. */
+.dojo-aside{
+  display: grid;
+  gap: clamp(18px, 2.4vw, 26px);
+  justify-items: start;
+}
+
+/* Mapa to statyczny render kafelków (assets/mapa-dojo.webp), nie iframe — strona
+   nie ma ani jednego zewnętrznego originu i mapa tego nie zmienia. Przyciemnienie
+   do palety jest wypalone w pliku, nie robione filtrem: filtr na pół megapiksela
+   kosztuje przy każdym repaincie, a plik i tak jest generowany skryptem (README). */
+.map{
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+/* `height: auto` jest obowiązkowe — reset w 03-base.css daje obrazkom samo
+   `max-width: 100%`, więc atrybuty width/height (potrzebne przeciw CLS)
+   spłaszczyłyby kadr na każdej szerokości poniżej 1440px. */
+.map img{
+  width: 100%; height: auto;
+  border: 1px solid var(--rule);
+}
+/* Atrybucja ODbL (dane OSM) i CARTO (kafelki) — wymóg licencji, nie ozdoba:
+   nie usuwać dopóki na stronie stoi mapa. Ma być czytelna, ale nie ma prawa
+   ważyć tyle co link w treści, więc świadomie NIE używa `.link`: kolor schodzi
+   do --ink-faint (5,7:1 na --paper w ciemnej palecie, AA dla 14px), a rolę
+   „to jest link" niesie samo podkreślenie (WCAG 2.2 SC 1.4.1). */
+.map-credit{
+  font-size: var(--fs-100);
+  line-height: var(--lh-snug);
+  color: var(--ink-faint);
+}
+.map-credit a{
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .2em;
+  transition: color .2s ease;
+}
+.map-credit a:hover{ color: var(--ink-soft); }
+.map-credit a:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 3px; }
+
+/* ─── kontakt (06) ───
+   Limonka i tekst na niej są stałe (--lime / --on-lime), niezależne od motywu. */
+.contact{
+  background: var(--lime);
+  color: var(--on-lime);
+  padding: clamp(32px, 5vw, 68px);
+  display: grid;
+  gap: clamp(22px, 3vw, 34px);
+}
+.eyebrow--on-lime{ color: var(--on-lime); }
+.eyebrow--on-lime::after{ background: var(--on-lime); }
+.contact .sec-title{ color: var(--on-lime); max-width: 24ch; }
+
+.contact-links{
+  list-style: none;
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: clamp(16px, 4vw, 52px);
+}
+/* na jednolitej limonce link nie różni się kolorem od tekstu — podkreślenie
+   jest jedynym nośnikiem informacji „to jest link" (WCAG 2.2 SC 1.4.1) */
+.contact-links a{
+  display: inline-flex; align-items: center;
+  min-height: 44px;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-400);
+  letter-spacing: .06em;
+  color: var(--on-lime);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .28em;
+  transition: opacity .2s ease;
+}
+.contact-links a:hover{ opacity: .62; }
+.contact-links a:focus-visible{ outline: 2px solid var(--on-lime); outline-offset: 4px; }
+.contact-phone{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(34px, 4vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.contact-note{ max-width: 58ch; line-height: var(--lh-base); text-wrap: pretty; }
+
+/* ─── stopka ─── */
+.foot{ padding-bottom: clamp(32px, 4vw, 48px); }
+.foot-inner{
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 18px;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.foot-brand{ display: flex; align-items: baseline; gap: 10px; }
+.foot-kanji{
+  font-family: var(--font-brush);
+  font-size: var(--fs-400);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--vermilion);
+}
+
+/* od 760px portret stoi obok biografii i jedzie z nią przy scrollu */
+@media (min-width: 760px){
+  .portrait{ position: sticky; top: calc(var(--topbar-h) + 24px); }
+}
