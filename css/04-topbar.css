@@ -1,0 +1,63 @@
+/* ─────────── 04 · topbar ───────────
+   Sticky pasek z nazwą dojo i kotwicami sekcji.
+   Na wąskim ekranie nawigacja jest ukryta — sześć linków nie mieści się obok
+   nazwy poniżej ~760px, a strona jest jednostronicowa, więc scroll ją zastępuje. */
+
+.topbar{
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  background: oklch(95.5% 0.018 82 / 0.78);
+  border-bottom: .5px solid var(--rule);
+}
+body.palette-dark .topbar{ background: rgba(15, 26, 9, .82); }
+
+.topbar-inner{
+  max-width: var(--maxw); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px var(--gutter);
+}
+
+/* Marka jest linkiem powrotu na górę strony — kotwica #top siedzi na .topbar. */
+.brand{
+  display: flex; align-items: baseline; gap: 12px;
+  flex-wrap: wrap; min-width: 0;
+  transition: opacity .2s ease;
+}
+.brand:hover{ opacity: .72; }
+.brand:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 4px; }
+/* 気 („ki") — ten sam znak pędzlem co w hero: krój Yuji Boku i limonka.
+   Kolor bierze STAŁY token --lime, nie --vermilion: --vermilion zmienia się
+   z paletą (na jasnej schodzi do oliwki), a ten znak ma być tą samą limonką
+   co glif w assets/favicon.svg, który ma wartość wpisaną na sztywno. */
+.brand-kanji{
+  font-family: var(--font-brush);
+  font-size: var(--fs-500);
+  line-height: 1;
+  color: var(--lime);
+}
+.brand .name{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-500);
+  letter-spacing: 0;
+}
+
+.nav{ display: none; gap: 22px; }
+.nav a{
+  font-family: var(--font-label); font-weight: 600; font-size: var(--fs-200); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-soft);
+  position: relative; padding: 6px 0;
+  transition: color .2s;
+}
+.nav a:hover{ color: var(--ink); }
+.nav a::after{
+  content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px;
+  background: var(--vermilion); transition: width .25s ease;
+}
+.nav a:hover::after{ width: 100%; }
+.nav a:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 4px; }
+
+@media (min-width: 760px){
+  .nav{ display: flex; }
+}

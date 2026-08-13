@@ -26,17 +26,20 @@ python3 -m http.server 3000   # then open http://localhost:3000
 
 ## Architecture
 
-Three files do everything:
+- `index.html` (~320 lines) — all markup, sections anchored by id (`#droga`, `#grafik`, `#instruktor`, `#cennik`, `#dojo`, `#kontakt`).
+- `css/` — nine files, `01-fonts` … `09-utilities`. **The number in the filename is the cascade order**, matching the `<link>` order in `<head>`; reordering them changes the result. `09-utilities.css` must stay last (it holds the `prefers-reduced-motion` block). Full table in the README.
+- `js/script.js` (13 lines) — one behavior only: scroll-reveal (`.reveal` + IntersectionObserver adds `.in`).
 
-- `index.html` (~450 lines) — all markup, sections anchored by id (`#grupy`, `#instruktorzy`, `#cennik`, `#dojo`, `#klub`, `#kontakt`).
-- `css/styles.css` (~1310 lines) — `@font-face` block, design tokens in `:root`, then layout/components/media queries in one file.
-- `js/script.js` — only two behaviors: group tabs (`.group-tab`/`.group-panel` with `data-tab`/`data-panel`) and scroll-reveal (`.reveal` + IntersectionObserver adds `.in`).
+There is no `css/styles.css` any more — it was split. Don't recreate it.
 
 ## Conventions (from README — don't change without reason)
 
-- The `<body>` classes `palette-dark display-oswald hero-stacked divider-linia` are theme switches that control the whole look.
-- Colors only via CSS variables (`--paper`, `--ink`, `--vermilion`, …, defined in `css/styles.css`). `:root` holds the light palette; `body.palette-dark` overrides it with the dark "limonka na grafitowej zieleni" (19a) palette — Pantone 3945 C lime on graphite green. Never delete the `:root` block.
-- Kanji tooltips: `data-kanji-tip="translation"` attribute on elements containing kanji.
+- **Mobile-first, no exceptions.** Base styles carry the narrow layout with no media query; wider layouts are added only via `min-width`. There are exactly **two width breakpoints** in the project: `601px` and `760px`. Don't add a third without a reason. Feature queries (`hover`, `prefers-reduced-motion`) live next to the components they affect.
+- The only `<body>` theme switch is `palette-dark`. The old `display-oswald`, `hero-stacked` and `divider-linia` classes were removed (two had no CSS rules at all; the third duplicated `:root`), along with the unused `palette-bw`, `palette-teal`, `display-noto` and three divider variants. Don't reintroduce variant classes speculatively.
+- Colors only via CSS variables (`--paper`, `--ink`, `--vermilion`, …, defined in `css/02-tokens.css`). `:root` holds the light palette; `body.palette-dark` overrides it with the dark "limonka na grafitowej zieleni" (19a) palette — Pantone 3945 C lime on graphite green. Never delete the `:root` block.
+- `--vermilion` is palette-dependent (olive `#6B6800` on light, lime on dark). When something must be lime in every palette — the 気 in the topbar, which has to match `assets/favicon.svg` — use the constant `--lime`.
+- `.reveal` hides content **only under `html.js`**, a class set by a one-line script in `<head>`. If JS never runs, the content simply shows. Never move that hiding onto a bare `.reveal` — it would blank the whole page without JS.
+- Kanji hover tooltips are gone (`data-kanji-tip` and its CSS). Decorative kanji get `aria-hidden="true"` when adjacent text already carries the meaning; the hero block keeps `role="img"` + `aria-label`.
 - In Polish text, put `&nbsp;` after short one-letter words (e.g. `w&nbsp;Pruszkowie`) to avoid orphans at line ends.
 - Fonts are **self-hosted** woff2 in `assets/fonts/` (no Google Fonts CDN, no external origins). Three are preloaded in `<head>`. Regenerating a subset: see README "Fonty".
 - Text sizes come **only** from the scale tokens `--fs-100`…`--fs-600` / `--fs-display-*`. Floor is `--fs-100` (14px), base `--fs-400` (19px). Hardcoded px is allowed only for decorative glyphs (hero kanji, price amounts).
@@ -45,4 +48,4 @@ Three files do everything:
 
 ## Content source of truth
 
-The README's "Dane na stronie" section holds the canonical schedule, pricing, address, and contact data. When updating page content, keep README and `index.html` in sync.
+`index.html` is the only source. Schedule lives in `<table class="sched">` (`#grafik`), pricing in `<table class="fees">` (`#cennik`), address in the `#dojo` heading, contact details in `#kontakt`. The README used to carry a second copy and the two drifted apart — don't reintroduce it.

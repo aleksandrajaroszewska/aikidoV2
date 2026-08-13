@@ -12,16 +12,40 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-700.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/barlow-condensed-500.woff2" crossorigin />
 
-<link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
-<link rel="stylesheet" href="css/styles.css" />
-</head>
-<body class="palette-dark display-oswald hero-stacked divider-linia">
+<!-- Znak 気 pędzlem (Yuji Boku) wyciągnięty jako obrys, limonka na grafitowej zieleni.
+     Obrys, nie tekst — favicon renderuje się bez fontów strony. Odtworzenie: README. -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
-<header class="topbar" id="top">
+<link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
+
+<!-- Arkusze wczytywane w kolejności kaskady — numer w nazwie JEST tą kolejnością.
+     Przestawienie linków zmienia wynik; 09 musi zostać ostatnie (reduced-motion).
+     Serwer chodzi na HTTP/2, więc dziewięć małych plików to jeden round-trip. -->
+<link rel="stylesheet" href="css/01-fonts.css" />
+<link rel="stylesheet" href="css/02-tokens.css" />
+<link rel="stylesheet" href="css/03-base.css" />
+<link rel="stylesheet" href="css/04-topbar.css" />
+<link rel="stylesheet" href="css/05-hero.css" />
+<link rel="stylesheet" href="css/06-sections.css" />
+<link rel="stylesheet" href="css/07-tables.css" />
+<link rel="stylesheet" href="css/08-blocks.css" />
+<link rel="stylesheet" href="css/09-utilities.css" />
+
+<!-- Włącza chowanie sekcji przed animacją scroll-reveal. Musi być tutaj, przed
+     pierwszym malowaniem — inaczej treść mrugnie. Gdy JS nie działa, klasa nie
+     powstaje i .reveal zostaje widoczne (css/09-utilities.css). -->
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="palette-dark">
+
+<!-- Bez id — marka celuje w #hero, nie tutaj. Kotwica na sticky topbarze nic by nie dała:
+     pasek jest zawsze w kadrze, więc przeglądarka nie ma dokąd przewijać. -->
+<header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">
+    <a class="brand" href="#hero">
+      <span class="brand-kanji" lang="ja" aria-hidden="true">気</span>
       <span class="name">Aikido Pruszków</span>
-    </div>
+    </a>
     <nav class="nav" aria-label="Sekcje strony">
       <a href="#droga">Droga</a>
       <a href="#grafik">Grafik</a>
@@ -56,9 +80,9 @@
     </div>
 
     <div class="kakejiku" role="img" lang="ja" aria-label="合気道 — aikido">
-      <span class="kchar" data-kanji-tip="ai — harmonia">合</span>
-      <span class="kchar" data-kanji-tip="ki — energia">気</span>
-      <span class="kchar kchar--accent" data-kanji-tip="dō — droga">道</span>
+      <span class="kchar">合</span>
+      <span class="kchar">気</span>
+      <span class="kchar kchar--accent">道</span>
     </div>
 
     <div class="hero-subtitle">
@@ -124,7 +148,7 @@
           <td>
             <div class="sched-group">
               <span class="sched-name">Dzieci młodsze</span>
-              <span class="sched-meta">8 — 10 lat · wtorki · 60 minut</span>
+              <span class="sched-meta">8 — 10 lat · wtorki</span>
             </div>
           </td>
           <td class="sched-time"><time datetime="18:00">18:00</time> — <time datetime="19:00">19:00</time></td>
@@ -133,7 +157,7 @@
           <td>
             <div class="sched-group">
               <span class="sched-name">Dzieci starsze</span>
-              <span class="sched-meta">11 — 14 lat · czwartki · 60 minut</span>
+              <span class="sched-meta">11 — 14 lat · czwartki</span>
             </div>
           </td>
           <td class="sched-time"><time datetime="18:00">18:00</time> — <time datetime="19:00">19:00</time></td>
@@ -142,7 +166,7 @@
           <td>
             <div class="sched-group">
               <span class="sched-name">Dorośli</span>
-              <span class="sched-meta">wtorki i&nbsp;czwartki · 100 minut</span>
+              <span class="sched-meta">wtorki i&nbsp;czwartki</span>
             </div>
           </td>
           <td class="sched-time"><time datetime="19:05">19:05</time> — <time datetime="20:45">20:45</time></td>
@@ -282,7 +306,7 @@
 <footer class="foot">
   <div class="wrap foot-inner">
     <span class="foot-brand">
-      <span class="foot-kanji" lang="ja" data-kanji-tip="aikidō — droga harmonii">合気道</span>
+      <span class="foot-kanji" lang="ja" aria-hidden="true">合気道</span>
       Aikido Pruszków
     </span>
     <span>Dojo Pruszków · Rafał Jaroszewski · 530 145 350</span>

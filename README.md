@@ -9,8 +9,22 @@ Czysty, statyczny HTML/CSS/JS — **bez frameworka, bez build stepu, bez npm**.
 ## Struktura
 
 - `index.html` — markup strony
-- `css/styles.css` — wszystkie style (tokeny, layout, komponenty, media queries)
 - `js/script.js` — wyłącznie scroll reveal (IntersectionObserver dodaje `.in` do `.reveal`)
+- `css/` — style w dziewięciu plikach. **Numer w nazwie to kolejność kaskady** —
+  taka sama jak kolejność `<link>` w `<head>`. Przestawienie ich zmienia wynik.
+
+| plik | zawartość |
+|---|---|
+| `01-fonts.css` | `@font-face`, `@property --sweep` |
+| `02-tokens.css` | `:root` i `body.palette-dark` — jedyne źródło kolorów i skali |
+| `03-base.css` | reset, tekstura tła, typografia bazowa, `.wrap`, `.sr-only` |
+| `04-topbar.css` | sticky pasek, marka, nawigacja |
+| `05-hero.css` | ensō, kanji, lockup, CTA + cała oś czasu animacji |
+| `06-sections.css` | rusztowanie sekcji: `.bloc`, `.sec-head`, `.cols`, `.split`, `.photo-band` |
+| `07-tables.css` | grafik (`.sched`) i cennik (`#cennik`, `.fees`) |
+| `08-blocks.css` | portret, fakty, blok kontaktu, stopka |
+| `09-utilities.css` | przyciski, scroll reveal, `prefers-reduced-motion` — **musi być ostatni** |
+
 - `assets/` — grafika:
 
 | plik | rozmiar źródła | rola |
@@ -19,6 +33,7 @@ Czysty, statyczny HTML/CSS/JS — **bez frameworka, bez build stepu, bez npm**.
 | `foto-rzut.webp` | 1110×741 | pas nagłówkowy sekcji 02 |
 | `foto-instruktor.webp` | 1416×1888 | portret w sekcji 03 (3:4 = proporcja pliku, zero kadrowania) |
 | `foto-dojo.webp` | 2000×1335 | pas zamykający przed sekcją 06 |
+| `favicon.svg` | 1000×1000 | znak 気 pędzlem, limonka na grafitowej zieleni — patrz „Favicon" |
 
 Zdjęcia czarno-białe, z sesji w dojo, wyeksportowane z JPG-ów handoffu do webp (q82, Pillow):
 880 KB → 249 KB. `foto-rzut` ma tylko 1110 px szerokości, a leży na pasie na całą szerokość —
@@ -67,16 +82,29 @@ usuń zawartość → wgraj pliki z backupu.
 
 ## Konwencje (nie zmieniać bez powodu)
 
-- Klasy na `<body>`: `palette-dark display-oswald hero-stacked divider-linia` — sterują całym wyglądem.
-- Kolory wyłącznie przez zmienne CSS (`--paper`, `--ink`, `--vermilion`, …) zdefiniowane w `css/styles.css`.
-  `:root` ma jasną paletę, `body.palette-dark` nadpisuje ją ciemną paletą „limonka na grafitowej zieleni" (Pantone 3945 C na #0F1A09) — nie usuwać `:root`.
-- Tooltips kanji: atrybut `data-kanji-tip="tłumaczenie"` na elemencie z kanji.
+- **Mobile-first.** Style bazowe opisują wąski ekran, bez żadnej media query. Szersze układy
+  dokłada się wyłącznie przez `min-width`. W całym projekcie są **dwa progi**: `601px`
+  (lockup hero mieści się w jednej linii) i `760px` (układy dwukolumnowe, hero na pełny ekran).
+  Nie dokładaj trzeciego bez powodu. Media query na cechę (`hover`, `prefers-reduced-motion`)
+  to osobna sprawa i siedzą przy swoich komponentach.
+- Klasa na `<body>`: `palette-dark` — jedyny przełącznik motywu. (Wcześniej były jeszcze
+  `display-oswald`, `hero-stacked` i `divider-linia`; dwie ostatnie nie miały żadnej reguły
+  CSS, a `display-oswald` ustawiał tę samą wartość co `:root`. Usunięte razem z wariantami
+  `palette-bw`, `palette-teal`, `display-noto` i trzema wariantami dividerów.)
+- Kolory wyłącznie przez zmienne CSS (`--paper`, `--ink`, `--vermilion`, …) zdefiniowane
+  w `css/02-tokens.css`. `:root` ma jasną paletę, `body.palette-dark` nadpisuje ją ciemną
+  paletą „limonka na grafitowej zieleni" (Pantone 3945 C na #0F1A09) — nie usuwać `:root`.
+- `--vermilion` **zmienia się z paletą** (na jasnej schodzi do oliwki #6B6800, bo limonka nie
+  spełnia kontrastu jako tekst na jasnym tle). Gdy kolor ma być limonką zawsze — jak znak 気
+  w topbarze, który musi zgadzać się z faviconem — użyj stałego `--lime`.
+- `.reveal` chowa sekcję **tylko pod `html.js`**. Klasę ustawia jednolinijkowy skrypt w `<head>`.
+  Gdy JS nie wystartuje, treść po prostu jest widoczna. Nie przenoś tego ukrywania na goły `.reveal`.
 - W polskich tekstach `&nbsp;` przed krótkimi słowami (np. `w&nbsp;Pruszkowie`), żeby nie wisiały na końcu linii.
 - Fonty **self-hostowane** z `assets/fonts/` (Oswald — nagłówki, Barlow Condensed — etykiety/nawigacja/godziny,
   Barlow — tekst, Yuji Boku — wyłącznie kanji). Bez Google Fonts CDN — zero zewnętrznych originów.
   Patrz „Fonty" niżej.
 - Rozmiary tekstu **wyłącznie przez tokeny skali** `--fs-100`…`--fs-600` i `--fs-display-*` (`:root`
-  w `css/styles.css`). Podłoga to `--fs-100` (14px), baza `--fs-400` (19px) — nic na stronie nie schodzi niżej.
+  w `css/02-tokens.css`). Podłoga to `--fs-100` (14px), baza `--fs-400` (19px) — nic na stronie nie schodzi niżej.
   Twarde wartości px zostają tylko przy glifach dekoracyjnych (wielkie kanji, kwoty).
 - Rozmiar tekstu **nigdy w `vh`** — nie reaguje na zoom przeglądarki (WCAG 2.2 SC 1.4.4).
   Jedyny wyjątek to `.kakejiku`, czyli dekoracyjne kanji w hero, które ma wypełnić wysokość ekranu.
@@ -144,20 +172,47 @@ LATIN="U+0000-00FF,U+0100-017F,U+2000-206F,U+2190-21FF"   # łacinka + PL + ō +
 pyftsubset go nie zawiera i cecha wypadłaby z pliku.
 
 Po dołożeniu nowego kanji na stronie trzeba **przegenerować subset i dopisać codepoint**
-do `unicode-range` w `@font-face` w `css/styles.css` — inaczej znak nie wyświetli się pędzlem.
+do `unicode-range` w `@font-face` w `css/01-fonts.css` — inaczej znak nie wyświetli się pędzlem.
 
-## Dane na stronie (źródło prawdy)
+## Favicon
 
-| Dzień | Godzina | Grupa | Wiek |
-|---|---|---|---|
-| Wtorek | 18.00 — 19.00 | Dzieci młodsze | 8–10 lat |
-| Czwartek | 18.00 — 19.00 | Dzieci starsze | 11–14 lat |
-| Wtorek i Czwartek | 19.05 — 20.45 | Dorośli | od 15 lat |
+`assets/favicon.svg` to znak 気 („ki") w kroju Yuji Boku — limonka `#E1E000` na grafitowej
+zieleni `#0F1A09`, ten sam znak co przy nazwie dojo w topbarze.
 
-Dojo: SP nr 1 im. Józefa Piłsudskiego, ul. Topolowa 10, 05-800 Pruszków.
+Glif jest wpisany jako **obrys** (`<path>`), nie jako tekst: favicon renderuje się poza stroną,
+więc nie ma dostępu do jej fontów, a `<text>` trafiłby na przypadkowy systemowy font CJK.
+Odtworzenie po podmianie fontu — obrys trzeba wtedy wyciągnąć od nowa:
 
-**Cennik** — Dzieci: 200 PLN/msc · 570 PLN/kwartał (190 PLN/msc).
-Młodzież i dorośli: 260 PLN/msc · 750 PLN/kwartał (250 PLN/msc).
-Pierwszy trening bezpłatny.
+```bash
+python3 -m venv /tmp/fontenv && /tmp/fontenv/bin/pip install fonttools brotli
+/tmp/fontenv/bin/python - <<'PY'
+from fontTools.ttLib import TTFont
+from fontTools.pens.svgPathPen import SVGPathPen
+f = TTFont("assets/fonts/yuji-boku-kanji.woff2")
+name = f.getBestCmap()[0x6C17]          # 気
+pen = SVGPathPen(f.getGlyphSet()); f.getGlyphSet()[name].draw(pen)
+g = f["glyf"][name]
+cx, cy = (g.xMin + g.xMax) / 2, (g.yMin + g.yMax) / 2
+s = round(780 / max(g.xMax - g.xMin, g.yMax - g.yMin), 4)   # 780/1000 = margines 11%
+print(f'transform="translate(500 500) scale({s} -{s}) translate({-cx} {-cy})"')
+print(pen.getCommands())
+PY
+```
 
-Kontakt: tel. 530 145 350 · rafal.jaroszewski@aikido.pruszkow.pl · facebook.com/aikidowpruszkowie
+`scale(s, -s)` odwraca oś Y — w foncie rośnie w górę, w SVG w dół.
+
+## Dane na stronie
+
+**Źródłem prawdy jest `index.html`, nie ten plik.** Grafik, cennik, adres i kontakt
+edytuje się wyłącznie w markupie:
+
+| dane | gdzie |
+|---|---|
+| grafik treningów | `<table class="sched">` w sekcji `#grafik` |
+| cennik | `<table class="fees">` w sekcji `#cennik` |
+| adres dojo | nagłówek sekcji `#dojo` |
+| telefon, e-mail, Facebook | `<ul class="contact-links">` w sekcji `#kontakt` |
+
+Wcześniej te same dane leżały też tutaj i obie kopie zdążyły się rozjechać
+(README podawał „Dorośli od 15 lat" i przelicznik kwartalny, których na stronie nie ma).
+Jedno źródło = zero synchronizacji.
