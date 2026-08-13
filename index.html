@@ -8,8 +8,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Barlow+Condensed:wght@600&family=Barlow:wght@400;500&family=Yuji+Boku&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Barlow:wght@400;500&family=Cormorant+Garamond:wght@500;600&family=Oswald:wght@700&family=Yuji+Boku&display=swap" rel="stylesheet" />
 
+<link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
 <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="palette-dark display-oswald hero-stacked divider-linia">
@@ -34,52 +35,47 @@
 <main>
 
 <!-- HERO -->
-<section class="hero wrap" data-screen-label="01 Hero">
-  <!-- svg filters: hanko sumi-bleed + enso brush roughness -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <filter id="hanko-rough" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
-      <feDisplacementMap in="SourceGraphic" scale="3"/>
-    </filter>
-    <filter id="enso-rough" x="-15%" y="-15%" width="130%" height="130%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4"/>
-      <feDisplacementMap in="SourceGraphic" scale="6"/>
-    </filter>
-  </svg>
+<section class="hero" id="hero" data-screen-label="01 Hero">
+  <!-- ensō: warstwa główna rysowana maską stożkową + 3 rozmyte kopie (układ z plakatu).
+       Poza .hero-stage, żeby .hero-fade wtapiało koło w tło, ale nie przygaszało tekstu. -->
+  <div class="enso" aria-hidden="true">
+    <img class="enso-ghost enso-ghost--3" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
+    <img class="enso-ghost enso-ghost--2" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
+    <img class="enso-ghost enso-ghost--1" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
+    <img class="enso-stroke" src="assets/enso.webp" alt="" width="1500" height="1500" fetchpriority="high" />
+  </div>
 
-  <div class="hero-frame">
+  <div class="hero-fade" aria-hidden="true"></div>
+
+  <div class="hero-stage">
     <div class="hero-eyebrow">
       <span class="line"></span>
       <span class="mono">SEZON 2026 — 2027</span>
       <span class="line"></span>
     </div>
 
-    <div class="enso-kakejiku">
-      <svg class="enso" viewBox="0 0 400 400" aria-hidden="true">
-        <path class="enso-shadow" pathLength="100" filter="url(#enso-rough)" d="M 298.4 83.1 A 150 150 0 1 1 127 68.1"/>
-        <path class="enso-main" pathLength="100" filter="url(#enso-rough)" d="M 272.5 74.4 A 145 145 0 1 1 150.4 63.7"/>
-      </svg>
-      <div class="kakejiku" aria-label="Aikido">
-        <span class="kchar" data-kanji-tip="ai — harmonia">合</span>
-        <span class="kchar" data-kanji-tip="ki — energia">気</span>
-        <span class="kchar" data-kanji-tip="dō — droga">道</span>
-      </div>
-      <div class="hanko" aria-hidden="true" data-kanji-tip="bu — wojownik">武</div>
+    <div class="kakejiku" role="img" lang="ja" aria-label="合気道 — aikido">
+      <span class="kchar" data-kanji-tip="ai — harmonia">合</span>
+      <span class="kchar" data-kanji-tip="ki — energia">気</span>
+      <span class="kchar kchar--accent" data-kanji-tip="dō — droga">道</span>
     </div>
 
     <div class="hero-subtitle">
       <h1>
         <span class="title-aikido">Aikido</span>
-        <span class="title-place">
-          <span class="line"></span>
-          <span class="place-name">Pruszków</span>
-          <span class="line"></span>
-        </span>
+        <span class="place-name">Pruszków</span>
       </h1>
       <p><span class="pron">AI &middot; KI &middot; DŌ</span><span class="sep"> &nbsp; — &nbsp; </span><span class="mean">harmonia &middot; energia &middot; droga</span></p>
     </div>
-  </div>
 
+    <div class="hero-cta">
+      <p class="hero-cta-lead">Ruszyły zapisy na&nbsp;nowy sezon</p>
+      <a class="btn-primary" href="#kontakt">Zapisz się</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" data-screen-label="01b Plan treningów">
   <div class="schedule-poster">
     <header class="sp-head">
       <div>
