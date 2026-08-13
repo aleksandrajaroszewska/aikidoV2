@@ -28,17 +28,20 @@ python3 -m http.server 3000   # then open http://localhost:3000
 
 Three files do everything:
 
-- `index.html` (~440 lines) — all markup, sections anchored by id (`#grupy`, `#instruktorzy`, `#cennik`, `#dojo`, `#klub`, `#kontakt`).
-- `css/styles.css` (~1100 lines) — design tokens in `:root`, then layout/components/media queries in one file.
+- `index.html` (~450 lines) — all markup, sections anchored by id (`#grupy`, `#instruktorzy`, `#cennik`, `#dojo`, `#klub`, `#kontakt`).
+- `css/styles.css` (~1310 lines) — `@font-face` block, design tokens in `:root`, then layout/components/media queries in one file.
 - `js/script.js` — only two behaviors: group tabs (`.group-tab`/`.group-panel` with `data-tab`/`data-panel`) and scroll-reveal (`.reveal` + IntersectionObserver adds `.in`).
 
 ## Conventions (from README — don't change without reason)
 
-- The `<body>` classes `palette-dark display-cormorant hero-stacked divider-linia` are theme switches that control the whole look.
-- Colors only via CSS variables (`--paper`, `--ink`, `--vermilion`, …, defined in oklch). `:root` holds the light "Kinari" palette; `body.palette-dark` overrides it with the dark "Yoru" palette. Never delete the `:root` block.
+- The `<body>` classes `palette-dark display-oswald hero-stacked divider-linia` are theme switches that control the whole look.
+- Colors only via CSS variables (`--paper`, `--ink`, `--vermilion`, …, defined in `css/styles.css`). `:root` holds the light palette; `body.palette-dark` overrides it with the dark "limonka na grafitowej zieleni" (19a) palette — Pantone 3945 C lime on graphite green. Never delete the `:root` block.
 - Kanji tooltips: `data-kanji-tip="translation"` attribute on elements containing kanji.
 - In Polish text, put `&nbsp;` after short one-letter words (e.g. `w&nbsp;Pruszkowie`) to avoid orphans at line ends.
-- Fonts come from Google Fonts CDN in `<head>`.
+- Fonts are **self-hosted** woff2 in `assets/fonts/` (no Google Fonts CDN, no external origins). Three are preloaded in `<head>`. Regenerating a subset: see README "Fonty".
+- Text sizes come **only** from the scale tokens `--fs-100`…`--fs-600` / `--fs-display-*`. Floor is `--fs-100` (14px), base `--fs-400` (19px). Hardcoded px is allowed only for decorative glyphs (hero kanji, price amounts).
+- Never size text in `vh` — it ignores browser zoom (WCAG 2.2 SC 1.4.4). The one exception is `.kakejiku`, the decorative hero kanji.
+- The schedule is a real `<table>` with `scope="col"` headers, two columns only. Two columns fit down to 360px, so there is no stacked mobile reflow — don't reintroduce one.
 
 ## Content source of truth
 

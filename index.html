@@ -6,27 +6,28 @@
 <title>Aikido Pruszków — Warszawskie Centrum Aikido</title>
 <meta name="description" content="Aikido dojo Pruszków — treningi aikido dla dzieci, młodzieży i dorosłych. SP nr 1 w Pruszkowie, ul. Topolowa 10. Sezon 2026/2027." />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Yuji+Boku&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<!-- Fonty self-hostowane (assets/fonts/) — zero zewnętrznych originów na ścieżce
+     krytycznej. Preloadujemy tylko te trzy, których używa pierwszy ekran. -->
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/yuji-boku-kanji.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-700.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/barlow-condensed-500.woff2" crossorigin />
 
+<link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
 <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="palette-dark display-cormorant hero-stacked divider-linia">
+<body class="palette-dark display-oswald hero-stacked divider-linia">
 
 <header class="topbar" id="top">
   <div class="topbar-inner">
     <div class="brand">
-      <span class="kanji" data-kanji-tip="ai — harmonia">合</span>
       <span class="name">Aikido Pruszków</span>
-      <span class="loc">— WCA / sekcja Pruszków</span>
     </div>
-    <nav class="nav">
-      <a href="#grupy">Grupy</a>
-      <a href="#instruktorzy">Instruktorzy</a>
+    <nav class="nav" aria-label="Sekcje strony">
+      <a href="#droga">Droga</a>
+      <a href="#grafik">Grafik</a>
+      <a href="#instruktor">Instruktor</a>
       <a href="#cennik">Cennik</a>
       <a href="#dojo">Dojo</a>
-      <a href="#klub">Klub</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
   </div>
@@ -34,413 +35,261 @@
 
 <main>
 
-<!-- HERO -->
-<section class="hero wrap" data-screen-label="01 Hero">
-  <!-- svg filter for hanko sumi-bleed -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <filter id="hanko-rough" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
-      <feDisplacementMap in="SourceGraphic" scale="3"/>
-    </filter>
-  </svg>
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="hero" data-screen-label="00 Hero">
+  <!-- ensō: warstwa główna rysowana maską stożkową + 3 rozmyte kopie (układ z plakatu).
+       Poza .hero-stage, żeby .hero-fade wtapiało koło w tło, ale nie przygaszało tekstu. -->
+  <div class="enso" aria-hidden="true">
+    <img class="enso-ghost enso-ghost--3" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
+    <img class="enso-ghost enso-ghost--2" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
+    <img class="enso-ghost enso-ghost--1" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
+    <img class="enso-stroke" src="assets/enso.webp" alt="" width="1500" height="1500" fetchpriority="high" />
+  </div>
 
-  <div class="hero-frame">
+  <div class="hero-fade" aria-hidden="true"></div>
+
+  <div class="hero-stage">
     <div class="hero-eyebrow">
       <span class="line"></span>
-      <span class="mono"><span class="cjk" data-kanji-tip="Reiwa 8 — rok japoński">令和八年</span> &nbsp; SEZON 2026 — 2027 &nbsp; <span class="cjk" data-kanji-tip="budō — droga wojownika">武道</span></span>
+      <span class="mono">SEZON 2026 — 2027</span>
       <span class="line"></span>
     </div>
 
-    <div class="kakejiku" aria-label="Aikido">
+    <div class="kakejiku" role="img" lang="ja" aria-label="合気道 — aikido">
       <span class="kchar" data-kanji-tip="ai — harmonia">合</span>
       <span class="kchar" data-kanji-tip="ki — energia">気</span>
-      <span class="kchar shu" data-kanji-tip="dō — droga">道</span>
-      <div class="hanko" aria-hidden="true" data-kanji-tip="bu — wojownik">武</div>
+      <span class="kchar kchar--accent" data-kanji-tip="dō — droga">道</span>
     </div>
 
     <div class="hero-subtitle">
-      <h1>Aikido <span class="place-name">Pruszków</span></h1>
+      <h1>
+        <span class="title-aikido">Aikido</span>
+        <span class="place-name">Pruszków</span>
+      </h1>
       <p><span class="pron">AI &middot; KI &middot; DŌ</span><span class="sep"> &nbsp; — &nbsp; </span><span class="mean">harmonia &middot; energia &middot; droga</span></p>
     </div>
-  </div>
 
-  <div class="schedule-poster">
-    <header class="sp-head">
-      <div>
-        <h2><span class="kanji" data-kanji-tip="keiko — trening, praktyka">稽古</span><span class="title-pl">Plan treningów</span></h2>
-        <p class="sp-sub">Trzy grupy wiekowe — wspólne dojo. Pierwszy trening bezpłatny.</p>
-      </div>
-      <div class="days">
-        <span class="days-cjk" data-kanji-tip="san — trzy">三</span>
-        <span class="days-pl">trzy grupy treningowe</span>
-      </div>
-    </header>
-
-    <ol class="sp-rows">
-      <li class="sp-row" data-days="single">
-        <span class="sp-day">Wtorek</span>
-        <span class="time">18.10 — 19.10</span>
-        <div class="group">
-          <span class="gk" data-kanji-tip="kodomo — dziecko">子</span>
-          <div class="gn">
-            <span class="name">Dzieci młodsze</span>
-            <span class="romaji">Kodomo</span>
-          </div>
-        </div>
-        <span class="age">8 — 10 lat</span>
-      </li>
-      <li class="sp-row" data-days="single">
-        <span class="sp-day">Czwartek</span>
-        <span class="time">18.10 — 19.10</span>
-        <div class="group">
-          <span class="gk" data-kanji-tip="shōnen — młodzież">少</span>
-          <div class="gn">
-            <span class="name">Dzieci starsze</span>
-            <span class="romaji">Shōnen</span>
-          </div>
-        </div>
-        <span class="age">11 — 14 lat</span>
-      </li>
-      <li class="sp-row" data-days="multi">
-        <span class="sp-day">Wtorek <span class="amp">i</span> Czwartek</span>
-        <span class="time">19.15 — 21.00</span>
-        <div class="group">
-          <span class="gk" data-kanji-tip="otona — dorosły">大</span>
-          <div class="gn">
-            <span class="name">Dorośli</span>
-            <span class="romaji">Otona</span>
-          </div>
-        </div>
-        <span class="age">od 15 lat</span>
-      </li>
-    </ol>
-
-    <div class="sp-foot">
-      <span class="addr">SP nr 1 · ul. Topolowa 10 · 05-800 Pruszków</span>
-      <a href="#kontakt" class="free">Pierwszy trening — bezpłatny</a>
+    <div class="hero-cta">
+      <p class="hero-cta-lead">Ruszyły zapisy na&nbsp;nowy sezon</p>
+      <a class="btn-primary" href="#kontakt">Zapisz się</a>
     </div>
   </div>
 </section>
 
-<!-- season band -->
-<div class="season-band" aria-hidden="true">
-  <div class="marquee">
-    <span class="cjk">合気道</span><span class="dot"></span>
-    <span>Aikido Pruszków</span><span class="dot"></span>
-    <span class="cjk">武道</span><span class="dot"></span>
-    <span>Sezon 2026 / 2027</span><span class="dot"></span>
-    <span class="cjk">心技体</span><span class="dot"></span>
-    <span>Pierwszy trening bezpłatny</span><span class="dot"></span>
-    <span class="cjk">合気道</span><span class="dot"></span>
-    <span>Aikido Pruszków</span><span class="dot"></span>
-    <span class="cjk">武道</span><span class="dot"></span>
-    <span>Sezon 2026 / 2027</span><span class="dot"></span>
-    <span class="cjk">心技体</span><span class="dot"></span>
-    <span>Pierwszy trening bezpłatny</span><span class="dot"></span>
-  </div>
-</div>
+<!-- ═══════════ 01 — DROGA ═══════════ -->
+<section class="bloc wrap" id="droga" data-screen-label="01 Droga">
+  <header class="sec-head reveal">
+    <p class="eyebrow">01 — Droga</p>
+    <h2 class="sec-title sec-title--statement">Aikido</h2>
+    <p class="sec-lead">Aikido to japońska sztuka walki, która polega na&nbsp;zapobieganiu i&nbsp;przeciwdziałaniu atakom przeciwnika przy użyciu jego siły i&nbsp;energii.</p>
+  </header>
 
-<!-- GROUPS -->
-<section class="bloc wrap" id="grupy" data-screen-label="02 Grupy">
-  <div class="bloc-head reveal">
-    <div>
-      <div class="section-tag"><span class="num" data-kanji-tip="ichi — jeden">一</span> <span class="kanji" data-kanji-tip="shugyō — praktyka, doskonalenie">修行</span> <span>Grupy treningowe — 01</span></div>
-      <h2 class="display-l" style="margin-top:18px;">Trzy grupy<br/>jedna droga.</h2>
-    </div>
-    <div class="intro">
-      <p>Trenujemy w trzech grupach wiekowych. Każda zaczyna od podstaw — uki, ukemi, pierwsze techniki — i prowadzi w&nbsp;swoim tempie. Wybierz grupę, aby&nbsp;poznać szczegóły.</p>
-    </div>
-  </div>
-
-  <div class="groups-rail reveal">
-    <div class="groups-tabs" role="tablist" aria-label="Grupy treningowe">
-      <button class="group-tab active" data-tab="kids-young" role="tab" aria-selected="true">
-        <span class="gk" data-kanji-tip="kodomo — dziecko">子</span>
-        <span class="gmeta"><span class="gname">Dzieci młodsze</span><span class="gage">8 — 10 lat</span></span>
-      </button>
-      <button class="group-tab" data-tab="kids-old" role="tab" aria-selected="false">
-        <span class="gk" data-kanji-tip="shōnen — młodzież">少</span>
-        <span class="gmeta"><span class="gname">Dzieci starsze</span><span class="gage">11 — 14 lat</span></span>
-      </button>
-      <button class="group-tab" data-tab="adults" role="tab" aria-selected="false">
-        <span class="gk" data-kanji-tip="otona — dorosły">大</span>
-        <span class="gmeta"><span class="gname">Dorośli</span><span class="gage">od 15 lat</span></span>
-      </button>
-    </div>
-
-    <div class="group-panels">
-      <article class="group-panel active" data-panel="kids-young" role="tabpanel">
-        <figure class="gp-media">
-          <img src="assets/kids.webp" alt="Trening dzieci młodszych" loading="lazy" />
-          <span class="stamp">子 · KODOMO</span>
-        </figure>
-        <div class="gp-body">
-          <h3>Dzieci młodsze</h3>
-          <div class="gp-age">18.10 — 19.10 · wtorek</div>
-          <p>Treningi tej grupy to przede wszystkim zabawy ruchowe przeplecione ćwiczeniami ogólnorozwojowymi oraz podstawowymi elementami aikido. Staramy się, aby zajęcia kojarzyły się dziecku z&nbsp;przyjemnie spędzonym czasem, a&nbsp;zarazem podnosiły jego ogólną sprawność fizyczną.</p>
-          <p>Dzieci poznają podstawowe zasady obowiązujące w&nbsp;sztukach walki, liczą po&nbsp;japońsku, zaprzyjaźniają się z&nbsp;innymi dziećmi, uczą się dyscypliny i&nbsp;wytrwałości. Poprawiają koordynację ruchową, budują pewność siebie, przełamują strach przed&nbsp;starszymi.</p>
-        </div>
-      </article>
-
-      <article class="group-panel" data-panel="kids-old" role="tabpanel">
-        <figure class="gp-media">
-          <img src="assets/youth.webp" alt="Trening dzieci starszych" loading="lazy" />
-          <span class="stamp">少 · SHŌNEN</span>
-        </figure>
-        <div class="gp-body">
-          <h3>Dzieci starsze</h3>
-          <div class="gp-age">18.10 — 19.10 · czwartek</div>
-          <p>W grupie dzieci starszych znaczącą część treningu wciąż stanowią ćwiczenia poprawiające ogólną sprawność fizyczną. Zajęcia są uzupełnione większą ilością technik aikido oraz wybranymi elementami samoobrony.</p>
-          <p>Treningi są bardziej wymagające i&nbsp;zróżnicowane. Dzieci mają okazję poznać podstawowe ćwiczenia z&nbsp;„jo" (drewniana broń). Uczestnicy mogą brać udział w&nbsp;klubowych obozach aikido pod okiem doświadczonej kadry.</p>
-        </div>
-      </article>
-
-      <article class="group-panel" data-panel="adults" role="tabpanel">
-        <figure class="gp-media">
-          <img src="assets/adults.webp" alt="Trening dorosłych" loading="lazy" />
-          <span class="stamp">大 · OTONA</span>
-        </figure>
-        <div class="gp-body">
-          <h3>Dorośli</h3>
-          <div class="gp-age">19.15 — 21.00 · wtorek &amp; czwartek</div>
-          <p>Grupa dorosłych to przede wszystkim rozwój umiejętności technicznych — wykorzystanie dźwigni, rzutów i&nbsp;uderzeń do&nbsp;odparcia ataku. Trening pozwala nie tylko poprawić sprawność, ale również oderwać się od&nbsp;rutyny dnia codziennego, obniżyć poziom stresu, rozwinąć inteligencję ruchową i&nbsp;poprawić świadomość własnego ciała.</p>
-          <p>Aikido cieszy się dużą popularnością wśród kobiet i&nbsp;mężczyzn niezależnie od wieku, siły, sprawności czy postury. Nie ma rywalizacji, każdy nosi białe kimono, panuje przyjazna atmosfera, zaawansowani pomagają początkującym.</p>
-          <p><strong>Przyjdź, spróbuj i&nbsp;sam się przekonaj. Pierwszy trening jest bezpłatny.</strong></p>
-        </div>
-      </article>
-    </div>
+  <div class="cols">
+    <article class="col reveal">
+      <h3>Dorośli</h3>
+      <p>Grupa dorosłych to przede wszystkim rozwój umiejętności technicznych, polegających na&nbsp;wykorzystaniu różnych dźwigni, rzutów i&nbsp;uderzeń do&nbsp;odparcia ataku przeciwnika.</p>
+      <p>Trening dorosłych pozwala nie tylko poprawić sprawność, ale również oderwać się od&nbsp;rutyny dnia codziennego, odpocząć psychicznie, obniżyć poziom stresu, rozwinąć inteligencję ruchową i&nbsp;poprawić świadomość własnego ciała.</p>
+    </article>
+    <article class="col reveal">
+      <h3>Dla każdego</h3>
+      <p>Aikido cieszy się popularnością wśród kobiet i&nbsp;mężczyzn niezależnie od&nbsp;wieku, siły, sprawności czy postury. Nie ma rywalizacji, każdy nosi białe kimono, zaawansowani pomagają początkującym, każdy ma własny treningowy cel.</p>
+      <p>Elementy aikido są często wykorzystywane na&nbsp;kursach samoobrony, lecz aikido to nie tylko samoobrona — okazuje się użyteczne na&nbsp;wielu płaszczyznach życia codziennego. Jest chętnie wybierane przez osoby stawiające sobie wymagające cele.</p>
+    </article>
   </div>
 </section>
 
-<!-- INSTRUCTORS -->
-<section class="bloc wrap" id="instruktorzy" data-screen-label="03 Instruktorzy">
-  <div class="bloc-head reveal">
-    <div>
-      <div class="section-tag"><span class="num" data-kanji-tip="ni — dwa">二</span> <span class="kanji" data-kanji-tip="sensei — nauczyciel">先生</span> <span>Instruktorzy — 02</span></div>
-      <h2 class="display-l" style="margin-top:18px;">Sensei.</h2>
+<!-- ═══════════ 02 — GRUPY I GRAFIK ═══════════ -->
+<section class="bloc bloc--flush-top" id="grafik" data-screen-label="02 Grafik">
+  <!-- Kadr przesunięty ku górze (object-position: 50% 20%) — centralny ucina głowy. -->
+  <header class="photo-band photo-band--head reveal">
+    <img src="assets/foto-rzut.webp" alt="Rzut na treningu aikido w Pruszkowie" width="1110" height="741" loading="lazy" />
+    <div class="photo-band-scrim" aria-hidden="true"></div>
+    <div class="photo-band-caption wrap">
+      <p class="eyebrow eyebrow--bright">02 — Grupy i&nbsp;grafik</p>
+      <h2 class="sec-title sec-title--statement">Wtorki i&nbsp;czwartki</h2>
     </div>
-    <div class="intro">
-      <p>Wszyscy nasi instruktorzy posiadają uprawnienia do&nbsp;prowadzenia zajęć rekreacji ruchowej o&nbsp;specjalności aikido oraz przeszkolenie z&nbsp;pierwszej pomocy. Stopnie mistrzowskie zdawane były u&nbsp;Etienne Leman Shihan (7 dan).</p>
-    </div>
-  </div>
+  </header>
 
-  <div class="instructor-main reveal">
-    <figure class="instr-portrait">
-      <img src="assets/rafal.webp" alt="Rafał Jaroszewski 5 dan" loading="lazy" />
-      <span class="rank-kanji" data-kanji-tip="go dan — 5 dan">五</span>
+  <div class="wrap bloc-body">
+    <table class="sched">
+      <caption class="sr-only">Grafik treningów aikido w&nbsp;Pruszkowie — grupa, dzień tygodnia i&nbsp;godzina.</caption>
+      <thead class="sr-only">
+        <tr>
+          <th scope="col">Grupa</th>
+          <th scope="col">Godzina</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="reveal">
+          <td>
+            <div class="sched-group">
+              <span class="sched-name">Dzieci młodsze</span>
+              <span class="sched-meta">8 — 10 lat · wtorki · 60 minut</span>
+            </div>
+          </td>
+          <td class="sched-time"><time datetime="18:00">18:00</time> — <time datetime="19:00">19:00</time></td>
+        </tr>
+        <tr class="reveal">
+          <td>
+            <div class="sched-group">
+              <span class="sched-name">Dzieci starsze</span>
+              <span class="sched-meta">11 — 14 lat · czwartki · 60 minut</span>
+            </div>
+          </td>
+          <td class="sched-time"><time datetime="18:00">18:00</time> — <time datetime="19:00">19:00</time></td>
+        </tr>
+        <tr class="reveal">
+          <td>
+            <div class="sched-group">
+              <span class="sched-name">Dorośli</span>
+              <span class="sched-meta">wtorki i&nbsp;czwartki · 100 minut</span>
+            </div>
+          </td>
+          <td class="sched-time"><time datetime="19:05">19:05</time> — <time datetime="20:45">20:45</time></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cols">
+      <article class="col reveal">
+        <h3>Dzieci · 8 — 10 lat</h3>
+        <p>Treningi tej grupy to przede wszystkim zabawy ruchowe przeplecione ćwiczeniami ogólnorozwojowymi oraz podstawowymi elementami aikido.</p>
+        <p>Instruktorzy starają się, by zajęcia ruchowe kojarzyły się dziecku z&nbsp;przyjemnie spędzonym czasem, a&nbsp;zarazem podniosły jego ogólną sprawność fizyczną.</p>
+        <p>Dzieci poznają podstawowe zasady obowiązujące w&nbsp;sztukach walki, liczą po&nbsp;japońsku, uczą się dyscypliny, wytrwałości w&nbsp;dążeniu do&nbsp;celu, pracy w&nbsp;parach i&nbsp;w&nbsp;grupie. Poprawiają koordynację ruchową, budują pewność siebie.</p>
+      </article>
+      <article class="col reveal">
+        <h3>Młodzież · 11 — 14 lat</h3>
+        <p>Znaczącą część treningu stanowią ćwiczenia poprawiające ogólną sprawność fizyczną, uzupełnione większą ilością technik aikido oraz wybranymi elementami samoobrony.</p>
+        <p>Treningi są bardziej wymagające i&nbsp;zróżnicowane. Dzieci poznają podstawowe ćwiczenia z&nbsp;wykorzystaniem „jo” — drewnianej broni — rozwijają szybkość, wytrzymałość i&nbsp;koordynację.</p>
+        <p>Uczą się osiągać cel własnym wysiłkiem i&nbsp;systematyczną pracą. Mogą brać udział w&nbsp;obozach aikido, gdzie trenują pod okiem doświadczonej kadry i&nbsp;nawiązują przyjaźnie.</p>
+      </article>
+    </div>
+
+    <p class="sec-note reveal">Zajęcia dwa razy w&nbsp;tygodniu, w&nbsp;roku szkolnym · pierwszy trening gratis · zapisy telefonicznie lub przed treningiem</p>
+  </div>
+</section>
+
+<!-- ═══════════ 03 — PROWADZĄCY ═══════════ -->
+<section class="bloc wrap" id="instruktor" data-screen-label="03 Prowadzący">
+  <header class="sec-head reveal">
+    <p class="eyebrow">03 — Prowadzący</p>
+    <h2 class="sec-title">Rafał Jaroszewski</h2>
+  </header>
+
+  <div class="split split--portrait">
+    <figure class="portrait reveal">
+      <img src="assets/foto-instruktor.webp" alt="Rafał Jaroszewski prowadzi trening aikido" width="1416" height="1888" loading="lazy" />
     </figure>
-    <div class="instr-body">
-      <div class="role">Shidōin · 1995 →</div>
-      <h3>Rafał Jaroszewski</h3>
-      <div class="dan">五段 &nbsp;/&nbsp; 5 DAN AIKIDO</div>
-      <p>Swoją drogę aikido rozpoczął w 1995 r. pod okiem instruktorów Ireneusza Kołodziejaka i&nbsp;Piotra Rafała w&nbsp;Bialskiej Sekcji Aikido. Na przestrzeni lat trenował w&nbsp;kilku warszawskich klubach pod okiem różnych nauczycieli.</p>
-      <p>Z klubem Warszawskie Centrum Aikido jest związany od początku jego powstania w&nbsp;2001 roku. Od 2004 jest instruktorem aikido. Do 2010 prowadził treningi w&nbsp;dojo na&nbsp;Pradze Południe, a&nbsp;następnie w&nbsp;Pruszkowie.</p>
-      <p class="pull">Ostatni egzamin na stopień mistrzowski 5 dan zdał w&nbsp;czerwcu 2024 r.</p>
-      <p>Regularnie uczestniczy w stażach prowadzonych przez nauczycieli szkoły Aikido Kobayashi i&nbsp;innych linii. Od wielu lat bierze udział w obozach prowadzonych przez Etienne Leman Shihan oraz w&nbsp;klubowych szkoleniach instruktorskich.</p>
-      <span class="lic">Instruktor rekreacji ruchowej — samoobrona · leg. nr 14932/2005</span>
-    </div>
-  </div>
 
-  <div class="instructor-main flip reveal">
-    <figure class="instr-portrait">
-      <img src="assets/adam.webp" alt="Adam Marcinowski 3 dan" loading="lazy" />
-      <span class="rank-kanji" data-kanji-tip="san dan — 3 dan">三</span>
-    </figure>
-    <div class="instr-body">
-      <div class="role">Sensei · 2012 →</div>
-      <h3>Adam Marcinowski</h3>
-      <div class="dan">三段 &nbsp;/&nbsp; 3 DAN AIKIDO</div>
-      <p>Przygodę z aikido rozpoczął w&nbsp;1992 r. w&nbsp;Grudziądzu, gdzie przez wiele lat trenował pod okiem lokalnych instruktorów.</p>
-      <p>W 2012 roku dołączył do&nbsp;sekcji pruszkowskiej Warszawskiego Centrum Aikido. Od tego czasu regularnie trenuje i&nbsp;wspiera w&nbsp;rozwoju grupę dorosłych.</p>
-      <p class="pull">Egzaminy 1, 2 i&nbsp;3 dan zdał u&nbsp;Etienne Leman Shihan.</p>
-      <p>Regularnie uczestniczy w&nbsp;klubowych stażach treningowych oraz w&nbsp;corocznych obozach letnich prowadzonych przez nauczycieli linii Kobayashi.</p>
-      <span class="lic">leg. nr 02/ATIS/IR-S/2019</span>
+    <div class="bio reveal">
+      <p>Swoją drogę aikido rozpoczął w&nbsp;1995 roku pod okiem instruktorów Ireneusza Kołodziejaka i&nbsp;Piotra Rafała w&nbsp;Bialskiej Sekcji Aikido. Na przestrzeni lat trenował w&nbsp;kilku warszawskich klubach aikido pod okiem różnych nauczycieli.</p>
+      <p>Z Warszawskim Centrum Aikido jest związany od&nbsp;początku powstania klubu w&nbsp;2001 roku, a&nbsp;od&nbsp;2004 roku jest instruktorem aikido. Do&nbsp;2010 roku prowadził treningi w&nbsp;dojo na&nbsp;Pradze Południe, następnie w&nbsp;Pruszkowie.</p>
+      <p>Egzamin na stopień mistrzowski 1&nbsp;dan zdał w&nbsp;2003 roku przed komisją Polskiej Unii Aikido — Jacek Wysocki Shihan, Ireneusz Kołodziejak Shihan, Wiesław Chmieliński Sensei, Marcin Velinov Sensei. Egzaminy na kolejne stopnie mistrzowskie zdawał przed mistrzem Etienne Leman Shihan.</p>
+      <p>Regularnie uczestniczy w&nbsp;stażach prowadzonych przez nauczycieli szkoły Aikido Kobayashi i&nbsp;innych linii aikido, od&nbsp;lat bierze udział w&nbsp;obozach mistrza Etienne Leman oraz w&nbsp;klubowych szkoleniach instruktorskich.</p>
+
+      <dl class="facts">
+        <div class="fact">
+          <dt>W aikido od</dt>
+          <dd>1995</dd>
+        </div>
+        <div class="fact">
+          <dt>Stopień</dt>
+          <dd>5 dan — czerwiec 2024</dd>
+        </div>
+        <div class="fact">
+          <dt>Instruktor rekreacji ruchowej</dt>
+          <dd>Samoobrona, leg. 14932/2005</dd>
+        </div>
+      </dl>
     </div>
   </div>
 </section>
 
-<!-- PRICES -->
-<section class="bloc wrap" id="cennik" data-screen-label="04 Cennik">
-  <div class="bloc-head reveal">
-    <div>
-      <div class="section-tag"><span class="num" data-kanji-tip="san — trzy">三</span> <span class="kanji" data-kanji-tip="gessha — składka miesięczna">月謝</span> <span>Składki — 03</span></div>
-      <h2 class="display-l" style="margin-top:18px;">Cennik.</h2>
-    </div>
-    <div class="intro">
-      <p>Składka obejmuje treningi w&nbsp;Warszawskim Centrum Aikido w&nbsp;dowolnej z&nbsp;naszych lokalizacji. Pierwszy trening jest&nbsp;bezpłatny — przyjdź, zobacz, spróbuj.</p>
-    </div>
-  </div>
+<!-- ═══════════ 04 — OPŁATY ═══════════ -->
+<section class="bloc wrap" id="cennik" data-screen-label="04 Opłaty">
+  <header class="sec-head reveal">
+    <p class="eyebrow">04 — Opłaty</p>
+    <h2 class="sec-title">Składki miesięczne i&nbsp;kwartalne</h2>
+  </header>
 
-  <div class="prices-groups reveal">
-    <div class="prices-group">
-      <div class="pg-head"><span class="pg-kanji" data-kanji-tip="kodomo — dziecko">子</span><span class="pg-name">Dzieci</span><span class="pg-age">8 — 14 lat</span></div>
-      <div class="prices-grid">
-        <div class="price featured">
-          <span class="label">Składka miesięczna</span>
-          <span class="amount">200<span class="pln">PLN</span></span>
-          <span class="note">Bez limitu wejść, w&nbsp;dowolnej lokalizacji WCA.</span>
-        </div>
-        <div class="price">
-          <span class="label">Składka kwartalna</span>
-          <span class="amount">560<span class="pln">PLN</span></span>
-          <span class="note">3 miesiące · oszczędzasz 40&nbsp;PLN.</span>
-        </div>
-        <div class="price">
-          <span class="label">Sezon · 10 miesięcy</span>
-          <span class="amount">1 800<span class="pln">PLN</span></span>
-          <span class="note">Cały sezon treningowy · oszczędzasz 200&nbsp;PLN.</span>
-        </div>
-        <div class="price">
-          <span class="label">Składka rodzinna</span>
-          <span class="amount">180<span class="pln">PLN / os</span></span>
-          <span class="note">Za każde dziecko z&nbsp;rodziny trenującej razem · oszczędzasz 20&nbsp;PLN/msc.</span>
-        </div>
-      </div>
-    </div>
+  <table class="fees reveal">
+    <caption class="sr-only">Wysokość składek w&nbsp;podziale na&nbsp;grupę i&nbsp;okres rozliczeniowy.</caption>
+    <thead>
+      <tr>
+        <td></td>
+        <th scope="col">Miesięcznie</th>
+        <th scope="col">Kwartalnie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Dzieci</th>
+        <td class="fee"><span class="fee-value">200</span><span class="fee-unit">zł</span></td>
+        <td class="fee"><span class="fee-value">570</span><span class="fee-unit">zł</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Dorośli</th>
+        <td class="fee"><span class="fee-value">260</span><span class="fee-unit">zł</span></td>
+        <td class="fee"><span class="fee-value">750</span><span class="fee-unit">zł</span></td>
+      </tr>
+    </tbody>
+  </table>
 
-    <div class="prices-group">
-      <div class="pg-head"><span class="pg-kanji" data-kanji-tip="otona — dorosły">大</span><span class="pg-name">Młodzież &amp; dorośli</span><span class="pg-age">od 15 lat</span></div>
-      <div class="prices-grid">
-        <div class="price featured">
-          <span class="label">Składka miesięczna</span>
-          <span class="amount">260<span class="pln">PLN</span></span>
-          <span class="note">Bez limitu wejść, w&nbsp;dowolnej lokalizacji WCA.</span>
-        </div>
-        <div class="price">
-          <span class="label">Składka kwartalna</span>
-          <span class="amount">720<span class="pln">PLN</span></span>
-          <span class="note">3 miesiące · oszczędzasz 60&nbsp;PLN.</span>
-        </div>
-        <div class="price">
-          <span class="label">Sezon · 10 miesięcy</span>
-          <span class="amount">2 300<span class="pln">PLN</span></span>
-          <span class="note">Cały sezon treningowy · oszczędzasz 300&nbsp;PLN.</span>
-        </div>
-        <div class="price">
-          <span class="label">Składka rodzinna</span>
-          <span class="amount">240<span class="pln">PLN / os</span></span>
-          <span class="note">Za każdą osobę dorosłą z&nbsp;rodziny trenującej razem · oszczędzasz 20&nbsp;PLN/msc.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="prices-foot">
-    <span>* zniżki nie łączą się</span>
-    <a href="#kontakt" class="cta">Umów pierwszy trening →</a>
+  <div class="fees-foot reveal">
+    <p class="fees-foot-title">Pierwszy trening gratis</p>
+    <p>Przyjdź w&nbsp;wygodnym stroju sportowym. Zapisy telefonicznie lub przed treningiem.</p>
   </div>
 </section>
 
-<!-- LOCATION -->
+<!-- ═══════════ 05 — DOJO ═══════════ -->
 <section class="bloc wrap" id="dojo" data-screen-label="05 Dojo">
-  <div class="section-tag reveal" style="margin-bottom: clamp(28px, 3.5vw, 48px);"><span class="num" data-kanji-tip="shi — cztery">四</span> <span class="kanji" data-kanji-tip="basho — miejsce">場所</span> <span>Lokalizacja — 04</span></div>
+  <header class="sec-head reveal">
+    <p class="eyebrow">05 — Dojo</p>
+    <h2 class="sec-title">Szkoła Podstawowa nr&nbsp;1 im. Józefa Piłsudskiego, ul.&nbsp;Topolowa 10</h2>
+  </header>
 
-  <div class="loc-card reveal">
-    <div class="loc-card-main">
-      <span class="loc-eyebrow"><span class="cjk" data-kanji-tip="basho — miejsce">場所</span> Adres dojo</span>
-      <h3 class="loc-display">ul. Topolowa 10</h3>
-      <div class="loc-subline">
-        <span>Szkoła Podstawowa nr&nbsp;1 im. Józefa Piłsudskiego</span>
-        <span>05-800 Pruszków</span>
-      </div>
-    </div>
-    <div class="loc-card-actions">
-      <a class="loc-cta primary" href="https://maps.google.com/?q=Topolowa+10+Pruszków" target="_blank" rel="noopener">
-        <span>Otwórz w Mapach</span>
-        <span class="arrow">→</span>
-      </a>
-      <a class="loc-cta" href="tel:530145350">
-        <span>530 145 350</span>
-        <span class="arrow">☎</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="map-frame reveal">
-    <button class="map-load" type="button" aria-label="Otwórz interaktywną mapę Google">
-      <img src="assets/map.webp" alt="" width="1200" height="1000" loading="lazy" />
-      <span class="map-load-hint">kliknij — mapa interaktywna</span>
-      <span class="map-attrib">© OpenStreetMap</span>
-    </button>
-    <iframe
-      data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2131.5195102326297!2d20.81118907604675!3d52.1716722619611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471935972b4714dd%3A0x44d4b558509dcc4c!2sSzko%C5%82a%20Podstawowa%20nr%201%20im%20J%C3%B3zefa%20Pi%C5%82sudskiego!5e1!3m2!1spl!2spl!4v1746371138024!5m2!1spl!2spl"
-      title="Lokalizacja dojo"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"></iframe>
-    <div class="map-pinpoint">
-      <div class="map-pin-mark" data-kanji-tip="ai — harmonia">合</div>
-      <div class="map-pin-info">
-        <span class="pin-name">Aikido Pruszków</span>
-        <span class="pin-addr">SP nr 1 · Topolowa 10</span>
-      </div>
-    </div>
+  <div class="split reveal">
+    <p class="sec-lead">Aikido w&nbsp;Pruszkowie istnieje od&nbsp;2010 roku. Jesteśmy częścią Warszawskiego Centrum Aikido.</p>
+    <p>
+      <a class="btn-outline" href="https://maps.google.com/?q=Topolowa+10+Pruszk%C3%B3w" target="_blank" rel="noopener">Otwórz w&nbsp;Google Maps</a>
+    </p>
   </div>
 </section>
 
-<!-- KLUB / WCA -->
-<section class="bloc wrap" id="klub" data-screen-label="06 Klub">
-  <div class="bloc-head reveal">
-    <div>
-      <div class="section-tag"><span class="num" data-kanji-tip="go — pięć">五</span> <span class="kanji" data-kanji-tip="dōjō — miejsce praktyki drogi">道場</span> <span>Klub — 05</span></div>
-      <h2 class="display-s" style="margin-top:14px;font-weight:500;color:var(--ink-soft);">Warszawskie Centrum Aikido</h2>
-    </div>
-    <div class="intro">
-      <p>Sekcja w Pruszkowie jest jedną z&nbsp;kilku wchodzących w&nbsp;skład klubu WCA. Uczymy aikido linii Kobayashi — przywiązującej szczególną uwagę do&nbsp;pracy z bronią (jo, bokken, tanto).</p>
-    </div>
-  </div>
+<figure class="photo-band reveal">
+  <img src="assets/foto-dojo.webp" alt="Trening aikido z bronią na macie w sali w Pruszkowie" width="2000" height="1335" loading="lazy" />
+  <div class="photo-band-scrim" aria-hidden="true"></div>
+</figure>
 
-  <div class="klub reveal">
-    <div class="body">
-      <p>Klub powstał w listopadzie 2001 roku z&nbsp;inicjatywy Marcina Ziółkowskiego i&nbsp;Michała Kaźmierczaka.</p>
-      <p>WCA współpracuje z „Aikido du Rhône" w&nbsp;Lyonie, gdzie zajęcia prowadzi Sensei Etienne Leman (7 Dan) — jeden z&nbsp;bezpośrednich uczniów mistrza Hirokazu Kobayashi. Sensei Leman prowadzi w&nbsp;Polsce kilka razy w&nbsp;roku staże treningowe oraz corocznie letni obóz aikido dla&nbsp;dzieci i&nbsp;dorosłych.</p>
-      <p>Cechą przewodnią naszej sekcji jest&nbsp;nieustanny rozwój osób trenujących. Kilka razy w&nbsp;roku organizujemy staże dla&nbsp;zaawansowanych. Nasi instruktorzy bezustannie pogłębiają swoją wiedzę, posiadają uprawnienia do&nbsp;prowadzenia zajęć z&nbsp;dziećmi i&nbsp;dorosłymi oraz przeszkolenie z&nbsp;pierwszej pomocy medycznej.</p>
-      <a href="https://aikido.warszawa.pl/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--vermilion);border-bottom:1px solid var(--vermilion);padding-bottom:3px;">
-        aikido.warszawa.pl →
-      </a>
-    </div>
+<!-- ═══════════ 06 — KONTAKT I ZAPISY ═══════════ -->
+<section class="bloc bloc--flush-top wrap" id="kontakt" data-screen-label="06 Kontakt">
+  <div class="contact reveal">
+    <p class="eyebrow eyebrow--on-lime">06 — Kontakt i&nbsp;zapisy</p>
+    <h2 class="sec-title sec-title--statement">Pierwszy trening gratis</h2>
+
+    <ul class="contact-links">
+      <li><a class="contact-phone" href="tel:+48530145350">530 145 350</a></li>
+      <li><a href="https://www.facebook.com/aikidowpruszkowie/" target="_blank" rel="noopener">Facebook</a></li>
+      <li><a href="mailto:rafal.jaroszewski@aikido.pruszkow.pl">rafal.jaroszewski@aikido.pruszkow.pl</a></li>
+    </ul>
+
+    <p class="contact-note">Zapisy trwają przez cały rok. Wystarczy przyjść przed treningiem i&nbsp;zgłosić się do&nbsp;prowadzącego — na&nbsp;pierwsze zajęcia wystarczy wygodny strój sportowy i&nbsp;woda.</p>
   </div>
 </section>
 
 </main>
 
-<!-- FOOTER / CONTACT -->
-<footer class="foot" id="kontakt" data-screen-label="07 Kontakt">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="contact">
-        <div class="kanji-mark" data-kanji-tip="aikidō — droga harmonii energii">合気道</div>
-        <h3>Sekcja Pruszków</h3>
-        <p style="color:oklch(82% 0.03 80);">Rafał Jaroszewski · instruktor</p>
-        <a href="tel:530145350" class="phone">530 145 350</a>
-        <a href="mailto:rafal.jaroszewski@aikido.pruszkow.pl">rafal.jaroszewski@aikido.pruszkow.pl</a>
-        <div class="ig-line">
-          <a href="https://www.facebook.com/aikidowpruszkowie/" target="_blank" rel="noopener">
-            facebook.com/aikidowpruszkowie →
-          </a>
-        </div>
-      </div>
-
-      <div class="dojo-links">
-        <div class="col-title">Pozostałe sekcje WCA</div>
-        <ul>
-          <li><a href="https://aikido.warszawa.pl/dojo-warszawa-centrum-niecala.html" target="_blank" rel="noopener">Dojo Centrum</a></li>
-          <li><a href="https://aikido.warszawa.pl/dojo-kobylka.html" target="_blank" rel="noopener">Dojo Kobyłka</a></li>
-          <li><a href="https://aikido.warszawa.pl/dojo-warszawa-brodno-krasiczynska.html" target="_blank" rel="noopener">Dojo Bródno</a></li>
-          <li><a href="https://aikido.warszawa.pl/dojo-ozarow-mazowiecki.html" target="_blank" rel="noopener">Dojo Ożarów Mazowiecki</a></li>
-          <li><a href="https://aikido.warszawa.pl/dojo-milanowek.html" target="_blank" rel="noopener">Dojo Milanówek</a></li>
-          <li><a href="https://aikido.warszawa.pl/dojo-warszawa-wawer.html" target="_blank" rel="noopener">Dojo Wawer</a></li>
-        </ul>
-        <a href="https://aikido.warszawa.pl/" target="_blank" rel="noopener" style="display:inline-block;margin-top:20px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--vermilion);border-bottom:1px solid var(--vermilion);padding-bottom:2px;">aikido.warszawa.pl →</a>
-      </div>
-    </div>
-
-    <div class="foot-bottom">
-      <span>© Aikido Pruszków · WCA · 2010 — 2026</span>
-      <span>令和八年 · Sezon 2026 / 2027</span>
-    </div>
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <span class="foot-brand">
+      <span class="foot-kanji" lang="ja" data-kanji-tip="aikidō — droga harmonii">合気道</span>
+      Aikido Pruszków
+    </span>
+    <span>Dojo Pruszków · Rafał Jaroszewski · 530 145 350</span>
+    <span>Warszawskie Centrum Aikido — dojo Pruszków</span>
   </div>
 </footer>
 
-<!-- ─────────── Interactivity ─────────── -->
 <script src="js/script.js"></script>
 
 </body>
