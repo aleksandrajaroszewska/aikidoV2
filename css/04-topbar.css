@@ -1,16 +1,17 @@
 /* ─────────── 04 · topbar ───────────
    Sticky pasek z nazwą dojo i kotwicami sekcji.
-   Na wąskim ekranie nawigacja jest ukryta — sześć linków nie mieści się obok
-   nazwy poniżej ~760px, a strona jest jednostronicowa, więc scroll ją zastępuje. */
+   Sześć linków nie mieści się obok nazwy poniżej 760px, więc na wąskim ekranie
+   nawigacja zjeżdża do panelu rozwijanego przyciskiem — panel kotwiczy się o
+   .topbar (sticky tworzy blok zawierający) i wysuwa pod paskiem, na całą jego
+   szerokość. Od 760px przycisk znika, a .nav wraca do rzędu w pasku. */
 
 .topbar{
   position: sticky; top: 0; z-index: 50;
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
-  background: oklch(95.5% 0.018 82 / 0.78);
+  background: var(--glass);
   border-bottom: .5px solid var(--rule);
 }
-body.palette-dark .topbar{ background: rgba(15, 26, 9, .82); }
 
 .topbar-inner{
   max-width: var(--maxw); margin: 0 auto;
@@ -43,21 +44,92 @@ body.palette-dark .topbar{ background: rgba(15, 26, 9, .82); }
   letter-spacing: 0;
 }
 
-.nav{ display: none; gap: 22px; }
+/* ─── przycisk „menu" ───
+   Ukryty domyślnie, pokazywany dopiero pod html.js — tak jak `.reveal`. Bez JS-a
+   przycisk by nic nie robił, więc go nie ma, a nawigacja zostaje schowana jak
+   przed zmianą. Klasę .js ustawia jednolinijkowy skrypt w <head>.
+
+   Ujemny margines pionowy: cel dotykowy ma trzymać 44×44 (WCAG 2.2 SC 2.5.8),
+   ale nie może dyktować wysokości paska — --topbar-h (65px) jest wpisane na
+   sztywno w tokenach i liczy z niego wysokość hero oraz scroll-margin sekcji. */
+.nav-toggle{ display: none; }
+.js .nav-toggle{
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  margin-block: -6px;
+  margin-right: -10px;
+  background: none; border: 0; color: var(--ink);
+  cursor: pointer;
+}
+.nav-toggle:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 0; }
+
+/* Trzy kreski jednym elementem: środkowa to sam span, skrajne to ::before/::after.
+   Po otwarciu środkowa gaśnie, a skrajne składają się w ×. */
+.nav-toggle-icon{ position: relative; }
+.nav-toggle-icon,
+.nav-toggle-icon::before,
+.nav-toggle-icon::after{
+  content: ""; display: block;
+  width: 24px; height: 2px;
+  background: currentColor;
+  transition: transform .25s ease, background-color .2s ease;
+}
+.nav-toggle-icon::before{ position: absolute; top: -7px; }
+.nav-toggle-icon::after{ position: absolute; top: 7px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon{ background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon::before{ transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon::after{ transform: translateY(-7px) rotate(-45deg); }
+
+/* ─── panel nawigacji (baza = wąski ekran) ───
+   Tło KRYJĄCE, nie szkło jak w pasku. Pasek ma 64px i przykrywa wąski wycinek
+   strony, a panel ~660px: przy `--glass` (alfa .82 + blur 14px) hero prześwitywało
+   przez etykiety — „SEZON 2026 — 2027" czytało się w poprzek pozycji GRAFIK.
+   Kontrast etykiety musi być bezwarunkowy, a nie zależny od tego, co akurat
+   leży pod panelem. Z krycia wynika też, że backdrop-filter nie ma tu czego robić. */
+.nav{
+  display: none;
+  position: absolute; top: 100%; left: 0; right: 0;
+  flex-direction: column;
+  padding: 0 var(--gutter) 12px;
+  border-bottom: .5px solid var(--rule);
+  background: var(--paper);
+}
+.topbar.is-open .nav{ display: flex; }
+
 .nav a{
-  font-family: var(--font-label); font-weight: 600; font-size: var(--fs-200); letter-spacing: .16em;
+  display: flex; align-items: center;
+  min-height: 48px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-label); font-weight: 600; font-size: var(--fs-300); letter-spacing: .16em;
   text-transform: uppercase; color: var(--ink-soft);
-  position: relative; padding: 6px 0;
+  position: relative;
   transition: color .2s;
 }
-.nav a:hover{ color: var(--ink); }
-.nav a::after{
-  content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px;
-  background: var(--vermilion); transition: width .25s ease;
+.nav a:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: -2px; }
+
+/* Podkreślenie jedzie na hoverze, więc istnieje tylko tam, gdzie hover istnieje. */
+@media (hover: hover){
+  .nav a:hover{ color: var(--ink); }
+  .nav a::after{
+    content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px;
+    background: var(--vermilion); transition: width .25s ease;
+  }
+  .nav a:hover::after{ width: 100%; }
 }
-.nav a:hover::after{ width: 100%; }
-.nav a:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 4px; }
 
 @media (min-width: 760px){
-  .nav{ display: flex; }
+  .js .nav-toggle{ display: none; }
+  /* Oba selektory dostają to samo, więc otwarty panel „przeniesiony" resizem
+     z wąskiego ekranu wygląda identycznie jak zwykły pasek — niezależnie od
+     tego, czy JS zdążył zdjąć .is-open. */
+  .nav,
+  .topbar.is-open .nav{
+    display: flex; flex-direction: row; gap: 22px;
+    position: static; padding: 0; border-bottom: 0;
+    background: none;
+  }
+  .nav a{
+    min-height: 0; border-top: 0; padding: 6px 0;
+    font-size: var(--fs-200);
+  }
 }

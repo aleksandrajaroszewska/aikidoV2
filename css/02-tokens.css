@@ -7,8 +7,8 @@
      body.palette-dark — „limonka na grafitowej zieleni" (19a), Pantone 3945 C na #0F1A09.
                          To jest paleta aktywna, ustawiona klasą na <body> w index.html.
 
-   palette-dark ma poza tokenami dwa nadpisania czysto wizualne, przy swoich
-   komponentach: tekstura tła w 03-base.css i tło topbaru w 04-topbar.css. */
+   palette-dark ma poza tokenami jedno nadpisanie czysto wizualne, przy swoim
+   komponencie: tekstura tła w 03-base.css. */
 
 :root{
   --paper:        #F1F3EB;
@@ -24,6 +24,13 @@
   --vermilion-deep: #4E4B08;
   --on-lime:      #05190A; /* tekst na limonce — stały, niezależny od motywu */
   --lime:         #E1E000; /* Pantone 3945 C — limonka jako wypełnienie/akcent, stała, niezależna od motywu (paruj z --on-lime) */
+
+  /* Półprzezroczysta tafla sticky paska (04-topbar.css). Jako token, nie wartość
+     przy komponencie — inaczej paleta ciemna musi nadpisywać samo tło selektorem
+     `body.palette-dark .topbar`, a takie nadpisania biją specyficznością resety
+     pisane na gołej klasie. Panel nawigacji NIE używa tej wartości: przykrywa
+     zbyt duży kawałek strony, żeby mógł być przezroczysty — patrz 04-topbar.css. */
+  --glass: oklch(95.5% 0.018 82 / 0.78);
 
   /* --paper w kanałach RGB — do gradientów wtapiających w tło strony */
   --paper-rgb: 241 243 235;
@@ -81,5 +88,6 @@ body.palette-dark{
   --vermilion: #E1E000;   /* --lime · Pantone 3945 C */
   --vermilion-deep: #ACAB00; /* --lime-600, wyłącznie dekoracja/hover */
   --paper-rgb: 15 26 9;
+  --glass: rgba(15, 26, 9, .82);
   --hero-glow: #17220F;   /* --ink-glow z handoffu hero */
 }

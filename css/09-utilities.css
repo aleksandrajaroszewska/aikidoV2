@@ -1,4 +1,4 @@
-/* ─────────── 09 · przyciski, tooltipy, ruch ───────────
+/* ─────────── 09 · przyciski, linki w tekście, ruch ───────────
    Wczytywany JAKO OSTATNI. Blok prefers-reduced-motion na końcu pliku musi
    stać za wszystkim, co animuje — inaczej `.reveal` zostaje niewidoczne
    u osób z wyłączonymi animacjami. */
@@ -35,6 +35,23 @@
 }
 .btn-outline:hover{ color: var(--vermilion); border-color: var(--vermilion); }
 .btn-outline:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 3px; }
+
+/* ─── link w tekście ───
+   Reset w 03-base.css gasi wszystkim linkom kolor i podkreślenie (potrzebne przy
+   marce, nawigacji i kaflach), więc link w zdaniu musi je odzyskać — inaczej nic
+   go nie odróżnia od otaczającego tekstu (WCAG 2.2 SC 1.4.1). Podkreślenie niesie
+   informację „to jest link" samodzielnie, kolor tylko ją wzmacnia. */
+.link{
+  color: var(--vermilion);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+  transition: opacity .2s ease;
+}
+.link:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 3px; }
+@media (hover: hover){
+  .link:hover{ opacity: .68; }
+}
 
 /* ─── ujawnianie sekcji przy scrollu ───
    Stan początkowy chowa sekcję, a klasę `.in` dokłada IntersectionObserver
