@@ -6,9 +6,11 @@
 <title>Aikido Pruszków — Warszawskie Centrum Aikido</title>
 <meta name="description" content="Aikido dojo Pruszków — treningi aikido dla dzieci, młodzieży i dorosłych. SP nr 1 w Pruszkowie, ul. Topolowa 10. Sezon 2026/2027." />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Barlow:wght@400;500&family=Cormorant+Garamond:wght@500;600&family=Oswald:wght@700&family=Yuji+Boku&display=swap" rel="stylesheet" />
+<!-- Fonty self-hostowane (assets/fonts/) — zero zewnętrznych originów na ścieżce
+     krytycznej. Preloadujemy tylko te trzy, których używa pierwszy ekran. -->
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/yuji-boku-kanji.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-700.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/barlow-condensed-500.woff2" crossorigin />
 
 <link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
 <link rel="stylesheet" href="css/styles.css" />
@@ -78,72 +80,77 @@
 <section class="wrap" data-screen-label="01b Plan treningów">
   <div class="schedule-poster">
     <header class="sp-head">
-      <div>
-        <h2><span class="title-pl">Plan treningów</span></h2>
-        <p class="sp-sub">Trzy grupy wiekowe — wspólne dojo. Pierwszy trening bezpłatny.</p>
-      </div>
-      <div class="days">
-        <span class="days-pl">trzy grupy treningowe</span>
-      </div>
+      <h2><span class="title-pl">Plan treningów</span></h2>
     </header>
 
-    <ol class="sp-rows">
-      <li class="sp-row" data-days="single">
-        <span class="sp-day">Wtorek</span>
-        <span class="time">18.00 — 19.00</span>
-        <div class="group">
-          <span class="gk" data-kanji-tip="kodomo — dziecko">子</span>
-          <div class="gn">
-            <span class="name">Dzieci młodsze</span>
-            <span class="romaji">Kodomo</span>
-          </div>
-        </div>
-        <span class="age">8 — 10 lat</span>
-      </li>
-      <li class="sp-row" data-days="single">
-        <span class="sp-day">Czwartek</span>
-        <span class="time">18.00 — 19.00</span>
-        <div class="group">
-          <span class="gk" data-kanji-tip="shōnen — młodzież">少</span>
-          <div class="gn">
-            <span class="name">Dzieci starsze</span>
-            <span class="romaji">Shōnen</span>
-          </div>
-        </div>
-        <span class="age">11 — 14 lat</span>
-      </li>
-      <li class="sp-row" data-days="multi">
-        <span class="sp-day">Wtorek <span class="amp">i</span> Czwartek</span>
-        <span class="time">19.05 — 20.45</span>
-        <div class="group">
-          <span class="gk" data-kanji-tip="otona — dorosły">大</span>
-          <div class="gn">
-            <span class="name">Dorośli</span>
-            <span class="romaji">Otona</span>
-          </div>
-        </div>
-        <span class="age">od 15 lat</span>
-      </li>
-    </ol>
+    <table class="sp-table">
+      <caption class="sr-only">Grafik treningów aikido w&nbsp;Pruszkowie — grupa, dzień tygodnia i&nbsp;godzina.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Grupa</th>
+          <th scope="col" class="sp-th-when">Dzień i&nbsp;godzina</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="sp-group">
+              <span class="gk" data-kanji-tip="kodomo — dziecko" lang="ja">子</span>
+              <span class="gn">
+                <span class="name">Dzieci młodsze</span>
+                <span class="meta">Kodomo · 8 — 10 lat</span>
+              </span>
+            </div>
+          </td>
+          <td>
+            <div class="sp-when">
+              <span class="day">wtorki</span>
+              <span class="time"><time datetime="18:00">18.00</time> — <time datetime="19:00">19.00</time></span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="sp-group">
+              <span class="gk" data-kanji-tip="shōnen — młodzież" lang="ja">少</span>
+              <span class="gn">
+                <span class="name">Dzieci starsze</span>
+                <span class="meta">Shōnen · 11 — 14 lat</span>
+              </span>
+            </div>
+          </td>
+          <td>
+            <div class="sp-when">
+              <span class="day">czwartki</span>
+              <span class="time"><time datetime="18:00">18.00</time> — <time datetime="19:00">19.00</time></span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="sp-group">
+              <span class="gk" data-kanji-tip="otona — dorosły" lang="ja">大</span>
+              <span class="gn">
+                <span class="name">Dorośli</span>
+                <span class="meta">Otona · od 15 lat</span>
+              </span>
+            </div>
+          </td>
+          <td>
+            <div class="sp-when">
+              <span class="day">wtorki i&nbsp;czwartki</span>
+              <span class="time"><time datetime="19:05">19.05</time> — <time datetime="20:45">20.45</time></span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="sp-foot">
       <span class="addr">SP nr 1 · ul. Topolowa 10 · 05-800 Pruszków</span>
-      <a href="#kontakt" class="free">Pierwszy trening — bezpłatny</a>
     </div>
   </div>
 </section>
-
-<!-- season band -->
-<div class="season-band" aria-hidden="true">
-  <div class="marquee">
-    <span>Aikido Pruszków</span><span class="dot"></span>
-    <span>Sezon 2026 / 2027</span><span class="dot"></span>
-    <span>Pierwszy trening bezpłatny</span><span class="dot"></span>
-    <span>Aikido Pruszków</span><span class="dot"></span>
-    <span>Sezon 2026 / 2027</span><span class="dot"></span>
-    <span>Pierwszy trening bezpłatny</span><span class="dot"></span>
-  </div>
-</div>
 
 <!-- GROUPS -->
 <section class="bloc wrap" id="grupy" data-screen-label="02 Grupy">
@@ -372,7 +379,7 @@
       <p>Klub powstał w listopadzie 2001 roku z&nbsp;inicjatywy Marcina Ziółkowskiego i&nbsp;Michała Kaźmierczaka.</p>
       <p>WCA współpracuje z „Aikido du Rhône" w&nbsp;Lyonie, gdzie zajęcia prowadzi Sensei Etienne Leman (7 Dan) — jeden z&nbsp;bezpośrednich uczniów mistrza Hirokazu Kobayashi. Sensei Leman prowadzi w&nbsp;Polsce kilka razy w&nbsp;roku staże treningowe oraz corocznie letni obóz aikido dla&nbsp;dzieci i&nbsp;dorosłych.</p>
       <p>Cechą przewodnią naszej sekcji jest&nbsp;nieustanny rozwój osób trenujących. Kilka razy w&nbsp;roku organizujemy staże dla&nbsp;zaawansowanych. Nasi instruktorzy bezustannie pogłębiają swoją wiedzę, posiadają uprawnienia do&nbsp;prowadzenia zajęć z&nbsp;dziećmi i&nbsp;dorosłymi oraz przeszkolenie z&nbsp;pierwszej pomocy medycznej.</p>
-      <a href="https://aikido.warszawa.pl/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-family:var(--font-label);font-weight:600;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--vermilion);border-bottom:1px solid var(--vermilion);padding-bottom:3px;">
+      <a href="https://aikido.warszawa.pl/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;margin-top:14px;font-family:var(--font-label);font-weight:600;font-size:var(--fs-200);letter-spacing:.16em;text-transform:uppercase;color:var(--vermilion);border-bottom:1px solid var(--vermilion);padding-bottom:3px;">
         aikido.warszawa.pl →
       </a>
     </div>
@@ -407,7 +414,7 @@
           <li><a href="https://aikido.warszawa.pl/dojo-milanowek.html" target="_blank" rel="noopener">Dojo Milanówek</a></li>
           <li><a href="https://aikido.warszawa.pl/dojo-warszawa-wawer.html" target="_blank" rel="noopener">Dojo Wawer</a></li>
         </ul>
-        <a href="https://aikido.warszawa.pl/" target="_blank" rel="noopener" style="display:inline-block;margin-top:20px;font-family:var(--font-label);font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--vermilion);border-bottom:1px solid var(--vermilion);padding-bottom:2px;">aikido.warszawa.pl →</a>
+        <a href="https://aikido.warszawa.pl/" target="_blank" rel="noopener" style="display:inline-block;margin-top:20px;font-family:var(--font-label);font-weight:600;font-size:var(--fs-200);letter-spacing:.16em;text-transform:uppercase;color:var(--vermilion);border-bottom:1px solid var(--vermilion);padding-bottom:2px;">aikido.warszawa.pl →</a>
       </div>
     </div>
 
