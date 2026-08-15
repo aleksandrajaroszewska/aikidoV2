@@ -1,6 +1,6 @@
 /* ─────────── 04 · topbar ───────────
    Sticky pasek z nazwą dojo i kotwicami sekcji.
-   Sześć linków nie mieści się obok nazwy poniżej 760px, więc na wąskim ekranie
+   Pięć linków nie mieści się obok nazwy poniżej 760px, więc na wąskim ekranie
    nawigacja zjeżdża do panelu rozwijanego przyciskiem — panel kotwiczy się o
    .topbar (sticky tworzy blok zawierający) i wysuwa pod paskiem, na całą jego
    szerokość. Od 760px przycisk znika, a .nav wraca do rzędu w pasku. */
@@ -19,7 +19,8 @@
   padding: 14px var(--gutter);
 }
 
-/* Marka jest linkiem powrotu na górę strony — kotwica #top siedzi na .topbar. */
+/* Marka jest linkiem powrotu na górę strony — celuje w #hero, nie w sam pasek:
+   .topbar jest sticky, więc zawsze w kadrze i nie ma dokąd przewijać. */
 .brand{
   display: flex; align-items: baseline; gap: 12px;
   flex-wrap: wrap; min-width: 0;

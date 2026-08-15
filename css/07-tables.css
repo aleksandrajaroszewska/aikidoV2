@@ -65,15 +65,15 @@
 #cennik{
   position: relative;
   --paper:       #F1F3EB;
+  --paper-rgb:   241 243 235; /* musi jechać razem z --paper — niesie każdy fade (scrim, .portrait::after) */
   --paper-deep:  #DBE1CB;
-  --paper-shade: #CBD2BA;
   --ink:         #0F1A09;
   --ink-soft:    #3F4B37;
   --ink-faint:   #5B6652;
   --rule:        #C6CCB8;
   --vermilion:   #6B6800; /* limonka nie spełnia kontrastu jako tekst na jasnym tle — oliwka wg spec */
   --vermilion-deep: #4E4B08;
-  background: var(--paper);
+  background: var(--paper-deep);
   color: var(--ink);
 }
 /* rozlanie jasnego tła na całą szerokość okna — sekcja siedzi w .wrap (max 1200px).
@@ -83,7 +83,7 @@
   content: "";
   position: absolute; top: 0; bottom: 0; left: 50%;
   width: 100vw; margin-left: -50vw;
-  background: var(--paper);
+  background: var(--paper-deep);
   z-index: -1;
 }
 
