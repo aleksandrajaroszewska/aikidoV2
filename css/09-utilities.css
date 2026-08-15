@@ -1,10 +1,6 @@
-/* ─────────── 09 · przyciski, linki w tekście, ruch ───────────
-   Wczytywany JAKO OSTATNI. Blok prefers-reduced-motion na końcu pliku musi
-   stać za wszystkim, co animuje — inaczej `.reveal` zostaje niewidoczne
-   u osób z wyłączonymi animacjami. */
+/* Loaded last: the prefers-reduced-motion block at the bottom has to come after
+   everything that animates, or .reveal stays invisible for those users. */
 
-/* ─── przyciski ─── */
-/* primary — wypełniony akcentem; --paper na --vermilion trzyma AA w obu paletach */
 .btn-primary{
   font-family: var(--font-label);
   font-weight: 600;
@@ -36,11 +32,8 @@
 .btn-outline:hover{ color: var(--vermilion); border-color: var(--vermilion); }
 .btn-outline:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 3px; }
 
-/* ─── link w tekście ───
-   Reset w 03-base.css gasi wszystkim linkom kolor i podkreślenie (potrzebne przy
-   marce, nawigacji i kaflach), więc link w zdaniu musi je odzyskać — inaczej nic
-   go nie odróżnia od otaczającego tekstu (WCAG 2.2 SC 1.4.1). Podkreślenie niesie
-   informację „to jest link" samodzielnie, kolor tylko ją wzmacnia. */
+/* The reset in 03-base.css strips colour and underline from every link, so a
+   link inside a sentence has to win them back (WCAG 2.2 SC 1.4.1). */
 .link{
   color: var(--vermilion);
   text-decoration: underline;
@@ -53,12 +46,9 @@
   .link:hover{ opacity: .68; }
 }
 
-/* ─── ujawnianie sekcji przy scrollu ───
-   Stan początkowy chowa sekcję, a klasę `.in` dokłada IntersectionObserver
-   z js/script.js. Dlatego ukrywanie jest ZAWSZE pod `html.js` — klasę ustawia
-   jednolinijkowy skrypt w <head>. Gdy JS nie wystartuje (błąd sieci, blokada),
-   `.reveal` nie dostaje żadnego stylu i cała treść po prostu jest widoczna.
-   Bez tego zabezpieczenia strona bez JS pokazuje sam hero. */
+/* Hiding is gated on html.js, set by the inline script in <head>. If JS never
+   runs the class is absent and the content simply shows — without the gate a
+   failed script would leave the page blank below the hero. */
 .js .reveal{
   opacity: 0;
   transform: translateY(18px);
@@ -66,9 +56,6 @@
 }
 .js .reveal.in{ opacity: 1; transform: none; }
 
-/* ─── prefers-reduced-motion ───
-   Stan końcowy natychmiast: animacje i przejścia skrócone do 0,01ms,
-   pętle (oddech kopii ensō) ucięte do jednego przebiegu. */
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{
     animation-duration: .01ms !important;

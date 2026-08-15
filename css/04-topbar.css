@@ -1,10 +1,3 @@
-/* ─────────── 04 · topbar ───────────
-   Sticky pasek z nazwą dojo i kotwicami sekcji.
-   Pięć linków nie mieści się obok nazwy poniżej 760px, więc na wąskim ekranie
-   nawigacja zjeżdża do panelu rozwijanego przyciskiem — panel kotwiczy się o
-   .topbar (sticky tworzy blok zawierający) i wysuwa pod paskiem, na całą jego
-   szerokość. Od 760px przycisk znika, a .nav wraca do rzędu w pasku. */
-
 .topbar{
   position: sticky; top: 0; z-index: 50;
   backdrop-filter: blur(14px) saturate(140%);
@@ -19,8 +12,8 @@
   padding: 14px var(--gutter);
 }
 
-/* Marka jest linkiem powrotu na górę strony — celuje w #hero, nie w sam pasek:
-   .topbar jest sticky, więc zawsze w kadrze i nie ma dokąd przewijać. */
+/* Targets #hero rather than the bar itself: .topbar is sticky, always in frame,
+   so an anchor on it would have nowhere to scroll. */
 .brand{
   display: flex; align-items: baseline; gap: 12px;
   flex-wrap: wrap; min-width: 0;
@@ -28,10 +21,6 @@
 }
 .brand:hover{ opacity: .72; }
 .brand:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 4px; }
-/* 気 („ki") — ten sam znak pędzlem co w hero: krój Yuji Boku i limonka.
-   Kolor bierze STAŁY token --lime, nie --vermilion: --vermilion zmienia się
-   z paletą (na jasnej schodzi do oliwki), a ten znak ma być tą samą limonką
-   co glif w assets/favicon.svg, który ma wartość wpisaną na sztywno. */
 .brand-kanji{
   font-family: var(--font-brush);
   font-size: var(--fs-500);
@@ -45,14 +34,9 @@
   letter-spacing: 0;
 }
 
-/* ─── przycisk „menu" ───
-   Ukryty domyślnie, pokazywany dopiero pod html.js — tak jak `.reveal`. Bez JS-a
-   przycisk by nic nie robił, więc go nie ma, a nawigacja zostaje schowana jak
-   przed zmianą. Klasę .js ustawia jednolinijkowy skrypt w <head>.
-
-   Ujemny margines pionowy: cel dotykowy ma trzymać 44×44 (WCAG 2.2 SC 2.5.8),
-   ale nie może dyktować wysokości paska — --topbar-h (65px) jest wpisane na
-   sztywno w tokenach i liczy z niego wysokość hero oraz scroll-margin sekcji. */
+/* Rendered only under html.js — without JS the button would do nothing, so it
+   is not shown at all. The negative margin keeps the 44×44 touch target
+   (WCAG 2.2 SC 2.5.8) from dictating the bar height, which --topbar-h fixes. */
 .nav-toggle{ display: none; }
 .js .nav-toggle{
   display: flex; align-items: center; justify-content: center;
@@ -64,8 +48,7 @@
 }
 .nav-toggle:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 0; }
 
-/* Trzy kreski jednym elementem: środkowa to sam span, skrajne to ::before/::after.
-   Po otwarciu środkowa gaśnie, a skrajne składają się w ×. */
+/* Middle bar is the span itself, the outer two are ::before/::after. */
 .nav-toggle-icon{ position: relative; }
 .nav-toggle-icon,
 .nav-toggle-icon::before,
@@ -81,12 +64,8 @@
 .nav-toggle[aria-expanded="true"] .nav-toggle-icon::before{ transform: translateY(7px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nav-toggle-icon::after{ transform: translateY(-7px) rotate(-45deg); }
 
-/* ─── panel nawigacji (baza = wąski ekran) ───
-   Tło KRYJĄCE, nie szkło jak w pasku. Pasek ma 64px i przykrywa wąski wycinek
-   strony, a panel ~660px: przy `--glass` (alfa .82 + blur 14px) hero prześwitywało
-   przez etykiety — „SEZON 2026 — 2027" czytało się w poprzek pozycji GRAFIK.
-   Kontrast etykiety musi być bezwarunkowy, a nie zależny od tego, co akurat
-   leży pod panelem. Z krycia wynika też, że backdrop-filter nie ma tu czego robić. */
+/* Opaque, not the --glass of the bar: the panel covers ~660px of page and at
+   .82 alpha the hero copy read straight through the menu labels. */
 .nav{
   display: none;
   position: absolute; top: 100%; left: 0; right: 0;
@@ -108,7 +87,6 @@
 }
 .nav a:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: -2px; }
 
-/* Podkreślenie jedzie na hoverze, więc istnieje tylko tam, gdzie hover istnieje. */
 @media (hover: hover){
   .nav a:hover{ color: var(--ink); }
   .nav a::after{
@@ -120,9 +98,8 @@
 
 @media (min-width: 760px){
   .js .nav-toggle{ display: none; }
-  /* Oba selektory dostają to samo, więc otwarty panel „przeniesiony" resizem
-     z wąskiego ekranu wygląda identycznie jak zwykły pasek — niezależnie od
-     tego, czy JS zdążył zdjąć .is-open. */
+  /* Both selectors get the same declarations, so a panel left open across the
+     breakpoint cannot out-specify the desktop reset. */
   .nav,
   .topbar.is-open .nav{
     display: flex; flex-direction: row; gap: 22px;

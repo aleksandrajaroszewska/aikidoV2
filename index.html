@@ -6,49 +6,37 @@
 <title>Aikido Pruszków — Warszawskie Centrum Aikido</title>
 <meta name="description" content="Aikido dojo Pruszków — treningi aikido dla dzieci, młodzieży i dorosłych. SP nr 1 w Pruszkowie, ul. Topolowa 10. Sezon 2026/2027." />
 
-<!-- Fonty self-hostowane (assets/fonts/) — zero zewnętrznych originów na ścieżce
-     krytycznej. Preloadujemy tylko te trzy, których używa pierwszy ekran. -->
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/yuji-boku-kanji.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-700.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/barlow-condensed-500.woff2" crossorigin />
 
-<!-- Znak 気 pędzlem (Yuji Boku) wyciągnięty jako obrys, limonka na grafitowej zieleni.
-     Obrys, nie tekst — favicon renderuje się bez fontów strony. Odtworzenie: README. -->
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
 <link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
+<!-- Bump ?v= on every css/ or js/ change (also on the <script> tag below):
+     those files are served with max-age=604800, index.html is not. -->
+<link rel="stylesheet" href="css/01-fonts.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/02-tokens.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/03-base.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/04-topbar.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/05-hero.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/06-sections.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/07-tables.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/08-blocks.css?v=2026-08-15" />
+<link rel="stylesheet" href="css/09-utilities.css?v=2026-08-15" />
 
-<!-- Arkusze wczytywane w kolejności kaskady — numer w nazwie JEST tą kolejnością.
-     Przestawienie linków zmienia wynik; 09 musi zostać ostatnie (reduced-motion).
-     Serwer chodzi na HTTP/2, więc dziewięć małych plików to jeden round-trip. -->
-<link rel="stylesheet" href="css/01-fonts.css" />
-<link rel="stylesheet" href="css/02-tokens.css" />
-<link rel="stylesheet" href="css/03-base.css" />
-<link rel="stylesheet" href="css/04-topbar.css" />
-<link rel="stylesheet" href="css/05-hero.css" />
-<link rel="stylesheet" href="css/06-sections.css" />
-<link rel="stylesheet" href="css/07-tables.css" />
-<link rel="stylesheet" href="css/08-blocks.css" />
-<link rel="stylesheet" href="css/09-utilities.css" />
-
-<!-- Włącza chowanie sekcji przed animacją scroll-reveal. Musi być tutaj, przed
-     pierwszym malowaniem — inaczej treść mrugnie. Gdy JS nie działa, klasa nie
-     powstaje i .reveal zostaje widoczne (css/09-utilities.css). -->
+<!-- Must run before first paint, or the revealed sections flash. Without JS the
+     class is never set and .reveal stays visible (css/09-utilities.css). -->
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="palette-dark">
 
-<!-- Bez id — marka celuje w #hero, nie tutaj. Kotwica na sticky topbarze nic by nie dała:
-     pasek jest zawsze w kadrze, więc przeglądarka nie ma dokąd przewijać. -->
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="#hero">
       <span class="brand-kanji" lang="ja" aria-hidden="true">気</span>
       <span class="name">Aikido Pruszków</span>
     </a>
-    <!-- Przycisk jest widoczny wyłącznie pod html.js (css/04-topbar.css). Bez JS-a
-         nic by nie robił, więc go po prostu nie ma — zostaje zachowanie sprzed
-         zmiany: nawigacja ukryta na wąskim ekranie, scroll ją zastępuje. -->
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
       <span class="nav-toggle-icon" aria-hidden="true"></span>
       <span class="sr-only">Menu</span>
@@ -65,10 +53,8 @@
 
 <main>
 
-<!-- ═══════════ HERO ═══════════ -->
 <section class="hero" id="hero" data-screen-label="00 Hero">
-  <!-- ensō: warstwa główna rysowana maską stożkową + 3 rozmyte kopie (układ z plakatu).
-       Poza .hero-stage, żeby .hero-fade wtapiało koło w tło, ale nie przygaszało tekstu. -->
+
   <div class="enso" aria-hidden="true">
     <img class="enso-ghost enso-ghost--3" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
     <img class="enso-ghost enso-ghost--2" src="assets/enso.webp" alt="" width="1500" height="1500" decoding="async" />
@@ -106,7 +92,6 @@
   </div>
 </section>
 
-<!-- ═══════════ 01 — DROGA ═══════════ -->
 <section class="bloc wrap" id="droga" data-screen-label="01 Droga">
   <header class="sec-head reveal">
     <p class="eyebrow">01 — Droga</p>
@@ -114,10 +99,6 @@
     <p class="sec-lead">Aikido to japońska sztuka walki, która polega na&nbsp;zapobieganiu i&nbsp;przeciwdziałaniu atakom przeciwnika przy użyciu jego siły i&nbsp;energii.</p>
   </header>
 
-  <!-- Akapity od drugiego w górę siedzą w <details open>. Atrybut `open` jest tu,
-       w HTML-u, a js/script.js ZDEJMUJE go poniżej 760px — dzięki temu bez JS-a
-       strona wygląda dokładnie jak przed zmianą, a desktop nie ma przeskoku
-       układu przy pierwszym malowaniu. Tak samo w #instruktor. -->
   <div class="prose reveal">
     <p>Aikido cieszy się popularnością wśród kobiet i&nbsp;mężczyzn niezależnie od&nbsp;wieku, siły, sprawności czy postury. Nie ma rywalizacji, każdy nosi białe kimono, zaawansowani pomagają początkującym, każdy ma własny treningowy cel.</p>
     <details class="more" open>
@@ -127,9 +108,7 @@
   </div>
 </section>
 
-<!-- ═══════════ 02 — GRUPY I GRAFIK ═══════════ -->
 <section class="bloc bloc--flush-top" id="grafik" data-screen-label="02 Grafik">
-  <!-- Kadr przesunięty ku górze (object-position: 50% 20%) — centralny ucina głowy. -->
   <header class="photo-band photo-band--head reveal">
     <img src="assets/foto-rzut.webp" alt="Rzut na treningu aikido w Pruszkowie" width="1110" height="741" loading="lazy" />
     <div class="photo-band-scrim" aria-hidden="true"></div>
@@ -181,7 +160,6 @@
   </div>
 </section>
 
-<!-- ═══════════ 03 — PROWADZĄCY ═══════════ -->
 <section class="bloc wrap" id="instruktor" data-screen-label="03 Prowadzący">
   <header class="sec-head reveal">
     <p class="eyebrow">03 — Prowadzący</p>
@@ -202,8 +180,7 @@
         <p>Regularnie uczestniczy w&nbsp;stażach prowadzonych przez nauczycieli szkoły Aikido Kobayashi i&nbsp;innych linii aikido, od&nbsp;lat bierze udział w&nbsp;obozach mistrza Etienne Leman oraz w&nbsp;klubowych szkoleniach instruktorskich.</p>
       </details>
 
-      <!-- Tabelka faktów zostaje na wierzchu także po zwinięciu — to najbardziej
-           skanowalna część sekcji (stopień, rok, legitymacja). -->
+  
       <dl class="facts">
         <div class="fact">
           <dt>W aikido od</dt>
@@ -222,7 +199,6 @@
   </div>
 </section>
 
-<!-- ═══════════ 04 — OPŁATY ═══════════ -->
 <section class="bloc wrap" id="cennik" data-screen-label="04 Opłaty">
   <header class="sec-head reveal">
     <p class="eyebrow">04 — Opłaty</p>
@@ -254,7 +230,6 @@
 
 </section>
 
-<!-- ═══════════ 05 — DOJO ═══════════ -->
 <section class="bloc wrap" id="dojo" data-screen-label="05 Dojo">
   <div class="split reveal">
     <div class="dojo-intro">
@@ -280,7 +255,6 @@
   <div class="photo-band-scrim" aria-hidden="true"></div>
 </figure>
 
-<!-- ═══════════ 06 — KONTAKT I ZAPISY ═══════════ -->
 <section class="bloc bloc--flush-top wrap" id="kontakt" data-screen-label="06 Kontakt">
   <div class="contact reveal">
     <p class="eyebrow eyebrow--on-lime">06 — Kontakt i&nbsp;zapisy</p>
@@ -309,7 +283,7 @@
   </div>
 </footer>
 
-<script src="js/script.js"></script>
+<script src="js/script.js?v=2026-08-15"></script>
 
 </body>
 </html>

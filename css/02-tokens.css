@@ -1,15 +1,5 @@
-/* ─────────── 02 · tokeny ───────────
-   Jedyne źródło kolorów, skali typograficznej i wymiarów układu.
-   Komponenty nigdy nie wpisują wartości wprost — sięgają tutaj.
-
-   Dwie palety:
-     :root            — jasna (kinari). NIE USUWAĆ, nawet jeśli strona chodzi na ciemnej.
-     body.palette-dark — „limonka na grafitowej zieleni" (19a), Pantone 3945 C na #0F1A09.
-                         To jest paleta aktywna, ustawiona klasą na <body> w index.html.
-
-   palette-dark ma poza tokenami jedno nadpisanie czysto wizualne, przy swoim
-   komponencie: tekstura tła w 03-base.css. */
-
+/* :root is the light palette; body.palette-dark overrides it and is the one in
+   use. Keep :root even so — the dark palette only redefines, it does not define. */
 :root{
   --paper:        #F1F3EB;
   --paper-deep:   #DBE1CB;
@@ -19,19 +9,19 @@
   --rule:         #D7DCC9;
   --vermilion:    #6B6800;
   --vermilion-deep: #4E4B08;
-  --on-lime:      #05190A; /* tekst na limonce — stały, niezależny od motywu */
-  --lime:         #E1E000; /* Pantone 3945 C — limonka jako wypełnienie/akcent, stała, niezależna od motywu (paruj z --on-lime) */
 
-  /* Półprzezroczysta tafla sticky paska (04-topbar.css). Jako token, nie wartość
-     przy komponencie — inaczej paleta ciemna musi nadpisywać samo tło selektorem
-     `body.palette-dark .topbar`, a takie nadpisania biją specyficznością resety
-     pisane na gołej klasie. Panel nawigacji NIE używa tej wartości: przykrywa
-     zbyt duży kawałek strony, żeby mógł być przezroczysty — patrz 04-topbar.css. */
+  /* Constant in both palettes, unlike --vermilion. Use for anything that must
+     stay lime everywhere — the 気 in the topbar matches assets/favicon.svg. */
+  --on-lime:      #05190A;
+  --lime:         #E1E000;
+
+  /* A token, not a value at the component: as a token the dark palette can
+     redefine it without a `body.palette-dark .topbar` override, which would
+     out-specify the plain-class resets. The nav panel does not use it. */
   --glass: oklch(95.5% 0.018 82 / 0.78);
 
-  /* --paper w kanałach RGB — do gradientów wtapiających w tło strony */
   --paper-rgb: 241 243 235;
-  --hero-glow: var(--paper-deep);   /* środek radialnego tła hero */
+  --hero-glow: var(--paper-deep);
 
   --font-display: "Oswald", "Barlow Condensed", sans-serif;
   --font-body:    "Barlow", "Barlow Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -39,23 +29,15 @@
   --font-cjk:     "Shippori Mincho B1", "Noto Serif JP", serif;
   --font-brush:   "Yuji Boku", "Shippori Mincho B1", "Noto Serif JP", serif;
 
-  /* ─── skala typograficzna ───
-     Sześć kroków tekstowych (~1,10–1,18) zamiast 20 wartości ad hoc.
-     Podłoga 14px, baza 19px. Nic na stronie nie schodzi poniżej --fs-100.
-     Kroki tekstowe są stałe, nie liczone z vw — inaczej nie reagują na zoom
-     przeglądarki (WCAG 2.2 SC 1.4.4), a i tak przez większość czasu siedzą
-     na dolnej granicy clampa. */
-  --fs-100: 14px;   /* mikro — atrybucja mapy, dolny pasek stopki */
-  --fs-200: 15px;   /* etykiety wersalikowe, nawigacja, noty */
-  --fs-300: 17px;   /* tekst pomocniczy, podpisy, meta */
-  --fs-400: 19px;   /* baza */
-  --fs-500: 22px;   /* lead, CTA hero, wyróżnienia */
-  --fs-600: 26px;   /* małe display */
+  /* Fixed px, never vw: viewport-derived text ignores browser zoom
+     (WCAG 2.2 SC 1.4.4). Floor 14px, base 19px. */
+  --fs-100: 14px;
+  --fs-200: 15px;
+  --fs-300: 17px;
+  --fs-400: 19px;
+  --fs-500: 22px;
+  --fs-600: 26px;
 
-  /* display skaluje się z szerokości (vw), nigdy z wysokości — patrz uwaga przy .kakejiku.
-     Dwa rejestry nagłówków sekcji:
-     --fs-display-l  — nagłówki robocze (03 Prowadzący, 04 Opłaty, 05 Dojo)
-     --fs-display-xl — nagłówki manifestowe (01 Droga, 02 Grafik, 06 Kontakt) */
   --fs-display-m:  clamp(30px, 3.4vw, 40px);
   --fs-display-l:  clamp(32px, 4.4vw, 52px);
   --fs-display-xl: clamp(38px, 6vw, 72px);
@@ -67,20 +49,20 @@
   --maxw: 1200px;
   --gutter: clamp(20px, 4vw, 32px);
 
-  /* hero zajmuje dokładnie resztę pierwszego ekranu pod sticky topbarem */
-  --topbar-h: 65px;  /* wysokość dyktuje .nav a (--fs-200 × --lh-base + padding), nie .brand */
+  /* Hero height and section scroll-margin are both derived from this. */
+  --topbar-h: 65px;
 }
 
 body.palette-dark{
-  --paper: #0F1A09;       /* --ink-bg */
-  --paper-deep: #212D1B;  /* --ink-bg-2 */
-  --ink: #F1F3EB;         /* --paper (spec) */
-  --ink-soft: #DBE1CB;    /* --sand */
+  --paper: #0F1A09;
+  --paper-deep: #212D1B;
+  --ink: #F1F3EB;
+  --ink-soft: #DBE1CB;
   --ink-faint: #8D9484;
-  --rule: #343E2E;        /* --line */
-  --vermilion: #E1E000;   /* --lime · Pantone 3945 C */
-  --vermilion-deep: #ACAB00; /* --lime-600, wyłącznie dekoracja/hover */
+  --rule: #343E2E;
+  --vermilion: #E1E000;
+  --vermilion-deep: #ACAB00;
   --paper-rgb: 15 26 9;
   --glass: rgba(15, 26, 9, .82);
-  --hero-glow: #17220F;   /* --ink-glow z handoffu hero */
+  --hero-glow: #17220F;
 }
