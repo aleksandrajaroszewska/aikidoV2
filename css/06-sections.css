@@ -5,7 +5,7 @@
 
 /* Podłogi clampów są policzone pod telefon, sufity pod desktop — sześć sekcji
    po 72px z góry i z dołu dawało na wąskim ekranie ~860px samego powietrza. */
-section.bloc{ padding-block: clamp(48px, 9vw, 120px); }
+section.bloc{ padding-block: clamp(48px, 6vw, 120px); }
 section.bloc + section.bloc{ border-top: 1px solid var(--rule); }
 /* pas zdjęciowy i zmiana koloru sekcji same w sobie stanowią podział */
 #grafik, #cennik, #dojo{ border-top: 0; }
