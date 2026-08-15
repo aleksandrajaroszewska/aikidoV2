@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # local_path is './*', so anything in the repo root ends up publicly
       # readable on the server. These two are documentation, not the site.
