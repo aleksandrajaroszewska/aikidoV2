@@ -50,10 +50,22 @@
   // kolejność — dokładanie `open` na desktopie — dawałaby skok układu przy
   // pierwszym malowaniu, a przy wyłączonym JS chowała treść przed czytelnikiem
   // i wyszukiwarką. Na mobile mignięcia nie ma, bo te bloki są w .reveal.
+  // Zwijamy tylko te, których czytelnik sam nie rozwinął. Bez tego obrót telefonu
+  // (390 → 844 → 390) przejeżdża przez próg dwa razy i zamyka akapit w trakcie
+  // czytania, zabierając kilkaset px układu spod palca.
+  const disclosures = document.querySelectorAll('.more');
+
   const syncDisclosures = () => {
-    document.querySelectorAll('.more').forEach(d => { d.open = wide.matches; });
+    disclosures.forEach(d => {
+      if (wide.matches) d.open = true;
+      else if (!d.dataset.userOpened) d.open = false;
+    });
   };
   syncDisclosures();
+
+  disclosures.forEach(d => d.addEventListener('toggle', () => {
+    if (d.open && !wide.matches) d.dataset.userOpened = '1';
+  }));
 
   wide.addEventListener('change', () => {
     syncDisclosures();

@@ -2,7 +2,7 @@
    Zwijanie długich akapitów, portret instruktora (03), tabelka faktów,
    blok kontaktu (06) i stopka. */
 
-/* ─── .more — dalsze akapity pod przyciskiem (01, 02, 03) ───
+/* ─── .more — dalsze akapity pod przyciskiem (01, 03) ───
    Pierwszy akapit każdego bloku zostaje na wierzchu jako zajawka, reszta siedzi
    w natywnym <details>. Atrybut `open` jedzie w HTML-u, a js/script.js zdejmuje
    go poniżej 760px — patrz komentarz przy #droga w index.html.
