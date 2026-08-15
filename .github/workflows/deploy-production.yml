@@ -3,15 +3,40 @@ name: Deploy to production
 on:
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
+      # "Run workflow" lets you pick any branch, and whatever is picked would go
+      # live. Fail loudly instead of publishing a feature branch by mistake.
+      - name: Refuse to deploy anything but main
+        if: github.ref != 'refs/heads/main'
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          echo "::error::Production deploys only from main (got $REF)"
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
 
+      # local_path is './*', so anything in the repo root ends up publicly
+      # readable on the server. These two are documentation, not the site.
+      - name: Drop repo-only files from the upload
+        run: rm -f README.md CLAUDE.md
+
+      # Pinned to the commit behind v1.2.4: this action receives the SFTP
+      # password, and a tag can be moved by the upstream author.
       - name: Deploy to production via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        uses: wlixcc/SFTP-Deploy-Action@da88a4dbe95286266bbac3c0b2b8284048d20c8f
         with:
           username: ${{ secrets.SFTP_USERNAME }}
           server: ${{ secrets.SFTP_HOST }}
