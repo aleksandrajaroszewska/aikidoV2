@@ -14,17 +14,19 @@
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
 <link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
-<!-- Bump ?v= on every css/ or js/ change (also on the <script> tag below):
-     those files are served with max-age=604800, index.html is not. -->
-<link rel="stylesheet" href="css/01-fonts.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/02-tokens.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/03-base.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/04-topbar.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/05-hero.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/06-sections.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/07-tables.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/08-blocks.css?v=2026-08-15" />
-<link rel="stylesheet" href="css/09-utilities.css?v=2026-08-15" />
+<!-- The "dev" placeholder in the ?v= marker below (and on the <script> tag) is
+     rewritten to the deployed commit sha by .github/workflows/deploy-*.yml.
+     These files are served with max-age=604800, index.html is not.
+     Don't bump it by hand. -->
+<link rel="stylesheet" href="css/01-fonts.css?v=dev" />
+<link rel="stylesheet" href="css/02-tokens.css?v=dev" />
+<link rel="stylesheet" href="css/03-base.css?v=dev" />
+<link rel="stylesheet" href="css/04-topbar.css?v=dev" />
+<link rel="stylesheet" href="css/05-hero.css?v=dev" />
+<link rel="stylesheet" href="css/06-sections.css?v=dev" />
+<link rel="stylesheet" href="css/07-tables.css?v=dev" />
+<link rel="stylesheet" href="css/08-blocks.css?v=dev" />
+<link rel="stylesheet" href="css/09-utilities.css?v=dev" />
 
 <!-- Must run before first paint, or the revealed sections flash. Without JS the
      class is never set and .reveal stays visible (css/09-utilities.css). -->
@@ -284,7 +286,7 @@
   </div>
 </footer>
 
-<script src="js/script.js?v=2026-08-15"></script>
+<script src="js/script.js?v=dev"></script>
 
 </body>
 </html>
