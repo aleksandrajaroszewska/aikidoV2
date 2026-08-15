@@ -1,10 +1,6 @@
-/* ─────────── 07 · tabele ───────────
-   Dwie prawdziwe tabele: grafik (02) i cennik (04).
-   Obie mają tylko dwie kolumny treści i mieszczą się do 360px, więc NIE MA
-   przebudowy na mobile — na wąskim ekranie zmienia się wyłącznie typografia
-   i to, czy meta stoi obok nazwy grupy, czy pod nią. */
+/* Both tables have two content columns and fit down to 360px, so there is no
+   stacked mobile reflow — only typography changes across the breakpoint. */
 
-/* ═══ grafik (02) ═══ */
 .sched{
   width: 100%;
   border-collapse: collapse;
@@ -15,13 +11,10 @@
   padding: clamp(24px, 4vw, 40px) 0;
   border-bottom: 1px solid var(--rule);
 }
-/* pod ostatnim wierszem nie ma już żadnej treści, więc hairline zamykający
-   tabelę wisiałby luzem na końcu sekcji */
+/* Nothing follows the last row, so its hairline would hang loose. */
 .sched tbody tr:last-child td{ border-bottom: 0; }
-/* lewa kolumna zbiera cały luz, prawa hugguje godzinę */
 .sched td:first-child{ width: 100%; padding-right: clamp(16px, 3vw, 40px); }
 
-/* baza: meta schodzi pod nazwę grupy */
 .sched-group{
   display: grid;
   grid-template-columns: 1fr;
@@ -45,8 +38,8 @@
   line-height: var(--lh-snug);
   color: var(--ink-faint);
 }
-/* Barlow Condensed, nie Oswald — tylko on niesie cechę `tnum`, więc cyfry
-   godzin ustawiają się w kolumnę między wierszami. */
+/* Barlow Condensed, not Oswald: only it carries `tnum`, so the hour digits line
+   up in a column between rows. */
 .sched-time{
   text-align: right;
   white-space: nowrap;
@@ -59,26 +52,24 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ═══ cennik (04) — sekcja jasna, bo treść jest długa i musi się dobrze czytać ═══ */
-/* lokalne nadpisanie tokenów motywu wewnątrz #cennik — wszystkie komponenty
-   potomne przełączają się automatycznie, bez zmian w ich regułach */
+/* Local token overrides: every descendant component switches to the light
+   palette automatically, with no changes to their own rules. */
 #cennik{
   position: relative;
   --paper:       #F1F3EB;
-  --paper-rgb:   241 243 235; /* musi jechać razem z --paper — niesie każdy fade (scrim, .portrait::after) */
+  --paper-rgb:   241 243 235; /* must track --paper — every fade is built on it */
   --paper-deep:  #DBE1CB;
   --ink:         #0F1A09;
   --ink-soft:    #3F4B37;
   --ink-faint:   #5B6652;
   --rule:        #C6CCB8;
-  --vermilion:   #6B6800; /* limonka nie spełnia kontrastu jako tekst na jasnym tle — oliwka wg spec */
+  --vermilion:   #6B6800; /* lime fails contrast as text on a light background */
   --vermilion-deep: #4E4B08;
   background: var(--paper-deep);
   color: var(--ink);
 }
-/* rozlanie jasnego tła na całą szerokość okna — sekcja siedzi w .wrap (max 1200px).
-   `100vw` liczy się razem z paskiem przewijania, dlatego body ma overflow-x: hidden
-   (patrz 03-base.css). Te dwie reguły trzeba zmieniać razem. */
+/* Bleeds the light background across the window. 100vw includes the scrollbar,
+   which is why body has overflow-x: hidden — change the two together. */
 #cennik::before{
   content: "";
   position: absolute; top: 0; bottom: 0; left: 50%;
@@ -116,8 +107,8 @@
   letter-spacing: -0.01em;
   color: var(--ink);
 }
-/* kwota — glif liczbowy, jedyne miejsce poza hero z twardym rozmiarem;
-   jednostka wyprowadzona w `em`, więc trzyma proporcję na każdej szerokości */
+/* Decorative numeral: one of the two places allowed a hard size. The unit is in
+   `em`, so it keeps its proportion at any width. */
 .fee{
   font-family: var(--font-display);
   font-weight: 700;

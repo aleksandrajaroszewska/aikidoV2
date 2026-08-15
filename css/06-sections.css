@@ -1,24 +1,15 @@
-/* ─────────── 06 · rusztowanie sekcji ───────────
-   Wspólne dla wszystkich sześciu bloków 01–06: rytm pionowy, nagłówek sekcji,
-   układ dwukolumnowy i pasy zdjęciowe. Style konkretnych treści siedzą dalej
-   (07-tables.css, 08-blocks.css). */
-
-/* Podłogi clampów są policzone pod telefon, sufity pod desktop — sześć sekcji
-   po 72px z góry i z dołu dawało na wąskim ekranie ~860px samego powietrza. */
 section.bloc{ padding-block: clamp(48px, 6vw, 120px); }
 section.bloc + section.bloc{ border-top: 1px solid var(--rule); }
-/* pas zdjęciowy i zmiana koloru sekcji same w sobie stanowią podział */
+/* A photo band or a colour change already divides the sections. */
 #grafik, #cennik, #dojo{ border-top: 0; }
 .bloc--flush-top{ padding-top: 0; }
 .bloc-body{ display: grid; gap: clamp(32px, 7vw, 88px); }
 
-/* ─── nagłówek sekcji ─── */
 .sec-head{
   display: grid;
   gap: clamp(16px, 2vw, 26px);
   margin-bottom: clamp(28px, 6vw, 72px);
 }
-/* numer sekcji + kreska akcentu; kreska jest dekoracją, więc ::after zamiast <span> */
 .eyebrow{
   display: flex; align-items: center; gap: 18px;
   font-family: var(--font-label);
@@ -44,7 +35,6 @@ section.bloc + section.bloc{ border-top: 1px solid var(--rule); }
   max-width: 24ch;
   text-wrap: balance;
 }
-/* rejestr manifestowy — sekcje 01, 02, 06 */
 .sec-title--statement{
   font-size: var(--fs-display-xl);
   line-height: 1.02;
@@ -57,8 +47,7 @@ section.bloc + section.bloc{ border-top: 1px solid var(--rule); }
   max-width: 52ch;
   text-wrap: pretty;
 }
-/* ─── układ nierówny: treść + element boczny ───
-   Baza to jedna kolumna; podział na dwie dochodzi dopiero od 760px. */
+
 .split{
   display: grid;
   grid-template-columns: 1fr;
@@ -66,33 +55,27 @@ section.bloc + section.bloc{ border-top: 1px solid var(--rule); }
   align-items: start;
 }
 
-/* ─── pasy zdjęciowe ───
-   Kadr ZAWSZE od góry — kadr centralny w ramce 16/9 ucina głowy. */
 .photo-band{
   position: relative;
   width: 100%;
   aspect-ratio: 2.25 / 1;
-  /* Pas jest na całą szerokość okna, więc sama proporcja wiąże jego wysokość
-     z szerokością ekranu bez żadnego ograniczenia — na 2560px dałaby 1067px.
-     Stąd sufit; object-fit: cover po prostu zacieśnia kadr, nic się nie rozciąga.
-     Podłoga z kolei trzyma czytelny kadr na wąskim ekranie. */
+  /* The band spans the window, so the ratio alone would give 1067px at 2560px
+     wide. The ceiling caps that; object-fit: cover just tightens the crop. */
   min-height: 240px;
   max-height: min(68vh, 660px);
   overflow: hidden;
   background: var(--paper-deep);
 }
-/* Kadr 2.4:1 pokazuje ~62% wysokości pliku (oryginały są 3:2). Przy `50% top`
-   ta widoczna część to sufit i ściana sali, a ćwiczący wypadają poniżej ramki.
-   20% schodzi na sylwetki i wciąż zostawia ~7% zapasu nad głowami. */
+/* Crop from the top: at 50% the visible strip is ceiling and wall, and the
+   people fall below the frame. 20% lands on them with room above the heads. */
 .photo-band img{
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: 50% 20%;
 }
-/* Zdjęcie ma wyłaniać się z tła, nie wjeżdżać prostokątem — dlatego gaśnie
-   w tło na OBU krawędziach. Bez górnego stopu kadr zaczyna się twardą, jasną
-   linią (zmierzone: skok jasności 33 → 143 na jednym pikselu). */
+/* Fades on both edges so the photo emerges from the background instead of
+   starting on a hard line (measured: 33 → 143 brightness in one pixel). */
 .photo-band-scrim{
   position: absolute; inset: 0;
   background: linear-gradient(to bottom,
@@ -103,14 +86,13 @@ section.bloc + section.bloc{ border-top: 1px solid var(--rule); }
     var(--paper) 100%);
 }
 
-/* wariant z podpisem — musi pomieścić eyebrow + nagłówek i zostawić widoczne zdjęcie */
 .photo-band--head{
   display: flex; align-items: flex-end;
   min-height: 360px;
-  max-height: min(74vh, 720px);   /* wyżej niż pas bez podpisu — musi zmieścić nagłówek */
+  max-height: min(74vh, 720px);
   padding-bottom: clamp(24px, 4vw, 52px);
 }
-/* mocniejszy scrim, żeby nagłówek trzymał kontrast */
+/* Stronger scrim so the heading keeps its contrast. */
 .photo-band--head .photo-band-scrim{
   background: linear-gradient(to bottom,
     var(--paper) 0%,

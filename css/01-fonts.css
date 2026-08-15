@@ -1,10 +1,5 @@
-/* ─────────── 01 · fonty ───────────
-   Self-hostowane woff2 z assets/fonts/ — zero zewnętrznych originów na ścieżce
-   krytycznej. Subsetowane lokalnie z oryginałów Google Fonts; polecenia w README.
-   Yuji Boku ograniczony do 9 kanji faktycznie użytych na stronie (8,5 MB → 4,2 KB). */
-
-/* Kąt maski stożkowej rysującej ensō. Musi być zarejestrowany przez @property,
-   inaczej kąt nie interpoluje się płynnie (przeskok w połowie animacji). */
+/* Registered so the angle interpolates; an unregistered custom property jumps
+   halfway through the ensō sweep animation. */
 @property --sweep{ syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 
 @font-face{
@@ -28,16 +23,16 @@
   src: url("../assets/fonts/barlow-500.woff2") format("woff2");
 }
 
-/* unicode-range trzyma font pędzla z dala od łacinki — konsultowany tylko dla tych 9 znaków.
-   Dołożenie kanji na stronie wymaga przegenerowania subsetu I dopisania codepointu tutaj. */
+/* Subset to the 9 kanji used on the page. A new kanji needs both a regenerated
+   subset (recipe in README) and its codepoint added here. */
 @font-face{
   font-family: "Yuji Boku"; font-style: normal; font-weight: 400; font-display: swap;
   src: url("../assets/fonts/yuji-boku-kanji.woff2") format("woff2");
   unicode-range: U+30FB, U+5408, U+5927, U+5B50, U+5C11, U+5834, U+6240, U+6C17, U+9053;
 }
 
-/* Fallback o metrykach Barlow (x-height 0.506 vs 0.519 Ariala) — podmiana fontu
-   po wczytaniu nie przesuwa layoutu. Liczone z tabel OS/2/hhea, nie na oko. */
+/* Metric overrides measured from the OS/2 and hhea tables, so swapping in Barlow
+   after load does not shift the layout. */
 @font-face{
   font-family: "Barlow Fallback";
   src: local("Arial"), local("Helvetica Neue"), local("Liberation Sans");

@@ -1,16 +1,6 @@
-/* ─────────── 03 · baza ───────────
-   Reset, tło, typografia bazowa i rusztowanie szerokości.
-
-   ─── MOBILE-FIRST ───
-   Wszystkie style bazowe opisują WĄSKI ekran, bez media query.
-   Szersze układy dokładane są wyłącznie przez `min-width`.
-   W całym projekcie są dokładnie dwa progi:
-
-     601px  — hero: lockup „AI · KI · DŌ" mieści się w jednej linii     (05-hero.css)
-     760px  — desktop: układy dwukolumnowe, hero na pełny ekran         (05, 06, 07)
-
-   Media query oparte o cechę, nie o szerokość (`hover`, `prefers-reduced-motion`),
-   siedzą przy komponentach, których dotyczą — patrz 09-utilities.css. */
+/* Mobile-first: base styles describe the narrow screen with no media query.
+   Wider layouts are added only via min-width, at exactly two breakpoints —
+   601px (hero lockup fits one line) and 760px (two-column layouts). */
 
 *{ box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,13 +14,11 @@ body{
   line-height: var(--lh-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Nośne, nie kosmetyczne: #cennik rozlewa tło na całą szerokość okna przez
-     `width: 100vw` (patrz 07-tables.css), a 100vw liczy się razem z paskiem
-     przewijania. Bez tego strona dostaje ~15px poziomego przewijania na desktopie. */
+  /* Load-bearing: #cennik bleeds its background with width: 100vw, which counts
+     the scrollbar. Without this the page scrolls ~15px sideways on desktop. */
   overflow-x: hidden;
 }
 
-/* tekstura papieru — warstwa nad tłem, pod treścią */
 body::before{
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image:
@@ -42,12 +30,8 @@ body::before{
 }
 body > *{ position: relative; z-index: 1; }
 
-/* Głęboki gradient: dwa źródła światła, jak w poprzedniej palecie granatowej
-   (tam chłodny lift `oklch(40% 0.06 260 / .35)` w lewym górnym rogu). Ta sama
-   jasność przeniesiona na zielony odcień — poprzednie wartości (#212D1B przy .5
-   na #0F1A09) były praktycznie nieodróżnialne od tła, stąd wrażenie płaskości.
-   Warstwa szumu w tym samym background-image dituje przejścia i chroni przed
-   banding-iem, który przy tak ciemnym tle wyszedłby w pasy na 8-bitowych ekranach. */
+/* The noise layer dithers the gradients; without it this dark a background
+   bands into visible steps on 8-bit screens. */
 body.palette-dark::before{
   background-image:
     radial-gradient(circle at 22% 12%, oklch(42% 0.05 142 / .22), transparent 46%),
@@ -57,7 +41,7 @@ body.palette-dark::before{
   opacity: .85;
 }
 
-/* sticky topbar nie może zasłaniać nagłówka sekcji po skoku z nawigacji */
+/* Keeps the sticky topbar off section headings jumped to from the nav. */
 section[id]{ scroll-margin-top: calc(var(--topbar-h) + 16px); }
 
 a{ color: inherit; text-decoration: none; }
@@ -65,7 +49,6 @@ img{ display: block; max-width: 100%; }
 
 ::selection{ background: var(--vermilion); color: var(--on-lime); }
 
-/* treść wyłącznie dla czytników ekranu (nagłówki i podpisy tabel) */
 .sr-only{
   position: absolute; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden;
@@ -74,8 +57,8 @@ img{ display: block; max-width: 100%; }
 
 .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
-/* Rozmiar nagłówka niesie klasa przy komponencie (.sec-title, .sched-name, …),
-   nie sam element — tutaj zostaje wyłącznie krój, waga i rytm pionowy. */
+/* Size comes from the component class (.sec-title, .sched-name, …), not the
+   element — this sets typeface, weight and vertical rhythm only. */
 h1, h2, h3, h4{
   font-family: var(--font-display);
   font-weight: 700;

@@ -1,6 +1,3 @@
-  // Ujawnianie sekcji przy scrollu. Stan początkowy (.reveal) i końcowy (.in)
-  // opisuje CSS — tu jest tylko przełącznik. rootMargin -12% odpala animację,
-  // gdy element wejdzie w kadr na dobre, a nie samą krawędzią.
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -12,14 +9,11 @@
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // Jeden próg dla obu zachowań niżej — ten sam, na którym CSS przełącza układ
-  // na desktopowy (css/03-base.css opisuje oba progi projektu).
+  // Same threshold the CSS switches the layout on.
   const wide = window.matchMedia('(min-width: 760px)');
 
-  // ─── nawigacja mobilna ───
-  // Panel siedzi w przepływie strony pod sticky paskiem, nie jest modalem —
-  // Esc i klik w link wystarczą, pułapka focusu i blokada scrolla byłyby tu
-  // nadmiarowe. Przycisk istnieje tylko pod html.js, więc jego brak nic nie psuje.
+  // The panel sits in the page flow under the sticky bar, not as a modal, so Esc
+  // and a click on a link are enough — no focus trap, no scroll lock.
   const topbar = document.querySelector('.topbar');
   const toggle = document.querySelector('.nav-toggle');
 
@@ -45,14 +39,10 @@
     document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', closeNav));
   }
 
-  // ─── zwijanie długich akapitów poniżej 760px ───
-  // `open` przyjeżdża w HTML-u i tutaj je ZDEJMUJEMY na wąskim ekranie. Odwrotna
-  // kolejność — dokładanie `open` na desktopie — dawałaby skok układu przy
-  // pierwszym malowaniu, a przy wyłączonym JS chowała treść przed czytelnikiem
-  // i wyszukiwarką. Na mobile mignięcia nie ma, bo te bloki są w .reveal.
-  // Zwijamy tylko te, których czytelnik sam nie rozwinął. Bez tego obrót telefonu
-  // (390 → 844 → 390) przejeżdża przez próg dwa razy i zamyka akapit w trakcie
-  // czytania, zabierając kilkaset px układu spod palca.
+  // `open` ships in the HTML and is REMOVED here on narrow screens. The other way
+  // round would shift the layout at first paint and, with JS off, hide the copy
+  // from readers and crawlers. Paragraphs the reader opened themselves stay open,
+  // so rotating the phone across the breakpoint does not collapse them mid-read.
   const disclosures = document.querySelectorAll('.more');
 
   const syncDisclosures = () => {
@@ -69,5 +59,5 @@
 
   wide.addEventListener('change', () => {
     syncDisclosures();
-    closeNav();   // przycisk znika od 760px, więc otwarty panel nie miałby czym się zamknąć
+    closeNav();   // the button is gone above 760px, so an open panel could not be closed
   });
