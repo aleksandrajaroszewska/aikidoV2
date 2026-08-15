@@ -3,8 +3,9 @@ name: Deploy to production
 on:
   workflow_dispatch: {}
 
+# write is needed only to push the prod-* tag after a successful deploy.
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: deploy-production
@@ -15,14 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # "Run workflow" lets you pick any branch, and whatever is picked would go
-      # live. Fail loudly instead of publishing a feature branch by mistake.
-      - name: Refuse to deploy anything but main
-        if: github.ref != 'refs/heads/main'
+      # "Run workflow" lets you pick any branch or tag, and whatever is picked
+      # would go live. Fail loudly instead of publishing a feature branch by
+      # mistake. prod-* tags are allowed because only this workflow creates
+      # them, and only from main — picking one is how you roll back.
+      - name: Refuse to deploy anything but main or a prod-* tag
+        if: github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/prod-')
         env:
           REF: ${{ github.ref }}
         run: |
-          echo "::error::Production deploys only from main (got $REF)"
+          echo "::error::Production deploys only from main or a prod-* tag (got $REF)"
           exit 1
 
       - name: Checkout
@@ -32,6 +35,25 @@ jobs:
       # readable on the server. These two are documentation, not the site.
       - name: Drop repo-only files from the upload
         run: rm -f README.md CLAUDE.md
+
+      # css/ and js/ are cached for a week, index.html is not, so a returning
+      # visitor would pair fresh HTML with stale assets unless the URLs change.
+      # The sha changes exactly when the code does — and a rollback re-stamps
+      # the old sha, so the restored HTML points at the assets it shipped with.
+      - name: Stamp asset URLs with the commit sha
+        run: |
+          sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g" index.html
+          if grep -q '?v=dev' index.html; then
+            echo "::error::?v=dev survived the rewrite in index.html"
+            exit 1
+          fi
+          # grep -c exits 1 on zero matches; || true keeps the message readable.
+          COUNT=$(grep -c "?v=${GITHUB_SHA::8}" index.html) || true
+          if [ "$COUNT" -eq 0 ]; then
+            echo "::error::no asset URLs were stamped in index.html"
+            exit 1
+          fi
+          echo "stamped $COUNT asset URLs"
 
       # Pinned to the commit behind v1.2.4: this action receives the SFTP
       # password, and a tag can be moved by the upstream author.
@@ -46,3 +68,14 @@ jobs:
           remote_path: '/home/aikido/domains/aikido.pruszkow.pl/private_html'
           sftp_only: true
           delete_remote_files: false
+
+      # Runs after the upload, so a failed deploy leaves no tag claiming to be
+      # live. Skipped when deploying a tag, or a rollback would tag itself.
+      # Lightweight tag on purpose: no committer identity to configure.
+      - name: Tag the deployed commit
+        if: github.ref == 'refs/heads/main'
+        run: |
+          TAG="prod-$(date -u +%Y%m%d-%H%M)-${GITHUB_SHA::8}"
+          git tag "$TAG" "$GITHUB_SHA"
+          git push origin "$TAG"
+          echo "::notice::Deployed as $TAG — pick it in Run workflow to roll back"
