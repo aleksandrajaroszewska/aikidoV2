@@ -24,24 +24,28 @@ jobs:
       - name: Drop repo-only files from the upload
         run: rm -f README.md CLAUDE.md
 
-      # css/ and js/ are cached for a week, index.html is not, so a returning
+      # css/ and js/ are cached for a week, the HTML pages are not, so a returning
       # visitor would pair fresh HTML with stale assets unless the URLs change.
       # The sha changes exactly when the code does. Fails loudly rather than
       # shipping unstamped URLs — a silent no-op here is the bug coming back.
       - name: Stamp asset URLs with the commit sha
         run: |
-          sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g" index.html
-          if grep -q '?v=dev' index.html; then
-            echo "::error::?v=dev survived the rewrite in index.html"
-            exit 1
-          fi
-          # grep -c exits 1 on zero matches; || true keeps the message readable.
-          COUNT=$(grep -c "?v=${GITHUB_SHA::8}" index.html) || true
-          if [ "$COUNT" -eq 0 ]; then
-            echo "::error::no asset URLs were stamped in index.html"
-            exit 1
-          fi
-          echo "stamped $COUNT asset URLs"
+          # Every page in the root, not just index.html — a new one shipping
+          # with ?v=dev intact would serve a stale cached stylesheet forever.
+          for f in *.html; do
+            sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g" "$f"
+            if grep -q '?v=dev' "$f"; then
+              echo "::error::?v=dev survived the rewrite in $f"
+              exit 1
+            fi
+            # grep -c exits 1 on zero matches; || true keeps the message readable.
+            COUNT=$(grep -c "?v=${GITHUB_SHA::8}" "$f") || true
+            if [ "$COUNT" -eq 0 ]; then
+              echo "::error::no asset URLs were stamped in $f"
+              exit 1
+            fi
+            echo "stamped $COUNT asset URLs in $f"
+          done
 
       # Pinned to the commit behind v1.2.4: this action receives the SFTP
       # password, and a tag can be moved by the upstream author.

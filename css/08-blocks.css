@@ -216,6 +216,67 @@
   color: var(--vermilion);
 }
 
+/* rodo.html — the long-form document. It reuses .bloc, .sec-head and .prose
+   from the one-pager; only what a multi-heading legal text needs lives here. */
+.legal .prose h2{
+  font-size: var(--fs-600);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.01em;
+  max-width: 34ch;
+  text-wrap: balance;
+  /* .prose is a grid, so its gap already separates the items — this is the
+     extra air a new section needs over the paragraph that precedes it. */
+  margin-top: clamp(18px, 3vw, 34px);
+}
+.legal .prose > h2:first-child{ margin-top: 0; }
+
+/* padding-left, not list-style-position: the marker has to sit outside the
+   text block or wrapped lines lose the left edge the paragraphs share. */
+.legal .prose ul,
+.legal .prose ol{
+  display: grid;
+  gap: 10px;
+  padding-left: 1.4em;
+  max-width: 62ch;
+  color: var(--ink-soft);
+  line-height: var(--lh-base);
+}
+.legal .prose li{ text-wrap: pretty; }
+.legal .prose strong{ color: var(--ink); font-weight: 600; }
+
+.legal-box{
+  display: grid;
+  gap: 4px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--rule);
+  max-width: 62ch;
+}
+.legal-box p{ line-height: var(--lh-snug); }
+
+/* Scoped under .legal so it out-specifies `.prose p`, which would otherwise
+   win on colour and max-width. */
+.legal .legal-updated{
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: clamp(18px, 3vw, 34px);
+}
+
+/* Editorial marker for copy still to be confirmed with the club. Loud on
+   purpose — it must not reach production unnoticed. Delete this rule together
+   with the last [DO UZUPEŁNIENIA] in rodo.html. */
+.todo{
+  background: var(--lime);
+  color: var(--on-lime);
+  padding: 1px 8px;
+  font-family: var(--font-label);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
 @media (min-width: 760px){
   .portrait{ position: sticky; top: calc(var(--topbar-h) + 24px); }
 }
