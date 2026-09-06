@@ -253,29 +253,7 @@
 }
 .legal-box p{ line-height: var(--lh-snug); }
 
-/* Scoped under .legal so it out-specifies `.prose p`, which would otherwise
-   win on colour and max-width. */
-.legal .legal-updated{
-  font-family: var(--font-label);
-  font-weight: 600;
-  font-size: var(--fs-200);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  margin-top: clamp(18px, 3vw, 34px);
-}
 
-/* Editorial marker for copy still to be confirmed with the club. Loud on
-   purpose — it must not reach production unnoticed. Delete this rule together
-   with the last [DO UZUPEŁNIENIA] in rodo.html. */
-.todo{
-  background: var(--lime);
-  color: var(--on-lime);
-  padding: 1px 8px;
-  font-family: var(--font-label);
-  font-weight: 600;
-  letter-spacing: .04em;
-}
 
 @media (min-width: 760px){
   .portrait{ position: sticky; top: calc(var(--topbar-h) + 24px); }
