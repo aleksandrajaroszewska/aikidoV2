@@ -22,13 +22,14 @@ python3 -m http.server 3000   # then open http://localhost:3000
 - **Push to `main` auto-deploys to staging** via GitHub Actions (`.github/workflows/deploy-staging.yml`, SFTP upload). Every push to `main` goes live on staging ~1 min later.
 - **Production is manual only**: GitHub → Actions → "Deploy to production" → Run workflow. Never triggered automatically.
 - Deploys only add/overwrite files (`delete_remote_files: false` — the SFTP action's delete mode is broken on this server, don't re-enable it). Files removed from the repo must be deleted from the server manually via FileZilla. Beyond being broken, delete mode would also wipe the production `.htaccess`, which lives on the server and not in this repo — there would be no way to restore it.
-- **Cache busting is automatic.** `index.html` carries `?v=dev` on every `css/` and `js/` URL; both deploy workflows rewrite it to the deployed commit's short sha just before upload. Never bump it by hand, and never commit a real value — a hand-edited `index.html` uploaded via FileZilla would ship `?v=dev` and stop busting caches.
+- **Cache busting is automatic.** Every `.html` in the repo root carries `?v=dev` on its `css/` and `js/` URLs; both deploy workflows loop over `*.html` and rewrite it to the deployed commit's short sha just before upload, failing the build if any file comes out unstamped. Never bump it by hand, and never commit a real value — a hand-edited page uploaded via FileZilla would ship `?v=dev` and stop busting caches. A new page added to the root is covered automatically; one added in a subdirectory is not.
 - **Rollback**: every successful production deploy from `main` pushes a `prod-YYYYMMDD-HHMM-sha` tag. To restore an earlier version, run "Deploy to production" and pick that tag instead of `main` — the sha stamp is re-applied from the tag, so the restored HTML points at the assets it originally shipped with. Deploying a tag does not create a new tag.
 - SFTP credentials live in repo Actions secrets (`SFTP_HOST`, `SFTP_USERNAME`, `SFTP_PASSWORD`) — never in files.
 
 ## Architecture
 
-- `index.html` (~320 lines) — all markup, sections anchored by id (`#droga`, `#grafik`, `#instruktor`, `#cennik`, `#dojo`, `#kontakt`).
+- `index.html` (~320 lines) — the one-pager, sections anchored by id (`#droga`, `#grafik`, `#instruktor`, `#cennik`, `#dojo`, `#kontakt`).
+- `rodo.html` — the GDPR notice, the site's only other page. Reached from a footer link on both pages, deliberately not from the nav (which addresses sections of the one-pager). It reuses the same nine stylesheets and the `.bloc` / `.sec-head` / `.prose` scaffolding, and loads **no JavaScript at all**: it has no `.reveal`, no `.nav-toggle` and no `<details class="more">`, so neither `js/script.js` nor the inline `html.js` script belongs there. Add any of those three and both have to come back. Its topbar is the brand alone, linking home — no nav, hence no mobile panel to handle.
 - `css/` — nine files, `01-fonts` … `09-utilities`. **The number in the filename is the cascade order**, matching the `<link>` order in `<head>`; reordering them changes the result. `09-utilities.css` must stay last (it holds the `prefers-reduced-motion` block).
 
 | file | holds |
@@ -40,7 +41,7 @@ python3 -m http.server 3000   # then open http://localhost:3000
 | `05-hero.css` | ensō, kanji, lockup, CTA and the whole animation timeline |
 | `06-sections.css` | section scaffolding: `.bloc`, `.sec-head`, `.split`, `.photo-band` |
 | `07-tables.css` | schedule (`.sched`) and pricing (`#cennik`, `.fees`) |
-| `08-blocks.css` | `.more` (collapsing paragraphs), portrait, facts, contact block, footer |
+| `08-blocks.css` | `.more` (collapsing paragraphs), portrait, facts, contact block, footer, `.legal` (rodo.html) |
 | `09-utilities.css` | buttons, scroll reveal, `prefers-reduced-motion` — **must stay last** |
 - `js/script.js` (~60 lines) — three behaviors: scroll-reveal (`.reveal` + IntersectionObserver adds `.in`), the mobile nav panel toggle, and stripping `open` from `<details class="more">` below 760px.
 
@@ -66,6 +67,7 @@ There is no `css/styles.css` any more — it was split. Don't recreate it.
 - **The map in `#dojo` is a baked PNG-tile render** (`assets/mapa-dojo.webp`), never an `<iframe>` — the site has zero external origins and the map must not be the first. A Google Maps screenshot is not an option either (their ToS allows static images only via the paid Static Maps API); tiles come from CARTO `dark_all` on OSM data, and the `<figcaption class="map-credit">` is the licence-required attribution — don't delete it while the map is there. The dark tone is baked into the file, not a CSS filter. The Pillow regeneration recipe (tile maths, histogram stretch, marker) was dropped from the README — recover it from git history if the map ever needs redoing: `git show 9844efd:README.md`, section "Mapa".
 - `#dojo` is the one section whose `.sec-head` sits **inside** `.split` (wrapped in `.dojo-intro`) instead of above it, so the map lands next to the address rather than under the copy. That's why `.dojo-intro .sec-head` zeroes the shared `margin-bottom`.
 - The schedule is a real `<table>` with `scope="col"` headers, two columns only. Two columns fit down to 360px, so there is no stacked mobile reflow — don't reintroduce one.
+- **`rodo.html` carries the full art. 13 GDPR notice** and has no placeholders left — the `.todo` and `.legal-updated` rules went out of `08-blocks.css` with them, so don't reference either. Retention is stated as *criteria* and third parties as *categories* (art. 13(2)(a) and 13(1)(e) both allow it), deliberately: naming the hosting provider or a year count would only create copy that rots. Section 9 asserts the site itself has no cookies, no analytics and no external origins — that is a claim about the code, so adding any third-party embed, pixel or CDN means rewriting it in the same commit.
 
 ## Content source of truth
 
