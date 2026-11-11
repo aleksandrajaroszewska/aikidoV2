@@ -1,45 +1,3 @@
-/* No `display` on <details> itself: modern browsers hide the content through
-   ::details-content, and overriding display there is brittle. The vertical
-   rhythm comes from the paragraph margins below instead. */
-.more > summary{
-  display: flex; align-items: center; gap: 10px;
-  width: fit-content;
-  min-height: 44px;
-  font-family: var(--font-label);
-  font-weight: 600;
-  font-size: var(--fs-200);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--vermilion);
-  cursor: pointer;
-  list-style: none;
-}
-.more > summary::-webkit-details-marker{ display: none; }
-.more > summary:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 4px; }
-
-/* The label swaps without JS — two spans and one [open] rule. */
-.more[open] .more-open,
-.more:not([open]) .more-close{ display: none; }
-
-.more > summary::after{
-  content: "";
-  width: 7px; height: 7px;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
-  transition: transform .25s ease;
-}
-.more[open] > summary::after{ transform: translateY(1px) rotate(-135deg); }
-
-/* Must equal the PARENT's grid gap, copied from .prose below, or a double gap
-   opens between paragraphs one and two. Change one, change the other. */
-.prose .more > p{ margin-top: clamp(20px, 2.6vw, 30px); }
-
-@media (min-width: 760px){
-  .more > summary{ display: none; }
-  .more > p:first-of-type{ margin-top: 0; }
-}
-
 /* Fades on all four edges, unlike the photo bands: those span the window, so
    their sides are the screen edges, while the portrait sits in a column and
    would show two hard vertical lines. Browsers without mask-composite get a
@@ -73,7 +31,8 @@
 }
 
 .prose{ display: grid; gap: clamp(20px, 2.6vw, 30px); align-content: start; }
-.prose p{ color: var(--ink-soft); line-height: var(--lh-base); max-width: 62ch; text-wrap: pretty; }
+.prose p,
+.points p{ color: var(--ink-soft); line-height: var(--lh-base); max-width: 62ch; text-wrap: pretty; }
 
 .facts{ display: grid; margin-top: clamp(4px, 1vw, 12px); }
 .fact{
@@ -177,17 +136,22 @@
   font-size: var(--fs-400);
   letter-spacing: .06em;
   color: var(--on-lime);
+  overflow-wrap: anywhere;
+  transition: opacity .2s ease;
+}
+.contact-links a,
+.contact-note a{
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: .28em;
-  transition: opacity .2s ease;
 }
 .contact-links a:hover{ opacity: .62; }
-.contact-links a:focus-visible{ outline: 2px solid var(--on-lime); outline-offset: 4px; }
-.contact-phone{
+.contact-links a:focus-visible,
+.contact-note a:focus-visible{ outline: 2px solid var(--on-lime); outline-offset: 4px; }
+.contact-links .contact-phone{
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(34px, 4vw, 64px);
+  font-size: var(--fs-display-l);
   line-height: 1;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
@@ -208,6 +172,13 @@
   color: var(--ink-faint);
 }
 .foot-brand{ display: flex; align-items: baseline; gap: 10px; }
+/* Full row of its own. With JS off the mobile menu button is not rendered, so
+   these links are then the way between pages. */
+.foot-nav{
+  flex-basis: 100%;
+  display: flex; flex-wrap: wrap;
+  gap: 10px 22px;
+}
 .foot-kanji{
   font-family: var(--font-brush);
   font-size: var(--fs-400);
@@ -216,6 +187,119 @@
   color: var(--vermilion);
 }
 
+/* index.html — the ways into the site. The whole tile is the link: the anchor
+   in the title is stretched over it, so the focus ring goes on the tile. The
+   1px gaps over a --rule background draw the dividers in both layouts. */
+.paths{
+  list-style: none;
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--rule);
+  background: var(--rule);
+}
+.path{
+  position: relative;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: clamp(20px, 3vw, 32px);
+  background: var(--paper);
+  transition: background-color .2s ease;
+}
+.path h3{
+  font-size: var(--fs-600);
+  text-wrap: balance;
+}
+.path h3 a::after{ content: ""; position: absolute; inset: 0; }
+.path h3 a:focus-visible{ outline: 0; }
+.path:has(a:focus-visible){ outline: 2px solid var(--vermilion); outline-offset: -2px; }
+.path p{ color: var(--ink-soft); line-height: var(--lh-snug); text-wrap: pretty; }
+.path-more{
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-200);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+}
+@media (hover: hover){
+  .path:hover{ background: var(--paper-deep); }
+}
+
+/* Subpages — short headed paragraphs: the steps (an <ol>), the benefits and
+   the questions. The reset strips list padding, so the <ol> needs no override. */
+.points{
+  list-style: none;
+  display: grid;
+  gap: clamp(22px, 2.8vw, 30px);
+  max-width: 62ch;
+}
+/* The steps are numbered on screen, not only in the markup: the number sits in
+   its own column so wrapped lines keep the left edge of the title. */
+ol.points{ counter-reset: step; }
+ol.points > li{
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 16px;
+}
+ol.points > li::before{
+  content: counter(step);
+  grid-row: 1 / span 2;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-400);
+  line-height: var(--lh-snug);
+  font-variant-numeric: tabular-nums;
+  color: var(--vermilion);
+}
+ol.points > li > *{ grid-column: 2; }
+/* Body face at 500, not the display 700: a run of these one above another
+   read as a wall of bold. */
+.points h3{
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-size: var(--fs-400);
+  line-height: var(--lh-snug);
+  text-wrap: balance;
+}
+.points p{ margin-top: 4px; }
+
+/* <main class="guide"> — every subpage. They are read, not glanced at: titles
+   step down to the text scale (as in rodo.html) so they lead the copy instead
+   of drowning it. */
+.guide .bloc{ padding-block: clamp(22px, 3vw, 32px); }
+.guide-actions{
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.guide .sec-head{
+  gap: 12px;
+  margin-bottom: clamp(14px, 2vw, 20px);
+}
+.guide .sec-title{
+  font-size: var(--fs-500);
+  line-height: var(--lh-snug);
+  max-width: 34ch;
+}
+.guide .sec-title--statement{ font-size: var(--fs-600); }
+.guide .sec-lead{ font-size: var(--fs-400); line-height: var(--lh-base); }
+.guide .sched td{ padding-block: clamp(12px, 1.6vw, 16px); }
+.guide .sched tbody tr:first-child td{ padding-top: 0; }
+.guide .sched-name{ font-size: var(--fs-400); }
+.guide .sched-time{ font-size: var(--fs-500); }
+.guide .sched-day{ font-size: var(--fs-300); margin-bottom: 2px; }
+.guide .fees tbody th{ font-size: var(--fs-600); }
+.guide .fee{ font-size: var(--fs-display-l); }
+.guide .contact-links .contact-phone{ font-size: var(--fs-display-m); }
+.guide .dojo-intro{ gap: clamp(16px, 2vw, 22px); }
+.guide .map{ max-width: 62ch; }
+/* A strip, not the full 3:2 tile: the pin sits mid-height, so the crop keeps
+   it and drops a third of the page length. */
+.guide .map img{ aspect-ratio: 5 / 2; object-fit: cover; }
+.guide .contact{ padding: clamp(24px, 3vw, 36px); gap: clamp(12px, 1.6vw, 18px); }
 /* rodo.html — the long-form document. It reuses .bloc, .sec-head and .prose
    from the one-pager; only what a multi-heading legal text needs lives here. */
 .legal .prose h2{
@@ -229,6 +313,8 @@
   margin-top: clamp(18px, 3vw, 34px);
 }
 .legal .prose > h2:first-child{ margin-top: 0; }
+/* The e-mail addresses are one unbreakable word wider than a 320px column. */
+.legal .prose{ overflow-wrap: anywhere; }
 
 /* padding-left, not list-style-position: the marker has to sit outside the
    text block or wrapped lines lose the left edge the paragraphs share. */
@@ -257,4 +343,24 @@
 
 @media (min-width: 760px){
   .portrait{ position: sticky; top: calc(var(--topbar-h) + 24px); }
+  .paths{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* Title in the left column, copy in the right: the 62ch measure would
+     otherwise leave half the window empty. A lone child (the intro, the
+     contact block) keeps the full width. */
+  .guide .bloc{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    column-gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+  }
+  .guide .bloc > :only-child{ grid-column: 1 / -1; }
+  .guide .sec-head{ margin-bottom: 0; }
+  /* Directions beside the map: at column width the map is a thumbnail of the
+     neighbourhood, so it gets its native 3:2 back. */
+  .guide .dojo-intro{
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(24px, 3vw, 40px);
+  }
+  .guide .map img{ aspect-ratio: 3 / 2; }
 }

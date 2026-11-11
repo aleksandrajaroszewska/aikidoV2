@@ -9,14 +9,13 @@
 .topbar-inner{
   max-width: var(--maxw); margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
   padding: 14px var(--gutter);
 }
 
-/* Targets #hero rather than the bar itself: .topbar is sticky, always in frame,
-   so an anchor on it would have nowhere to scroll. */
 .brand{
   display: flex; align-items: baseline; gap: 12px;
-  flex-wrap: wrap; min-width: 0;
+  flex-shrink: 0;
   transition: opacity .2s ease;
 }
 .brand:hover{ opacity: .72; }
@@ -33,6 +32,19 @@
   font-size: var(--fs-500);
   letter-spacing: 0;
 }
+
+/* Phones only: the number is one tap away on every page without opening the
+   menu. Works without JS, so it is not gated on html.js. The negative margins
+   keep the 44×44 target out of the bar height, like .nav-toggle. */
+.topbar-call{
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  margin-block: -6px;
+  margin-left: auto;
+  margin-right: -12px;
+  color: var(--lime);
+}
+.topbar-call:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: 0; }
 
 /* Rendered only under html.js — without JS the button would do nothing, so it
    is not shown at all. The negative margin keeps the 44×44 touch target
@@ -86,6 +98,14 @@
   transition: color .2s;
 }
 .nav a:focus-visible{ outline: 2px solid var(--vermilion); outline-offset: -2px; }
+/* Underline as well as colour, so the current page does not rest on hue alone
+   (WCAG 2.2 SC 1.4.1). */
+.nav a[aria-current="page"]{
+  color: var(--vermilion);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .45em;
+}
 
 @media (hover: hover){
   .nav a:hover{ color: var(--ink); }
@@ -97,17 +117,22 @@
 }
 
 @media (min-width: 760px){
-  .js .nav-toggle{ display: none; }
+  .js .nav-toggle,
+  .topbar-call{ display: none; }
   /* Both selectors get the same declarations, so a panel left open across the
      breakpoint cannot out-specify the desktop reset. */
   .nav,
   .topbar.is-open .nav{
-    display: flex; flex-direction: row; gap: 22px;
+    display: flex; flex-direction: row; gap: clamp(12px, 1.8vw, 22px);
     position: static; padding: 0; border-bottom: 0;
     background: none;
   }
+  /* Six labels and the brand share 696px at the breakpoint: nothing may wrap
+     or the bar outgrows --topbar-h. */
   .nav a{
     min-height: 0; border-top: 0; padding: 6px 0;
     font-size: var(--fs-200);
+    letter-spacing: .12em;
+    white-space: nowrap;
   }
 }

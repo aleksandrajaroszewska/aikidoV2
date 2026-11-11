@@ -41,12 +41,11 @@
 <link rel="stylesheet" href="css/08-blocks.css?v=dev" />
 <link rel="stylesheet" href="css/09-utilities.css?v=dev" />
 
-<!-- Must run before first paint, or the revealed sections flash. Without JS the
-     class is never set and .reveal stays visible (css/09-utilities.css). -->
+<!-- Gates .nav-toggle: without JS the class is never set and the button is not rendered. -->
 <script>document.documentElement.classList.add('js');</script>
 
-<!-- Facts duplicated from the page below (#grafik, #cennik, #dojo, #kontakt):
-     change one, change the other. -->
+<!-- Facts duplicated from the page below (#grafik, #cennik, #dojo, #kontakt) and on
+     the subpages: change one, change the other. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -89,6 +88,7 @@
       "@id": "https://aikido.pruszkow.pl/#instruktor",
       "name": "Rafał Jaroszewski",
       "jobTitle": "Instruktor aikido, 5 dan",
+      "url": "https://aikido.pruszkow.pl/instruktor/",
       "image": "https://aikido.pruszkow.pl/assets/foto-instruktor.webp",
       "worksFor": { "@id": "https://aikido.pruszkow.pl/#dojo" }
     }
@@ -100,20 +100,25 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="#hero">
+    <a class="brand" href="/">
       <span class="brand-kanji" lang="ja" aria-hidden="true">気</span>
       <span class="name">Aikido Pruszków</span>
+    </a>
+    <a class="topbar-call" href="tel:+48530145350">
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+      <span class="sr-only">Zadzwoń: 530 145 350</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
       <span class="nav-toggle-icon" aria-hidden="true"></span>
       <span class="sr-only">Menu</span>
     </button>
-    <nav class="nav" id="nav-menu" aria-label="Sekcje strony">
-      <a href="#grafik">Grafik</a>
-      <a href="#instruktor">Instruktor</a>
-      <a href="#cennik">Cennik</a>
-      <a href="#dojo">Dojo</a>
-      <a href="#kontakt">Kontakt</a>
+    <nav class="nav" id="nav-menu" aria-label="Główna">
+      <a href="/aikido-dla-dzieci/">Dzieci</a>
+      <a href="/aikido-dla-doroslych/">Dorośli</a>
+      <a href="/pierwszy-trening/">Pierwszy trening</a>
+      <a href="/instruktor/">Instruktor</a>
+      <a href="/cennik/">Cennik</a>
+      <a href="/kontakt/">Kontakt</a>
     </nav>
   </div>
 </header>
@@ -134,7 +139,7 @@
   <div class="hero-stage">
     <div class="hero-eyebrow">
       <span class="line"></span>
-      <span class="mono">SEZON 2026 — 2027</span>
+      <span class="mono">OD 2010 ROKU</span>
       <span class="line"></span>
     </div>
 
@@ -153,31 +158,72 @@
     </div>
 
     <div class="hero-cta">
-      <p class="hero-cta-lead">Ruszyły zapisy na&nbsp;nowy sezon</p>
-      <a class="btn-primary" href="#kontakt">Zapisz się</a>
+      <p class="hero-cta-lead">Pierwszy trening gratis</p>
+      <a class="btn-primary" href="/pierwszy-trening/">Przyjdź na&nbsp;trening</a>
+      <p class="hero-cta-more">Dzieci od&nbsp;8 lat, młodzież i&nbsp;dorośli&nbsp;· wtorki i&nbsp;czwartki&nbsp;· <a class="link" href="tel:+48530145350">530 145 350</a></p>
     </div>
   </div>
 </section>
 
 <section class="bloc wrap" id="droga" data-screen-label="01 Droga">
-  <header class="sec-head reveal">
+  <header class="sec-head">
     <p class="eyebrow">01 — Droga</p>
     <h2 class="sec-title sec-title--statement">Czym jest aikido</h2>
     <p class="sec-lead">Aikido to japońska sztuka walki, w&nbsp;której nie przeciwstawiasz się sile atakującego, tylko ją wykorzystujesz — przyjmujesz jego ruch i&nbsp;wykonujesz rzut, dźwignię lub unieruchomienie.</p>
   </header>
 
-  <div class="prose reveal">
+  <div class="prose">
     <p>Nie trzeba być silnym ani wysportowanym. Aikido trenują kobiety i&nbsp;mężczyźni w&nbsp;każdym wieku, bez rywalizacji i&nbsp;we własnym tempie.</p>
     <p>Trening obniża stres, poprawia sprawność, kondycję, równowagę i&nbsp;koordynację ruchową. Pozwala oderwać się od&nbsp;codziennych spraw i&nbsp;poczuć się bezpieczniej.</p>
+
+    <dl class="facts">
+      <div class="fact">
+        <dt>W&nbsp;Pruszkowie od</dt>
+        <dd>2010</dd>
+      </div>
+      <div class="fact">
+        <dt>Instruktor</dt>
+        <dd><a class="link" href="/instruktor/">Rafał Jaroszewski, 5&nbsp;dan</a></dd>
+      </div>
+      <div class="fact">
+        <dt>Klub</dt>
+        <dd>Warszawskie Centrum Aikido</dd>
+      </div>
+    </dl>
   </div>
 </section>
 
-<section class="bloc bloc--flush-top" id="grafik" data-screen-label="02 Grafik">
-  <header class="photo-band photo-band--head reveal">
+<section class="bloc wrap" id="zajecia" data-screen-label="02 Zajęcia">
+  <header class="sec-head">
+    <p class="eyebrow">02 — Zajęcia</p>
+    <h2 class="sec-title">Dla kogo są treningi</h2>
+  </header>
+
+  <ul class="paths">
+    <li class="path">
+      <h3><a href="/aikido-dla-dzieci/">Aikido dla dzieci</a></h3>
+      <p>Dwie grupy: 8–10 i&nbsp;11–14 lat. Zabawy ruchowe, przewroty i&nbsp;techniki dopasowane do&nbsp;wieku.</p>
+      <span class="path-more" aria-hidden="true">Zajęcia dzieci</span>
+    </li>
+    <li class="path">
+      <h3><a href="/aikido-dla-doroslych/">Aikido dla dorosłych i&nbsp;młodzieży</a></h3>
+      <p>Wtorki i&nbsp;czwartki wieczorem. Od&nbsp;podstaw, bez rywalizacji i&nbsp;we własnym tempie.</p>
+      <span class="path-more" aria-hidden="true">Treningi dorosłych</span>
+    </li>
+    <li class="path">
+      <h3><a href="/pierwszy-trening/">Pierwszy trening</a></h3>
+      <p>Gratis i&nbsp;bez zapisów. Co zabrać, kiedy przyjść i&nbsp;jak wygląda trening.</p>
+      <span class="path-more" aria-hidden="true">Krok po&nbsp;kroku</span>
+    </li>
+  </ul>
+</section>
+
+<section class="bloc bloc--flush-top" id="grafik" data-screen-label="03 Grafik">
+  <header class="photo-band photo-band--head">
     <img src="assets/foto-rzut.webp" alt="Rzut na treningu aikido w Pruszkowie" width="1110" height="741" loading="lazy" />
     <div class="photo-band-scrim" aria-hidden="true"></div>
     <div class="photo-band-caption wrap">
-      <p class="eyebrow eyebrow--bright">02 — Grupy i&nbsp;grafik</p>
+      <p class="eyebrow eyebrow--bright">03 — Grupy i&nbsp;grafik</p>
       <h2 class="sec-title sec-title--statement">Grafik treningów aikido w&nbsp;Pruszkowie</h2>
     </div>
   </header>
@@ -188,88 +234,59 @@
       <thead class="sr-only">
         <tr>
           <th scope="col">Grupa</th>
-          <th scope="col">Godzina</th>
+          <th scope="col">Dzień i&nbsp;godzina</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="reveal">
+        <tr>
           <td>
             <div class="sched-group">
               <span class="sched-name">Dzieci młodsze</span>
-              <span class="sched-meta">8 — 10 lat · wtorki</span>
+              <span class="sched-meta">8–10&nbsp;lat</span>
             </div>
           </td>
-          <td class="sched-time"><time datetime="18:10">18:10</time> — <time datetime="19:10">19:10</time></td>
+          <td class="sched-when">
+            <span class="sched-day">wtorki</span>
+            <span class="sched-time"><time datetime="18:10">18:10</time> — <time datetime="19:10">19:10</time></span>
+          </td>
         </tr>
-        <tr class="reveal">
+        <tr>
           <td>
             <div class="sched-group">
               <span class="sched-name">Dzieci starsze</span>
-              <span class="sched-meta">11 — 14 lat · czwartki</span>
+              <span class="sched-meta">11–14&nbsp;lat</span>
             </div>
           </td>
-          <td class="sched-time"><time datetime="18:10">18:10</time> — <time datetime="19:10">19:10</time></td>
+          <td class="sched-when">
+            <span class="sched-day">czwartki</span>
+            <span class="sched-time"><time datetime="18:10">18:10</time> — <time datetime="19:10">19:10</time></span>
+          </td>
         </tr>
-        <tr class="reveal">
+        <tr>
           <td>
             <div class="sched-group">
               <span class="sched-name">Dorośli i&nbsp;młodzież</span>
-              <span class="sched-meta">wtorki i&nbsp;czwartki</span>
+              <span class="sched-meta">młodzież od&nbsp;ok.&nbsp;15&nbsp;lat</span>
             </div>
           </td>
-          <td class="sched-time"><time datetime="19:15">19:15</time> — <time datetime="20:45">20:45</time></td>
+          <td class="sched-when">
+            <span class="sched-day">wtorki i&nbsp;czwartki</span>
+            <span class="sched-time"><time datetime="19:15">19:15</time> — <time datetime="20:45">20:45</time></span>
+          </td>
         </tr>
       </tbody>
     </table>
-  </div>
-</section>
-
-<section class="bloc wrap" id="instruktor" data-screen-label="03 Prowadzący">
-  <header class="sec-head reveal">
-    <p class="eyebrow">03 — Prowadzący</p>
-    <h2 class="sec-title">Rafał Jaroszewski</h2>
-  </header>
-
-  <div class="split split--portrait">
-    <figure class="portrait reveal">
-      <img src="assets/foto-instruktor.webp" alt="Rafał Jaroszewski prowadzi trening aikido" width="1416" height="1888" loading="lazy" />
-    </figure>
-
-    <div class="prose reveal">
-      <p>Swoją drogę aikido rozpoczął w&nbsp;1995 roku pod okiem instruktorów Ireneusza Kołodziejaka i&nbsp;Piotra Rafała w&nbsp;Bialskiej Sekcji Aikido. Na przestrzeni lat trenował w&nbsp;kilku warszawskich klubach aikido pod okiem różnych nauczycieli.</p>
-      <details class="more" open>
-        <summary><span class="more-open">Czytaj dalej</span><span class="more-close">Zwiń</span></summary>
-        <p>Z Warszawskim Centrum Aikido jest związany od&nbsp;początku powstania klubu w&nbsp;2001 roku, a&nbsp;od&nbsp;2004 roku jest instruktorem aikido. Do&nbsp;2010 roku prowadził treningi w&nbsp;dojo na&nbsp;Pradze Południe, następnie w&nbsp;Pruszkowie.</p>
-        <p>Egzamin na stopień mistrzowski 1&nbsp;dan zdał w&nbsp;2003 roku przed komisją Polskiej Unii Aikido — Jacek Wysocki Shihan, Ireneusz Kołodziejak Shihan, Wiesław Chmieliński Sensei, Marcin Velinov Sensei. Egzaminy na kolejne stopnie mistrzowskie zdawał przed mistrzem Etienne Leman Shihan.</p>
-        <p>Regularnie uczestniczy w&nbsp;stażach prowadzonych przez nauczycieli szkoły Aikido Kobayashi i&nbsp;innych linii aikido, od&nbsp;lat bierze udział w&nbsp;obozach mistrza Etienne Leman oraz w&nbsp;klubowych szkoleniach instruktorskich.</p>
-      </details>
-
-  
-      <dl class="facts">
-        <div class="fact">
-          <dt>W aikido od</dt>
-          <dd>1995</dd>
-        </div>
-        <div class="fact">
-          <dt>Stopień</dt>
-          <dd>5 dan — czerwiec 2024</dd>
-        </div>
-        <div class="fact">
-          <dt>Instruktor rekreacji ruchowej</dt>
-          <dd>Samoobrona, leg. 14932/2005</dd>
-        </div>
-      </dl>
-    </div>
+    <p><a class="btn-outline" href="/pierwszy-trening/">Pierwszy trening — co warto wiedzieć</a></p>
   </div>
 </section>
 
 <section class="bloc wrap" id="cennik" data-screen-label="04 Opłaty">
-  <header class="sec-head reveal">
+  <header class="sec-head">
     <p class="eyebrow">04 — Opłaty</p>
     <h2 class="sec-title">Składki miesięczne i&nbsp;kwartalne</h2>
   </header>
 
-  <table class="fees reveal">
+  <table class="fees">
     <caption class="sr-only">Wysokość składek w&nbsp;podziale na&nbsp;grupę i&nbsp;okres rozliczeniowy.</caption>
     <thead>
       <tr>
@@ -292,10 +309,14 @@
     </tbody>
   </table>
 
+  <div class="fees-foot">
+    <p class="fees-foot-title">Pierwszy trening gratis</p>
+    <p>Potem składka miesięczna albo kwartalna — kwartalna wychodzi o&nbsp;30&nbsp;zł taniej niż trzy miesięczne. <a class="link" href="/pierwszy-trening/">Jak przyjść na&nbsp;pierwszy trening</a></p>
+  </div>
 </section>
 
 <section class="bloc wrap" id="dojo" data-screen-label="05 Dojo">
-  <div class="split reveal">
+  <div class="split">
     <div class="dojo-intro">
       <header class="sec-head">
         <p class="eyebrow">05 — Dojo</p>
@@ -314,23 +335,24 @@
   </div>
 </section>
 
-<figure class="photo-band reveal">
+<figure class="photo-band">
   <img src="assets/foto-dojo.webp" alt="Trening aikido z bronią na macie w sali w Pruszkowie" width="2000" height="1335" loading="lazy" />
   <div class="photo-band-scrim" aria-hidden="true"></div>
 </figure>
 
 <section class="bloc bloc--flush-top wrap" id="kontakt" data-screen-label="06 Kontakt">
-  <div class="contact reveal">
+  <div class="contact">
     <p class="eyebrow eyebrow--on-lime">06 — Kontakt i&nbsp;zapisy</p>
     <h2 class="sec-title sec-title--statement">Pierwszy trening gratis</h2>
 
     <ul class="contact-links">
       <li><a class="contact-phone" href="tel:+48530145350">530 145 350</a></li>
-      <li><a href="https://www.facebook.com/AikidoPruszkow/" target="_blank" rel="noopener">Facebook</a></li>
+      <li><a href="sms:+48530145350">Napisz SMS</a></li>
+      <li><a href="https://www.facebook.com/AikidoPruszkow/" target="_blank" rel="noopener">Facebook — aktualności</a></li>
       <li><a href="mailto:rafal.jaroszewski@aikido.pruszkow.pl">rafal.jaroszewski@aikido.pruszkow.pl</a></li>
     </ul>
 
-    <p class="contact-note">Zapisy trwają przez cały rok. Wystarczy przyjść przed treningiem i&nbsp;zgłosić się do&nbsp;prowadzącego — na&nbsp;pierwsze zajęcia wystarczy wygodny strój sportowy i&nbsp;woda.</p>
+    <p class="contact-note">Zapisy trwają przez cały rok. Wystarczy przyjść przed treningiem i&nbsp;zgłosić się do&nbsp;prowadzącego — na&nbsp;pierwsze zajęcia wystarczy wygodny strój sportowy i&nbsp;woda. <a href="/pierwszy-trening/">Zobacz, jak wygląda pierwszy trening</a>.</p>
   </div>
 </section>
 
@@ -342,10 +364,19 @@
       <span class="foot-kanji" lang="ja" aria-hidden="true">合気道</span>
       Aikido Pruszków
     </span>
-    <span>Dojo Pruszków · Rafał Jaroszewski · 530 145 350</span>
+    <span>Dojo Pruszków · Rafał Jaroszewski · <a class="link" href="tel:+48530145350">530 145 350</a></span>
     <span>ul.&nbsp;Topolowa 10, 05-800 Pruszków</span>
     <span>Warszawskie Centrum Aikido — dojo Pruszków</span>
-    <a class="link" href="rodo.html">Dane osobowe</a>
+    <nav class="foot-nav" aria-label="Strony">
+      <a class="link" href="/aikido-dla-dzieci/">Aikido dla dzieci</a>
+      <a class="link" href="/aikido-dla-doroslych/">Aikido dla dorosłych</a>
+      <a class="link" href="/pierwszy-trening/">Pierwszy trening</a>
+      <a class="link" href="/instruktor/">Instruktor</a>
+      <a class="link" href="/grafik/">Grafik</a>
+      <a class="link" href="/cennik/">Cennik</a>
+      <a class="link" href="/kontakt/">Kontakt</a>
+      <a class="link" href="/rodo.html">Dane osobowe</a>
+    </nav>
   </div>
 </footer>
 
