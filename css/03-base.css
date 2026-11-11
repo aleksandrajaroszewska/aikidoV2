@@ -14,8 +14,9 @@ body{
   line-height: var(--lh-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Load-bearing: #cennik bleeds its background with width: 100vw, which counts
-     the scrollbar. Without this the page scrolls ~15px sideways on desktop. */
+  /* Load-bearing: the hero ensō bleeds past both edges of a phone screen, and
+     #cennik bleeds its background with width: 100vw, which counts the
+     scrollbar. Without this the page scrolls sideways. */
   overflow-x: hidden;
 }
 

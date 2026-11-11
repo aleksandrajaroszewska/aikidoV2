@@ -38,11 +38,27 @@
   line-height: var(--lh-snug);
   color: var(--ink-faint);
 }
+/* Day and hour together, in ink: they answer "when", which is what a reader
+   scans the table for, so they outrank the age range in .sched-meta. */
+.sched-when{
+  text-align: right;
+  white-space: nowrap;
+}
+.sched-day{
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--fs-300);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: var(--lh-snug);
+  color: var(--ink);
+}
 /* Barlow Condensed, not Oswald: only it carries `tnum`, so the hour digits line
    up in a column between rows. */
 .sched-time{
-  text-align: right;
-  white-space: nowrap;
+  display: block;
   font-family: var(--font-label);
   font-weight: 600;
   font-size: 28px;
@@ -141,6 +157,7 @@
     gap: clamp(10px, 3vw, 40px);
   }
   .sched-name{ font-size: var(--fs-display-m); }
+  .sched-day{ font-size: var(--fs-400); }
   .sched-time{ font-size: clamp(28px, 2.6vw, 46px); letter-spacing: .04em; }
 
   .fees-foot{

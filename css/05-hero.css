@@ -135,6 +135,8 @@
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
   gap: clamp(14px, 2vw, 28px);
 }
+/* Second, quieter way in — on a row of its own under the button. */
+.hero-cta-more{ flex-basis: 100%; text-align: center; color: var(--ink-soft); text-wrap: balance; }
 .hero-cta-lead{
   font-family: var(--font-label);
   font-weight: 600;
@@ -186,40 +188,43 @@
 }
 
 /* Timeline. All delays run from load with fill-mode `both`; the
-   prefers-reduced-motion block in 09-utilities.css cuts it all to 0.01ms. */
-.hero-eyebrow{ opacity: 0; animation: hero-rise .9s ease-out .15s both; }
-.hero-eyebrow .line{ animation: hero-line-grow 1.6s cubic-bezier(.22,.8,.25,1) .3s both; }
+   prefers-reduced-motion block in 09-utilities.css cuts it all to 0.01ms.
+   The copy and the CTA are fully in by ~1.5s: a visitor who scrolls in the
+   first seconds must not miss the offer, and an h1 at opacity 0 delays LCP.
+   The ensō keeps drawing and parking behind them — it is decoration. */
+.hero-eyebrow{ opacity: 0; animation: hero-rise .6s ease-out .05s both; }
+.hero-eyebrow .line{ animation: hero-line-grow 1.2s cubic-bezier(.22,.8,.25,1) .15s both; }
 
-.enso{ animation: enso-park 2.4s cubic-bezier(.3,.7,.2,1) 2.9s both; }
+.enso{ animation: enso-park 2.2s cubic-bezier(.3,.7,.2,1) 1.9s both; }
 .enso-stroke{
   animation:
-    enso-draw  2.1s cubic-bezier(.55,.05,.35,1) .35s both,
-    enso-brush 2.6s cubic-bezier(.22,.8,.25,1)  .35s both,
-    enso-dim   1.6s ease-out                    2.35s both;
+    enso-draw  1.6s cubic-bezier(.55,.05,.35,1) .2s both,
+    enso-brush 2s   cubic-bezier(.22,.8,.25,1)  .2s both,
+    enso-dim   1.4s ease-out                    1.5s both;
 }
 
 /* The drift has no fill-mode on purpose — its from-state would override the
    entry transform before it even starts. */
 .enso-ghost--1{
-  animation: enso-ghost-in 1.5s cubic-bezier(.22,.85,.25,1) 2.14s both,
-             enso-ghost-drift 11s ease-in-out 4.2s infinite alternate;
+  animation: enso-ghost-in 1.4s cubic-bezier(.22,.85,.25,1) 1.4s both,
+             enso-ghost-drift 11s ease-in-out 3.2s infinite alternate;
 }
 .enso-ghost--2{
-  animation: enso-ghost-in 1.5s cubic-bezier(.22,.85,.25,1) 2.32s both,
-             enso-ghost-drift 13s ease-in-out 4.3s infinite alternate;
+  animation: enso-ghost-in 1.4s cubic-bezier(.22,.85,.25,1) 1.55s both,
+             enso-ghost-drift 13s ease-in-out 3.3s infinite alternate;
 }
 .enso-ghost--3{
-  animation: enso-ghost-in 1.5s cubic-bezier(.22,.85,.25,1) 2.5s both,
-             enso-ghost-drift 15s ease-in-out 4.4s infinite alternate;
+  animation: enso-ghost-in 1.4s cubic-bezier(.22,.85,.25,1) 1.7s both,
+             enso-ghost-drift 15s ease-in-out 3.4s infinite alternate;
 }
 
-.kakejiku .kchar{ opacity: 0; animation: hero-kanji-in 1.1s cubic-bezier(.22,.8,.25,1) both; }
-.kakejiku .kchar:nth-child(1){ animation-delay: 2.4s; }
-.kakejiku .kchar:nth-child(2){ animation-delay: 2.62s; }
-.kakejiku .kchar:nth-child(3){ animation-delay: 2.84s; }
+.kakejiku .kchar{ opacity: 0; animation: hero-kanji-in .9s cubic-bezier(.22,.8,.25,1) both; }
+.kakejiku .kchar:nth-child(1){ animation-delay: .3s; }
+.kakejiku .kchar:nth-child(2){ animation-delay: .45s; }
+.kakejiku .kchar:nth-child(3){ animation-delay: .6s; }
 
-.hero-subtitle{ opacity: 0; animation: hero-rise .9s cubic-bezier(.22,.8,.25,1) 3.15s both; }
-.hero-cta{ opacity: 0; animation: hero-rise .9s cubic-bezier(.22,.8,.25,1) 3.5s both; }
+.hero-subtitle{ opacity: 0; animation: hero-rise .7s cubic-bezier(.22,.8,.25,1) .6s both; }
+.hero-cta{ opacity: 0; animation: hero-rise .7s cubic-bezier(.22,.8,.25,1) .8s both; }
 
 @keyframes enso-draw{
   from{ --sweep: 0deg; }
