@@ -29,7 +29,7 @@ python3 -m http.server 3000   # then open http://localhost:3000
 ## Architecture
 
 - `index.html` (~320 lines) — the one-pager, sections anchored by id (`#droga`, `#grafik`, `#instruktor`, `#cennik`, `#dojo`, `#kontakt`).
-- `rodo.html` — the GDPR notice, the site's only other page. Reached from a footer link on both pages, deliberately not from the nav (which addresses sections of the one-pager). It reuses the same nine stylesheets and the `.bloc` / `.sec-head` / `.prose` scaffolding, and loads **no JavaScript at all**: it has no `.reveal`, no `.nav-toggle` and no `<details class="more">`, so neither `js/script.js` nor the inline `html.js` script belongs there. Add any of those three and both have to come back. Its topbar is the brand alone, linking home — no nav, hence no mobile panel to handle.
+- `rodo.html` — the GDPR notice. Reached from a footer link on both pages, deliberately not from the nav (which addresses sections of the one-pager). It reuses the same nine stylesheets and the `.bloc` / `.sec-head` / `.prose` scaffolding, and loads **no JavaScript at all**: it has no `.reveal`, no `.nav-toggle` and no `<details class="more">`, so neither `js/script.js` nor the inline `html.js` script belongs there. Add any of those three and both have to come back. Its topbar is the brand alone, linking home — no nav, hence no mobile panel to handle.
 - `css/` — nine files, `01-fonts` … `09-utilities`. **The number in the filename is the cascade order**, matching the `<link>` order in `<head>`; reordering them changes the result. `09-utilities.css` must stay last (it holds the `prefers-reduced-motion` block).
 
 | file | holds |
@@ -43,6 +43,9 @@ python3 -m http.server 3000   # then open http://localhost:3000
 | `07-tables.css` | schedule (`.sched`) and pricing (`#cennik`, `.fees`) |
 | `08-blocks.css` | `.more` (collapsing paragraphs), portrait, facts, contact block, footer, `.legal` (rodo.html) |
 | `09-utilities.css` | buttons, scroll reveal, `prefers-reduced-motion` — **must stay last** |
+- `404.html` — served by the server's `ErrorDocument` (set in the production `.htaccess`, not in this repo) at **whatever URL was missing**, `/a/b/c` included. That is why every path in it is root-absolute (`/css/…`, `/assets/…`); a relative one breaks the moment the missing URL has a slash in it. `noindex`, no JS, brand-only topbar — same build as `rodo.html`.
+- `robots.txt`, `sitemap.xml` — hand-written. A new page means a new `<url>` in the sitemap in the same commit; bump `<lastmod>` of a page whose content changes. `404.html` stays out of it.
+- `assets/og-aikido-pruszkow.jpg` (1200×630, the share preview) and `assets/apple-touch-icon.png` (180px) are one-off renders, like the font subsets: the first from `foto-dojo.webp` with Pillow, the second from `favicon.svg` with the rounded corners removed (iOS masks its own).
 - `js/script.js` (~60 lines) — three behaviors: scroll-reveal (`.reveal` + IntersectionObserver adds `.in`), the mobile nav panel toggle, and stripping `open` from `<details class="more">` below 760px.
 
 There is no `css/styles.css` any more — it was split. Don't recreate it.
@@ -71,4 +74,4 @@ There is no `css/styles.css` any more — it was split. Don't recreate it.
 
 ## Content source of truth
 
-`index.html` is the only source. Schedule lives in `<table class="sched">` (`#grafik`), pricing in `<table class="fees">` (`#cennik`), address in the `#dojo` heading, contact details in `#kontakt`. The README used to carry a second copy and the two drifted apart — don't reintroduce it.
+`index.html` is the only source. Schedule lives in `<table class="sched">` (`#grafik`), pricing in `<table class="fees">` (`#cennik`), address in the `#dojo` heading, contact details in `#kontakt`. The JSON-LD block in `<head>` (`SportsActivityLocation` + `Person`) restates those facts for search engines — hours, prices, address, phone, coordinates — so a change to any of them is a change in two places in the same file. Coordinates are the pin of the Google Business Profile (52.1714723, 20.8142762), not the map centre of its URL. The main Facebook profile is `facebook.com/AikidoPruszkow/` — the one WCA links to; the site links to it in `#kontakt` and in `sameAs`, never to the second profile. The README used to carry a second copy and the two drifted apart — don't reintroduce it.

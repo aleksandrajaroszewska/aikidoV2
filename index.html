@@ -3,15 +3,28 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Aikido Pruszków — Warszawskie Centrum Aikido</title>
-<meta name="description" content="Aikido dojo Pruszków — treningi aikido dla dzieci, młodzieży i dorosłych. SP nr 1 w Pruszkowie, ul. Topolowa 10. Sezon 2026/2027." />
+<title>Aikido Pruszków — treningi dla dzieci i dorosłych</title>
+<meta name="description" content="Aikido w Pruszkowie od 2010 r. Treningi dla dzieci 8–14 lat, młodzieży i dorosłych w SP nr 1, ul. Topolowa 10. Pierwszy trening gratis." />
 <link rel="canonical" href="https://aikido.pruszkow.pl/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pl_PL" />
+<meta property="og:site_name" content="Aikido Pruszków" />
+<meta property="og:title" content="Aikido Pruszków — treningi dla dzieci i dorosłych" />
+<meta property="og:description" content="Treningi aikido w SP nr 1 przy ul. Topolowej 10 w Pruszkowie. Pierwszy trening gratis." />
+<meta property="og:url" content="https://aikido.pruszkow.pl/" />
+<meta property="og:image" content="https://aikido.pruszkow.pl/assets/og-aikido-pruszkow.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Trening aikido z bronią w sali w Pruszkowie, napis Aikido Pruszków" />
+<meta name="twitter:card" content="summary_large_image" />
 
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/yuji-boku-kanji.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-700.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/barlow-condensed-500.woff2" crossorigin />
 
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
 <link rel="preload" as="image" href="assets/enso.webp" fetchpriority="high" />
 <!-- The "dev" placeholder in the ?v= marker below (and on the <script> tag) is
@@ -31,6 +44,57 @@
 <!-- Must run before first paint, or the revealed sections flash. Without JS the
      class is never set and .reveal stays visible (css/09-utilities.css). -->
 <script>document.documentElement.classList.add('js');</script>
+
+<!-- Facts duplicated from the page below (#grafik, #cennik, #dojo, #kontakt):
+     change one, change the other. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SportsActivityLocation",
+      "@id": "https://aikido.pruszkow.pl/#dojo",
+      "name": "Aikido Pruszków",
+      "description": "Treningi aikido dla dzieci, młodzieży i dorosłych w Pruszkowie.",
+      "url": "https://aikido.pruszkow.pl/",
+      "telephone": "+48530145350",
+      "email": "rafal.jaroszewski@aikido.pruszkow.pl",
+      "image": "https://aikido.pruszkow.pl/assets/foto-dojo.webp",
+      "priceRange": "200–250 zł / miesiąc",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ul. Topolowa 10",
+        "postalCode": "05-800",
+        "addressLocality": "Pruszków",
+        "addressRegion": "mazowieckie",
+        "addressCountry": "PL"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": 52.1714723, "longitude": 20.8142762 },
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["https://schema.org/Tuesday", "https://schema.org/Thursday"],
+        "opens": "18:10",
+        "closes": "20:45"
+      }],
+      "sameAs": ["https://www.facebook.com/AikidoPruszkow/"],
+      "parentOrganization": {
+        "@type": "SportsOrganization",
+        "name": "Warszawskie Centrum Aikido",
+        "url": "https://aikido.warszawa.pl/"
+      },
+      "employee": { "@id": "https://aikido.pruszkow.pl/#instruktor" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://aikido.pruszkow.pl/#instruktor",
+      "name": "Rafał Jaroszewski",
+      "jobTitle": "Instruktor aikido, 5 dan",
+      "image": "https://aikido.pruszkow.pl/assets/foto-instruktor.webp",
+      "worksFor": { "@id": "https://aikido.pruszkow.pl/#dojo" }
+    }
+  ]
+}
+</script>
 </head>
 <body class="palette-dark">
 
@@ -98,7 +162,7 @@
 <section class="bloc wrap" id="droga" data-screen-label="01 Droga">
   <header class="sec-head reveal">
     <p class="eyebrow">01 — Droga</p>
-    <h2 class="sec-title sec-title--statement">Aikido</h2>
+    <h2 class="sec-title sec-title--statement">Czym jest aikido</h2>
     <p class="sec-lead">Aikido to japońska sztuka walki, w&nbsp;której nie przeciwstawiasz się sile atakującego, tylko ją wykorzystujesz — przyjmujesz jego ruch i&nbsp;wykonujesz rzut, dźwignię lub unieruchomienie.</p>
   </header>
 
@@ -114,7 +178,7 @@
     <div class="photo-band-scrim" aria-hidden="true"></div>
     <div class="photo-band-caption wrap">
       <p class="eyebrow eyebrow--bright">02 — Grupy i&nbsp;grafik</p>
-      <h2 class="sec-title sec-title--statement">Dni treningowe</h2>
+      <h2 class="sec-title sec-title--statement">Grafik treningów aikido w&nbsp;Pruszkowie</h2>
     </div>
   </header>
 
@@ -262,7 +326,7 @@
 
     <ul class="contact-links">
       <li><a class="contact-phone" href="tel:+48530145350">530 145 350</a></li>
-      <li><a href="https://www.facebook.com/aikidowpruszkowie/" target="_blank" rel="noopener">Facebook</a></li>
+      <li><a href="https://www.facebook.com/AikidoPruszkow/" target="_blank" rel="noopener">Facebook</a></li>
       <li><a href="mailto:rafal.jaroszewski@aikido.pruszkow.pl">rafal.jaroszewski@aikido.pruszkow.pl</a></li>
     </ul>
 
@@ -279,6 +343,7 @@
       Aikido Pruszków
     </span>
     <span>Dojo Pruszków · Rafał Jaroszewski · 530 145 350</span>
+    <span>ul.&nbsp;Topolowa 10, 05-800 Pruszków</span>
     <span>Warszawskie Centrum Aikido — dojo Pruszków</span>
     <a class="link" href="rodo.html">Dane osobowe</a>
   </div>
